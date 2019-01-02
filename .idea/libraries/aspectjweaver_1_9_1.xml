@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="aspectjweaver-1.9.1">
+    <CLASSES>
+      <root url="jar://D:/张学峰/aspectjweaver-1.9.1.jar!/" />
+      <root url="jar://D:/张学峰/fastjson-1.2.51.jar!/" />
+      <root url="jar://D:/张学峰/mysql-connector-java-5.1.47.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
