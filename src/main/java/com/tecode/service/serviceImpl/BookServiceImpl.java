@@ -13,7 +13,8 @@ import java.util.List;
 public class BookServiceImpl implements BooksService {
     @Autowired
     private BooksMapper booksMapper;
-    private BooksExample booksExample=new BooksExample();
+
+    private BooksExample booksExample;
     @Override
     public List<Books> selectByAuthor(String author) {//根据作者查询书籍
         booksExample.createCriteria().andAuditingLike(author);
@@ -36,8 +37,10 @@ public class BookServiceImpl implements BooksService {
         PageHelper.startPage(pages, 10);
         BooksExample.Criteria criteria=null;
         criteria.andAddrEqualTo("审核通过");
+        System.out.println();
         switch (type){
             case "推荐":
+                System.out.println(123);
                 booksExample.createCriteria().andAddrEqualTo("审核通过");
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
@@ -70,7 +73,23 @@ public class BookServiceImpl implements BooksService {
 
     @Override
     public List<Books> selectByType(Integer type) {
+        booksExample=new BooksExample();
         booksExample.createCriteria().andTypeEqualTo(type);
+        return booksMapper.selectByExample(booksExample);
+    }
+
+    @Override
+    public List<Books> selectByNumber(int pageNum) {
+        PageHelper.startPage(pageNum,10);
+        booksExample=new BooksExample();
+        booksExample.setOrderByClause("number desc");
+        return booksMapper.selectByExample(booksExample);
+    }
+
+    @Override
+    public List<Books> selectByAmount() {
+        booksExample=new BooksExample();
+        booksExample.setOrderByClause("amount desc");
         return booksMapper.selectByExample(booksExample);
     }
 

@@ -24,40 +24,36 @@ public class BookTypeController {
     private BookTypeServiceImpl bookTypeService;
 //返回图书类型
     @RequestMapping(value = "showType",method = RequestMethod.POST)
-    @ResponseBody
     public List<BookType> show(){
         return bookTypeService.findAll();
     }
 //该类型的书籍
     @RequestMapping(value = "booksType",method = RequestMethod.POST)
-    @ResponseBody
-    public Object booksAll(int type){
+    public List<Books> booksAll(int type){
         return bookService.selectByType(type);
     }
 //该书籍的详情
     @RequestMapping(value = "bookx",method = RequestMethod.POST)
-    @ResponseBody
     public Books booksXq(int bid){
         return bookService.selectByBookId(bid);
     }
 //    返回类型
     @RequestMapping(value = "type",method = RequestMethod.POST)
-    @ResponseBody
     public BookType booksType(int id){
-        System.out.println(id);
+//        System.out.println(id);
         return bookTypeService.findById(id);
     }
 //    畅销
     @RequestMapping(value = "shopp",method = RequestMethod.POST)
     public List<Books> shopp(){
-        System.out.println("进入了");
-        return bookService.homePageData("推荐",1);
+//        System.out.println("进入了");
+        return bookService.selectByAmount();
     }
 //    人气
     @RequestMapping(value = "heat",method = RequestMethod.POST)
-    public List<Books> heat(){
-        System.out.println("就是这儿");
-        return bookService.homePageData("排行",1);
+    public List<Books> heat(int pageNum){
+//        System.out.println("就是这儿");
+        return bookService.selectByNumber(pageNum);
     }
     /**
      * 获得本周的第一天，周一
