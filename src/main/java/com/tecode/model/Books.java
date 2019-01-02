@@ -130,4 +130,5 @@ public class Books {
     public void setType(Integer type) {
         this.type = type;
     }
+
 }
