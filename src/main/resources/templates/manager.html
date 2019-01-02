@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>奕星书城管理后台</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/css/font-awesome.css}" rel="stylesheet"/>
+    <link th:href="@{/css/admin.css}" rel="stylesheet"/>
+    <script th:src="@{/js/jquery-3.3.1.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/excanvas.min.js}"></script>
+    <script th:src="@{/js/jquery.flot.min.js}"></script>
+    <script th:src="@{/js/jquery.flot.resize.js}"></script>
+    <script th:src="@{/js/manager.js}"></script>
+</head>
+<body>
+<input id="talk" type="hidden" name="type"/>
+<div class="container">
+    <div class="row">
+        <div class="span2">
+            <div class="main-left-col">
+                <h1><i class="icon-shopping-cart icon-large"></i>
+                    w d
+                </h1>
+                <ul class="side-nav">
+                    <li class="active">
+                        <h4>操作选项</h4>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#website-dropdown" th:href="@{#}"><i class="icon-sitemap"></i> 用户管理 <b class="caret"></b></a>
+                        <ul id="website-dropdown" class="collapse">
+                            <li><a id="userall" th:href="@{#}">查看用户</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#store-dropdown" th:href="@{#}"><i class="icon-shopping-cart"></i> 书籍管理 <b class="caret"></b></a>
+                        <ul id="store-dropdown" class="collapse">
+                            <li><a id="booksall" th:href="@{#}">查看书籍</a></li>
+                            <li><a id="bookscheck" th:href="@{#}">审核新书</a></li>
+                            <li><a id="booksnew" th:href="@{#}">更新章节</a></li>
+                            <li><a id="booksdelete" th:href="@{#}">下架书籍</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#reports-dropdown" th:href="@{#}"><i class="icon-signal"></i> 作者管理 <b class="caret"></b></a>
+                        <ul id="reports-dropdown" class="collapse">
+                            <li><a id="author" th:href="@{#}">查看作者</a></li>
+                            <li><a id="authordelete" th:href="@{#}">删除作者</a></li>
+                            <li><a id="authornew" th:href="@{#}">审核新作者</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#members-dropdown" th:href="@{#}"><i class="icon-group"></i> 会员管理 <b class="caret"></b></a>
+                        <ul id="members-dropdown" class="collapse">
+                            <li><a id="member" th:href="@{#}">Members</a></li>
+                            <li><a th:href="@{#}">User Groups</a></li>
+                            <li><a th:href="@{#}">Permissions</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div> <!-- end main-left-col -->
+        </div> <!-- end span2 -->
+        <div class="span10">
+            <div class="secondary-masthead">
+                <ul class="nav nav-pills pull-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" th:href="@{#}"><i class="icon-user"></i>wd<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{#}">退出</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="main-area dashboard">
+                <div class="row">
+                    <div class="span10">
+                        <div class="slate clearfix">
+                            <a class="stat-column" th:href="@{#}">
+                                <span class="number">16</span>
+                                <span>浏览用户</span>
+                            </a>
+                            <a class="stat-column" th:href="@{#}">
+                                <span class="number">452</span>
+                                <span>会员总数</span>
+                            </a>
+                            <a class="stat-column" th:href="@{#}">
+                                <span class="number">2,512</span>
+                                <span>作者</span>
+                            </a>
+                            <a class="stat-column" th:href="@{#}">
+                                <span class="number">3480</span>
+                                <span>书籍总数</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span5">
+                        <div class="slate slate_user">
+                            <div class="page-header">
+                                <h2><i class="icon-shopping-cart pull-right"></i>书籍总点击量排行</h2>
+                            </div>
+                            <table class="orders-table table">
+                                <thead>
+                                    <th>书名</th><th>点击量</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><a>#12345 - Joe Bloggs</a> <span class="label label-info">Paid</span></td>
+                                    <td>$112.00</td>
+                                </tr>
+                                <tr>
+                                    <td><a>#12345 - Joe Bloggs</a> <span class="label label-success">Dispatched</span></td>
+                                    <td>$112.00</td>
+                                </tr>
+                                <tr>
+                                    <td><a>#12345 - Joe Bloggs</a> <span class="label label-important">Refunded</span></td>
+                                    <td>$112.00</td>
+                                </tr>
+                                <tr>
+                                    <td><a>#12345 - Joe Bloggs</a> <span class="label">Awaiting Payment</span></td>
+                                    <td>$112.00</td>
+                                </tr>
+                                <tr>
+                                    <td><a>#12345 - Joe Bloggs</a> <span class="label label-inverse">Failed</span></td>
+                                    <td>$112.00</td>
+                                </tr>
+                                <tr>
+                                    <td><a>#12345 - Joe Bloggs</a> <span class="label label-warning">Cancelled</span></td>
+                                    <td>$112.00</td>
+                                </tr>
+                                <tr>
+                                    <td><a>#12345 - Joe Bloggs</a> <span class="label label-info">Paid</span></td>
+                                    <td>$112.00</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><a>View more orders</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="pages">
+                                <ul class="pages1">
+                                    <li>当前是第1页</li>
+                                    <li><a>首页</a></li>
+                                    <li><a id="">上一页</a></li>
+                                    <li><a>下一页</a></li>
+                                    <li><a>尾页</a></li></ul></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span10 footer">
+                        <p>&copy; Website Name 2014</p>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end span10 -->
+    </div> <!-- end row -->
+</div> <!-- end container -->
+</body>
+</html>

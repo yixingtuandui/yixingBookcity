@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tecode.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.tecode.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="avator" jdbcType="VARCHAR" property="avator" />
+    <result column="date_reg" jdbcType="DATE" property="dateReg" />
+    <result column="date_sign" jdbcType="DATE" property="dateSign" />
+    <result column="day" jdbcType="INTEGER" property="day" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="pen_name" jdbcType="VARCHAR" property="penName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, avator, date_reg, date_sign, day, money, name, pen_name, phone, role, sex, status
+  </sql>
+  <select id="selectByExample" parameterType="com.tecode.model.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tecode.model.UserExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tecode.model.User">
+    insert into user (id, avator, date_reg, 
+      date_sign, day, money, name, 
+      pen_name, phone, role, 
+      sex, status)
+    values (#{id,jdbcType=INTEGER}, #{avator,jdbcType=VARCHAR}, #{dateReg,jdbcType=DATE}, 
+      #{dateSign,jdbcType=DATE}, #{day,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, #{name,jdbcType=VARCHAR}, 
+      #{penName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tecode.model.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="avator != null">
+        avator,
+      </if>
+      <if test="dateReg != null">
+        date_reg,
+      </if>
+      <if test="dateSign != null">
+        date_sign,
+      </if>
+      <if test="day != null">
+        day,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="penName != null">
+        pen_name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="role != null">
+        role,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="avator != null">
+        #{avator,jdbcType=VARCHAR},
+      </if>
+      <if test="dateReg != null">
+        #{dateReg,jdbcType=DATE},
+      </if>
+      <if test="dateSign != null">
+        #{dateSign,jdbcType=DATE},
+      </if>
+      <if test="day != null">
+        #{day,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="penName != null">
+        #{penName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tecode.model.UserExample" resultType="java.lang.Long">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.avator != null">
+        avator = #{record.avator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dateReg != null">
+        date_reg = #{record.dateReg,jdbcType=DATE},
+      </if>
+      <if test="record.dateSign != null">
+        date_sign = #{record.dateSign,jdbcType=DATE},
+      </if>
+      <if test="record.day != null">
+        day = #{record.day,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=DOUBLE},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.penName != null">
+        pen_name = #{record.penName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.role != null">
+        role = #{record.role,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      avator = #{record.avator,jdbcType=VARCHAR},
+      date_reg = #{record.dateReg,jdbcType=DATE},
+      date_sign = #{record.dateSign,jdbcType=DATE},
+      day = #{record.day,jdbcType=INTEGER},
+      money = #{record.money,jdbcType=DOUBLE},
+      name = #{record.name,jdbcType=VARCHAR},
+      pen_name = #{record.penName,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      role = #{record.role,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tecode.model.User">
+    update user
+    <set>
+      <if test="avator != null">
+        avator = #{avator,jdbcType=VARCHAR},
+      </if>
+      <if test="dateReg != null">
+        date_reg = #{dateReg,jdbcType=DATE},
+      </if>
+      <if test="dateSign != null">
+        date_sign = #{dateSign,jdbcType=DATE},
+      </if>
+      <if test="day != null">
+        day = #{day,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="penName != null">
+        pen_name = #{penName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        role = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tecode.model.User">
+    update user
+    set avator = #{avator,jdbcType=VARCHAR},
+      date_reg = #{dateReg,jdbcType=DATE},
+      date_sign = #{dateSign,jdbcType=DATE},
+      day = #{day,jdbcType=INTEGER},
+      money = #{money,jdbcType=DOUBLE},
+      name = #{name,jdbcType=VARCHAR},
+      pen_name = #{penName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      role = #{role,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

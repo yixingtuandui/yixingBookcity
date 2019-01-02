@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>奕星后台登录</title>
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.js}"></script>
+    <link th:href="@{/css/index.css}" rel='stylesheet' type='text/css' />
+      <script type="text/javascript" th:src="@{/js/index.js}"></script>
+  <script>
+
+  </script>
+  </head>
+  <body>
+  <h1>奕星书城</h1>
+  <div class="login-form">
+    <div class="close"> </div>
+    <div class="head-info">
+
+    </div>
+    <div class="clear"> </div>
+    <div class="avtar">
+      <img th:src="@{/images/avter.png}" />
+    </div>
+    <form action="login" method="post">
+        <div class="key1">
+            <input id="exampleInputUsername1" type="text" class="text" name="username" placeholder="Username">
+        </div>
+        <div class="key2">
+        <input id="exampleInputUsername2" type="password" name="password" placeholder="Password">
+      </div>
+        <div class="signin">
+            <input type="submit" value="Login" >
+        </div>
+    </form>
+  </div>
+  <div class="copy-rights">
+    <p>欢迎到来</p>
+  </div>
+  </body>
+</html>
