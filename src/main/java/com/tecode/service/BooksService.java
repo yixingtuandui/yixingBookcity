@@ -13,7 +13,7 @@ public interface BooksService {
     //作者书籍查询
     List<Books> bookdetails(String author, String type);
     //作者或书籍查询
-    List<Books> booksAll(String author);
+    List<Books> booksAll(String author,int pageNums);
     //根据类型查询书籍
     List<Books> selectByType(Integer type);
 //    //查询书籍点击量
