@@ -62,10 +62,25 @@ public class BookServiceImpl implements BooksService {
     }
     //查询某一作者的所有书籍
     @Override
-    public List<Books> booksAll(String author) {
-        booksExample.or().andAuthorLike(author);
-        booksExample.or().andBookNameLike(author);
-        return booksMapper.selectByExample(booksExample);
+    public List<Books> booksAll(String author,int pageNums) {
+        BooksExample booksExample = new BooksExample();
+        PageHelper.startPage(pageNums, 5);
+        booksExample.or().andAuthorLike("%"+author+"%");
+        booksExample.or().andBookNameLike("%"+author+"%");
+        long count = booksMapper.countByExample(booksExample);
+        if(count/5==0){
+            if(count/5<pageNums){
+                return null;
+            }else {
+                return booksMapper.selectByExample(booksExample);
+            }
+        }else {
+            if(count/5+1<pageNums){
+                return null;
+            }else {
+                return booksMapper.selectByExample(booksExample);
+            }
+        }
     }
 
     @Override
