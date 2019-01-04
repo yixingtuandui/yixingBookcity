@@ -13,7 +13,8 @@ import java.util.List;
 public class BookServiceImpl implements BooksService {
     @Autowired
     private BooksMapper booksMapper;
-    private BooksExample booksExample=new BooksExample();
+
+    private BooksExample booksExample;
     @Override
     public List<Books> selectByAuthor(String author) {//根据作者查询书籍
         booksExample.createCriteria().andAuditingLike(author);
@@ -36,8 +37,10 @@ public class BookServiceImpl implements BooksService {
         PageHelper.startPage(pages, 10);
         BooksExample.Criteria criteria=null;
         criteria.andAddrEqualTo("审核通过");
+        System.out.println();
         switch (type){
             case "推荐":
+                System.out.println(123);
                 booksExample.createCriteria().andAddrEqualTo("审核通过");
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
@@ -84,9 +87,83 @@ public class BookServiceImpl implements BooksService {
     }
 
     @Override
-    public List<Books> selectByType(Integer type) {
+    public List<Books> selectByType(Integer type,int pageNum) {
+        PageHelper.startPage(pageNum,10);
+        booksExample=new BooksExample();
         booksExample.createCriteria().andTypeEqualTo(type);
-        return booksMapper.selectByExample(booksExample);
+        booksExample.createCriteria().andAuditingEqualTo("审核通过");
+        long county=booksMapper.countByExample(booksExample);
+        if(county/10==0){
+            if(county/10<pageNum){
+                return null;
+            }else {
+                System.out.println(booksMapper.selectByExample(booksExample));
+                return booksMapper.selectByExample(booksExample);
+            }
+        }else {
+            System.out.println(3);
+            if(county/10+1<pageNum){
+                return null;
+            }else {
+                return booksMapper.selectByExample(booksExample);
+            }
+        }
+    }
+
+    @Override
+    public List<Books> selectByNumber(int pageNum) {
+        BooksExample booksExamplel=new BooksExample();
+        booksExamplel.setOrderByClause("number desc");
+//        List<Books> list=booksMapper.selectByExample(booksExamplel);
+        long count=booksMapper.countByExample(booksExamplel);
+        if(count/10==0){
+            if(count/10<pageNum){
+                return null;
+            }else {
+                PageHelper.startPage(pageNum,10);
+                booksExample=new BooksExample();
+                booksExample.setOrderByClause("number desc");
+                return booksMapper.selectByExample(booksExample);
+            }
+
+        }else {
+            if(count/10+1<pageNum){
+                return null;
+            }else {
+                PageHelper.startPage(pageNum,10);
+                booksExample=new BooksExample();
+                booksExample.setOrderByClause("number desc");
+                return booksMapper.selectByExample(booksExample);
+            }
+        }
+    }
+
+    @Override
+    public List<Books> selectByAmount(int pageNum) {
+        BooksExample booksExamplels=new BooksExample();
+        booksExamplels.setOrderByClause("amount desc");
+        long counts=booksMapper.countByExample(booksExamplels);
+        if(counts/10==0){
+            if(counts/10<pageNum){
+                return null;
+            }else {
+                PageHelper.startPage(pageNum,10);
+                booksExample=new BooksExample();
+                booksExample.setOrderByClause("amount desc");
+                return booksMapper.selectByExample(booksExample);
+            }
+
+        }else {
+            if(counts/10+1<pageNum){
+                return null;
+            }else {
+                PageHelper.startPage(pageNum,10);
+                booksExample=new BooksExample();
+                booksExample.setOrderByClause("amount desc");
+                return booksMapper.selectByExample(booksExample);
+            }
+        }
+
     }
 
 }
