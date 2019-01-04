@@ -15,9 +15,9 @@ public interface BooksService {
     //作者或书籍查询
     List<Books> booksAll(String author);
     //根据类型查询书籍
-    List<Books> selectByType(Integer type);
+    List<Books> selectByType(Integer type,int pageNum);
     //查询书籍点击量
     List<Books> selectByNumber(int pageNum);
     //查询书籍购买量
-    List<Books> selectByAmount();
+    List<Books> selectByAmount(int pageNum);
 }

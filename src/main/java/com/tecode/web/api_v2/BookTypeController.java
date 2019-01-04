@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
+@RestController
 public class BookTypeController {
 
     @Autowired
@@ -29,8 +31,8 @@ public class BookTypeController {
     }
 //该类型的书籍
     @RequestMapping(value = "booksType",method = RequestMethod.POST)
-    public List<Books> booksAll(int type){
-        return bookService.selectByType(type);
+    public List<Books> booksAll(int type,int pageNum){
+        return bookService.selectByType(type,pageNum);
     }
 //该书籍的详情
     @RequestMapping(value = "bookx",method = RequestMethod.POST)
@@ -45,9 +47,9 @@ public class BookTypeController {
     }
 //    畅销
     @RequestMapping(value = "shopp",method = RequestMethod.POST)
-    public List<Books> shopp(){
+    public List<Books> shopp(int pageNum){
 //        System.out.println("进入了");
-        return bookService.selectByAmount();
+        return bookService.selectByAmount(pageNum);
     }
 //    人气
     @RequestMapping(value = "heat",method = RequestMethod.POST)
