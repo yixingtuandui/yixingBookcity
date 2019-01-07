@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BooksService {
     List<Books> selectByAuthor(String author);
-    List<Books> selectByBookname(String name);
+    List<Books> selectByBookname(Integer pages,String name);
     Books selectByBookId(Integer id);
     //首页查询
     List<Books> homePageData(String type, int pages);
@@ -20,4 +20,12 @@ public interface BooksService {
     List<Books> selectByNumber(int pageNum);
     //查询书籍购买量
     List<Books> selectByAmount(int pageNum);
+    //根据是否通过查询书籍
+    List<Books> bookAll(int pages,String auditing);
+    //查询通过或未通过书籍的数量
+    Long countBooks(String auditing);
+    //下架书籍
+    void deletebooks(Books books);
+    //根据书名查询数量
+    Long countBooksname(String bookname);
 }

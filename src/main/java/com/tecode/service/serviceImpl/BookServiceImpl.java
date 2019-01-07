@@ -13,19 +13,21 @@ import java.util.List;
 public class BookServiceImpl implements BooksService {
     @Autowired
     private BooksMapper booksMapper;
-
-    private BooksExample booksExample;
     @Override
     public List<Books> selectByAuthor(String author) {//根据作者查询书籍
+        BooksExample booksExample=new BooksExample();
         booksExample.createCriteria().andAuditingLike(author);
         return booksMapper.selectByExample(booksExample);
     }
 
     @Override
-    public List<Books> selectByBookname(String name) {//根据书名查询书籍
+    public List<Books> selectByBookname(Integer pages, String name) {
+        PageHelper.startPage(pages, 10);
+        BooksExample booksExample=new BooksExample();
         booksExample.createCriteria().andBookNameLike(name);
         return booksMapper.selectByExample(booksExample);
     }
+
 
     @Override//根据id查询书籍
     public Books selectByBookId(Integer id) {
@@ -35,6 +37,7 @@ public class BookServiceImpl implements BooksService {
     @Override//首页书籍展示
     public List<Books> homePageData(String type, int pages) {
         PageHelper.startPage(pages, 10);
+        BooksExample booksExample=new BooksExample();
         BooksExample.Criteria criteria=null;
         criteria.andAddrEqualTo("审核通过");
         System.out.println();
@@ -55,6 +58,7 @@ public class BookServiceImpl implements BooksService {
     //查询某一类型的某一作者的书籍
     @Override
     public List<Books> bookdetails(String author, String type) {
+        BooksExample booksExample=new BooksExample();
         booksExample.createCriteria().andAuthorEqualTo(author);
         if (!type.equals("")) {
             booksExample.or().andAuthorEqualTo(author).andAuditingLike(type);
@@ -89,7 +93,7 @@ public class BookServiceImpl implements BooksService {
     @Override
     public List<Books> selectByType(Integer type,int pageNum) {
         PageHelper.startPage(pageNum,10);
-        booksExample=new BooksExample();
+        BooksExample booksExample=new BooksExample();
         booksExample.createCriteria().andTypeEqualTo(type);
         booksExample.createCriteria().andAuditingEqualTo("审核通过");
         long county=booksMapper.countByExample(booksExample);
@@ -121,7 +125,7 @@ public class BookServiceImpl implements BooksService {
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
-                booksExample=new BooksExample();
+                BooksExample booksExample=new BooksExample();
                 booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
             }
@@ -131,7 +135,7 @@ public class BookServiceImpl implements BooksService {
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
-                booksExample=new BooksExample();
+                BooksExample booksExample=new BooksExample();
                 booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
             }
@@ -148,7 +152,7 @@ public class BookServiceImpl implements BooksService {
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
-                booksExample=new BooksExample();
+                BooksExample booksExample=new BooksExample();
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
             }
@@ -158,12 +162,39 @@ public class BookServiceImpl implements BooksService {
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
-                booksExample=new BooksExample();
+                BooksExample booksExample=new BooksExample();
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
             }
         }
 
+    }
+
+    @Override
+    public List<Books> bookAll(int pages, String auditing) {
+        PageHelper.startPage(pages, 10);
+        BooksExample booksExample=new BooksExample();
+        booksExample.createCriteria().andAuditingEqualTo(auditing);
+        return booksMapper.selectByExample(booksExample);
+    }
+
+    @Override
+    public Long countBooks(String auditing) {
+        BooksExample booksExample=new BooksExample();
+        booksExample.createCriteria().andAuditingEqualTo(auditing);
+        return booksMapper.countByExample(booksExample);
+    }
+
+    @Override
+    public void deletebooks(Books books) {
+        booksMapper.updateByPrimaryKey(books);
+    }
+
+    @Override
+    public Long countBooksname(String bookname) {
+        BooksExample booksExample=new BooksExample();
+        booksExample.createCriteria().andBookNameLike("%"+bookname+"%");
+        return booksMapper.countByExample(booksExample);
     }
 
 }

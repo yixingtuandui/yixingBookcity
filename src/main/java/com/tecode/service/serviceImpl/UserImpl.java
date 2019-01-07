@@ -22,7 +22,7 @@ public class UserImpl implements UserService {
     }
     //根据id查询user
     @Override
-    public Object findById(Integer id) {
+    public User findById(Integer id) {
 
         return userMapper.selectByPrimaryKey(id);
     }
@@ -50,5 +50,20 @@ public class UserImpl implements UserService {
     @Override
     public void updateById(User user) {
         userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public List<User> findByStatus(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        UserExample userExample=new UserExample();
+        userExample.createCriteria().andStatusEqualTo("审核中");
+        return userMapper.selectByExample(userExample);
+    }
+
+    @Override
+    public Long countStatus(String status) {
+        UserExample userExample=new UserExample();
+        userExample.createCriteria().andStatusEqualTo(status);
+        return userMapper.countByExample(userExample);
     }
 }

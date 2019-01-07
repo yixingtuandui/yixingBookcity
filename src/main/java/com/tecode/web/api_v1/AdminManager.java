@@ -1,23 +1,26 @@
 package com.tecode.web.api_v1;
 
 import com.alibaba.fastjson.JSON;
-import com.tecode.model.User;
+import com.tecode.model.Message;
+import com.tecode.service.serviceImpl.BookServiceImpl;
 import com.tecode.service.serviceImpl.UserImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
-
 
 @Controller
 public class AdminManager {
     @Autowired
     private UserImpl userimpl;
+    @Autowired
+    private BookServiceImpl bookService;
     private Integer pageSize=10;
     private List list=null;
-    @RequestMapping("/index")//管理员登录
+    @RequestMapping("/index")//管理员登录核查用户名
     public String fiestpage(){
         return "/index";
     }
@@ -25,8 +28,7 @@ public class AdminManager {
     @ResponseBody
     public Object checkname(String username){
         boolean status=false;
-        User user= (User) userimpl.findByUsername(username);
-        System.out.println(user);
+        Object user= userimpl.findByUsername(username);
         if(user==null){
             status=true;
         }
@@ -41,21 +43,19 @@ public class AdminManager {
 //        return model;
 //    }
     @RequestMapping("/login")//管理员登录
-    public String login(){
+    public String login(HttpSession session){
+        int pages=1;
+        Long count= Long.valueOf(10);
+        Message message=new Message();
+        message.setStatus(true);
+        message.setMasg("人气书籍排行榜");
+        session.removeAttribute("books");
+        session.removeAttribute("users");
+        session.setAttribute("message",message);
+        session.setAttribute("count",count);
+        session.setAttribute("pages",1);
+        session.setAttribute("book",bookService.homePageData("排行",pages));
         return "manager";
     }
-    @RequestMapping("/member")//查看所有会员
-    @ResponseBody
-    public Object allUsermember(Integer pageNum,Integer pageSize){
-        List<User> user= userimpl.findByRole(pageNum,pageSize,"会员");
 
-        return JSON.toJSON(user);
-    }
-    @RequestMapping("/author")//查看所有作者
-    @ResponseBody
-    public Object allUserauthor(Integer pageNum,Integer pageSize){
-        List<User> user= userimpl.findByRole(pageNum,pageSize,"作者");
-
-        return JSON.toJSON(user);
-    }
 }
