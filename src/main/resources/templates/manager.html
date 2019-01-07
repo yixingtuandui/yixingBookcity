@@ -100,7 +100,7 @@
                 <div class="row">
                     <!--刚刚进入后台显示的数据-->
                     <div class="span5" th:if="${session.message.status}">
-                        <div class="slate slate_user" th:if="${session.book}!=null">
+                        <div class="slate slate_user" th:if="${session.all=='login'}">
                             <div class="page-header">
                                 <h2 th:text="${session.message.masg}"><i class="icon-shopping-cart pull-right"></i></h2>
                                 <span th:text="'总共'+${session.count}+'条记录'"></span>
@@ -114,7 +114,7 @@
                                     <td th:text="${userStat.index}+1"></td>
                                     <td th:text="${book.bookName}"></td>
                                     <td th:text="${book.number}"></td>
-                                <tr>
+                                </tr>
                                 </tbody>
                             </table>
                             <div class="pages">
@@ -418,8 +418,8 @@
                                     <td th:text="${user.day}"></td>
                                     <td th:text="${user.dateSign}"></td>
                                     <td th:text="${user.dateReg}"></td>
-                                    <td><a th:href="@{/authorOk(bid=${book.id})}">审核通过</a><br/>
-                                        <a th:href="@{/authorNo(bid=${book.id})}">审核失败</a>
+                                    <td><a th:href="@{/authorOk(bid=${user.id})}">审核通过</a><br/>
+                                        <a th:href="@{/authorNo(bid=${user.id})}">审核失败</a>
                                     </td>
                                     <!--<td th:text="${#dates.format(${user.dateSign},'yyyy-MM-dd hh:mm:ss')}"></td>-->
                                     <!--<td th:text="${#dates.format(${user.dateReg},'yyyy-MM-dd hh:mm:ss')}"></td>-->

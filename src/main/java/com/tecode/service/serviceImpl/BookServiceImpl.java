@@ -36,22 +36,19 @@ public class BookServiceImpl implements BooksService {
 
     @Override//首页书籍展示
     public List<Books> homePageData(String type, int pages) {
-        PageHelper.startPage(pages, 10);
         BooksExample booksExample=new BooksExample();
-        BooksExample.Criteria criteria=null;
-        criteria.andAddrEqualTo("审核通过");
-        System.out.println();
+        PageHelper.startPage(pages, 10);
         switch (type){
             case "推荐":
-                System.out.println(123);
-                booksExample.createCriteria().andAddrEqualTo("审核通过");
+                booksExample.createCriteria().andAuditingEqualTo("审核通过");
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
             case "排行":
+                booksExample.createCriteria().andAuditingEqualTo("审核通过");
                 booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
             default:
-                criteria.andKindsEqualTo(type);
+                booksExample.createCriteria().andAuditingEqualTo("审核通过").andKindsEqualTo(type);
                 return booksMapper.selectByExample(booksExample);
         }
     }
@@ -196,5 +193,23 @@ public class BookServiceImpl implements BooksService {
         booksExample.createCriteria().andBookNameLike("%"+bookname+"%");
         return booksMapper.countByExample(booksExample);
     }
+    @Override
+    public List<Books> selectByMonthNumber() {
+        return null;
+    }
+    //    畅销 月榜
+    @Override
+    public List<Books> selectByMonthAmount() {
+        return null;
+    }
 
+    @Override
+    public List<Books> selectByWeekNumber() {
+        return null;
+    }
+    //    畅销 周榜
+    @Override
+    public List<Books> selectByWeekAmount() {
+        return null;
+    }
 }

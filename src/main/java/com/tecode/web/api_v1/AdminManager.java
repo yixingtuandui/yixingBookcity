@@ -55,6 +55,7 @@ public class AdminManager {
         session.setAttribute("count",count);
         session.setAttribute("pages",1);
         session.setAttribute("book",bookService.homePageData("排行",pages));
+        session.setAttribute("all","login");
         return "manager";
     }
 

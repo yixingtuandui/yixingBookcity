@@ -57,6 +57,30 @@ public class BookTypeController {
 //        System.out.println("就是这儿");
         return bookService.selectByNumber(pageNum);
     }
+    //    畅销 月榜
+    @RequestMapping(value = "monthCX",method = RequestMethod.POST)
+    public List<Books> monthCX(){
+        System.out.println("进入了");
+        return bookService.selectByWeekAmount();
+    }
+    //    人气 月榜
+    @RequestMapping(value = "monthRQ",method = RequestMethod.POST)
+    public List<Books> monthRQ(){
+//        System.out.println("就是这儿");
+        return bookService.selectByMonthNumber();
+    }
+    //    畅销 周榜
+    @RequestMapping(value = "weekCX",method = RequestMethod.POST)
+    public List<Books> weekCX(){
+        System.out.println("进入了1");
+        return bookService.selectByWeekAmount();
+    }
+    //    人气 周榜
+    @RequestMapping(value = "weekRQ",method = RequestMethod.POST)
+    public List<Books> weekRQ(){
+//        System.out.println("就是这儿");
+        return bookService.selectByWeekNumber();
+    }
     /**
      * 获得本周的第一天，周一
      *

@@ -16,10 +16,18 @@ public interface BooksService {
     List<Books> booksAll(String author,int pageNums);
     //根据类型查询书籍
     List<Books> selectByType(Integer type,int pageNum);
-    //查询书籍点击量
+    //查询书籍点击量 总榜
     List<Books> selectByNumber(int pageNum);
-    //查询书籍购买量
+    //查询书籍购买量 总榜
     List<Books> selectByAmount(int pageNum);
+    //查询书籍点击量 月榜
+    List<Books> selectByMonthNumber();
+    //查询书籍购买量 月榜
+    List<Books> selectByMonthAmount();
+    //查询书籍点击量 周榜
+    List<Books> selectByWeekNumber();
+    //查询书籍购买量 周榜
+    List<Books> selectByWeekAmount();
     //根据是否通过查询书籍
     List<Books> bookAll(int pages,String auditing);
     //查询通过或未通过书籍的数量

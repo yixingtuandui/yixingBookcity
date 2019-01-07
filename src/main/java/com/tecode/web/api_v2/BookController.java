@@ -30,7 +30,7 @@ public class BookController {
         return JSON.toJSON(booksService.booksAll(book,pageNums));
     }
 
-    @RequestMapping(value = "/read")
+    @RequestMapping(value = "/read",produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String read(String url) throws IOException {
         System.out.println(url);
