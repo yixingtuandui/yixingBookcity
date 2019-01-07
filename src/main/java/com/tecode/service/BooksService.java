@@ -36,4 +36,6 @@ public interface BooksService {
     void deletebooks(Books books);
     //根据书名查询数量
     Long countBooksname(String bookname);
+    //作者修改书籍信息
+    void authorUpdate(Books books);
 }

@@ -56,5 +56,6 @@
         <table tableName="book_type"></table>
         <table tableName="member"></table>
         <table tableName="news"></table>
+        <table tableName="setion_table"></table>
     </context>
 </generatorConfiguration>

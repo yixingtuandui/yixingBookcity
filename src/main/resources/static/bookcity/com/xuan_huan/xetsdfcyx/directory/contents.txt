@@ -1,0 +1,1 @@
+<html>/n<head>/n<meta http-equiv='content-type' content='text/html;charset=utf-8'>/n</head>/n<body bgcolor='#e6f3ff'>/n<table align='center' width='80%' border=1><tr align='center'><td width=33% color='green'><a href='./0.txt'>0.txt</a></td></table>/n</body>/n</html>

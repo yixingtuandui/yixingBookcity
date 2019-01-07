@@ -1,7 +1,6 @@
 package com.tecode.web.api_v2;
 
 import com.alibaba.fastjson.JSON;
-import com.tecode.model.Books;
 import com.tecode.service.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.List;
 
 /**
  * Created by Administrator on 2018/12/14.
@@ -44,21 +42,7 @@ public class BookController {
         if (is != null) {
             is.close();
         }
-        return stringBuffer;
-    }
-
-    //首页查询
-    @RequestMapping(value = "/home_page", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Books> homePageData(String type, int pages) {
-        return booksService.homePageData(type, pages);
-    }
-
-    //作者书籍查询
-    @RequestMapping(value = "/bookdetails", method = RequestMethod.GET)
-    @ResponseBody
-    public List bookdetails(String author, String type){
-        return booksService.bookdetails(author, type);
+        return JSON.toJSONString(stringBuffer);
     }
 
 }

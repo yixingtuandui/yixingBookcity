@@ -37,7 +37,7 @@ public class BookServiceImpl implements BooksService {
     @Override//首页书籍展示
     public List<Books> homePageData(String type, int pages) {
         BooksExample booksExample=new BooksExample();
-        PageHelper.startPage(pages, 10);
+        PageHelper.startPage(pages, 5);
         switch (type){
             case "推荐":
                 booksExample.createCriteria().andAuditingEqualTo("审核通过");
@@ -193,6 +193,12 @@ public class BookServiceImpl implements BooksService {
         booksExample.createCriteria().andBookNameLike("%"+bookname+"%");
         return booksMapper.countByExample(booksExample);
     }
+
+    @Override
+    public void authorUpdate(Books books) {
+        booksMapper.updateByPrimaryKey(books);
+    }
+
     @Override
     public List<Books> selectByMonthNumber() {
         return null;

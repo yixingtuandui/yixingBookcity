@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
@@ -31,7 +30,7 @@ public class BookTypeController {
     }
 //该类型的书籍
     @RequestMapping(value = "booksType",method = RequestMethod.POST)
-    public List<Books> booksAll(int type,int pageNum){
+    public List<Books> booksAll(int type, int pageNum){
         return bookService.selectByType(type,pageNum);
     }
 //该书籍的详情
