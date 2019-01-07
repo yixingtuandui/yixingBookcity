@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql:///test
+    url: jdbc:mysql://106.13.7.6/test
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
