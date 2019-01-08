@@ -5,7 +5,9 @@ body {
 .container {
 	background-color: #120935a3;
 }
-
+form{text-align: center;}
+.search{height: 35px}
+form button{height:40px}
 /* Headings */
 
 h1, h2, h3, h4, h5, h6 {

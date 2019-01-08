@@ -14,7 +14,6 @@ import java.util.List;
 public class UserImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
-    private UserExample userExample=new UserExample();
     //新增数据
     @Override
     public void add(User user) {
@@ -23,7 +22,6 @@ public class UserImpl implements UserService {
     //根据id查询user
     @Override
     public User findById(Integer id) {
-
         return userMapper.selectByPrimaryKey(id);
     }
 
@@ -31,18 +29,21 @@ public class UserImpl implements UserService {
     @Override
     public List<User> findByRole(Integer pageNum,Integer pageSize,String role) {
         PageHelper.startPage(pageNum, pageSize);
+        UserExample userExample=new UserExample();
         userExample.createCriteria().andRoleEqualTo(role);
         return userMapper.selectByExample(userExample);
     }
     //根据角色分页
     @Override
     public Long countPage(String role) {
+        UserExample userExample=new UserExample();
         userExample.createCriteria().andRoleEqualTo(role);
         return userMapper.countByExample(userExample);
     }
     //根据username条件查询
     @Override
-    public Object findByUsername(String username) {
+    public List<User> findByUsername(String username) {
+        UserExample userExample=new UserExample();
         userExample.createCriteria().andNameEqualTo(username);
         return userMapper.selectByExample(userExample);
     }
@@ -64,6 +65,13 @@ public class UserImpl implements UserService {
     public Long countStatus(String status) {
         UserExample userExample=new UserExample();
         userExample.createCriteria().andStatusEqualTo(status);
+        return userMapper.countByExample(userExample);
+    }
+
+    @Override
+    public Long countByUsername(String username) {
+        UserExample userExample=new UserExample();
+        userExample.createCriteria().andNameLike("%"+username+"%");
         return userMapper.countByExample(userExample);
     }
 }

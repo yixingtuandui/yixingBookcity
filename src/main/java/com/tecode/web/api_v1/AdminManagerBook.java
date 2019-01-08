@@ -28,7 +28,7 @@ public class AdminManagerBook {
         session.removeAttribute("book");
         session.removeAttribute("users");
         session.setAttribute("message",message);
-        session.setAttribute("count",count);
+        session.setAttribute("booknumber",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("books",list);
         session.setAttribute("all","booksall");
@@ -171,22 +171,22 @@ public class AdminManagerBook {
         session.setAttribute("all","booksdeletenew");
         return "manager";
     }
-    @RequestMapping("/serchbookname")
+    @RequestMapping("/searchbook")
     public String serchbookname(Integer pageNum,String namesbook, HttpSession session){
         System.out.println(pageNum);
+        System.out.println(namesbook);
         Long count=bookService.countBooksname(namesbook);
         List<Books> list=bookService.selectByBookname(pageNum,namesbook);
-        System.out.println(list);
         if (pageNum<1){ pageNum=1; };
         if (pageNum>count/10){pageNum=pageNum-1; };
         Message message=new Message();
         message.setStatus(true);
-        message.setMasg("所有审核未通过的书籍");
+        message.setMasg("搜索结果书籍");
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("books",list);
-        session.setAttribute("all","serchbookname");
+        session.setAttribute("all","searchbook");
         return "manager";
     }
 }

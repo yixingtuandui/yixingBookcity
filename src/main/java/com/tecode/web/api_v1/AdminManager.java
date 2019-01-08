@@ -54,6 +54,10 @@ public class AdminManager {
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("pages",1);
+        session.setAttribute("nomal",userimpl.countPage("普通用户"));
+        session.setAttribute("member",userimpl.countPage("会员"));
+        session.setAttribute("author",userimpl.countPage("作者"));
+        session.setAttribute("booknumber",bookService.countBooks("审核通过"));
         session.setAttribute("book",bookService.homePageData("排行",pages));
         session.setAttribute("all","login");
         return "manager";

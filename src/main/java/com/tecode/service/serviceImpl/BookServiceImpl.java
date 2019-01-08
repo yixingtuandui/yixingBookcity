@@ -23,8 +23,10 @@ public class BookServiceImpl implements BooksService {
     @Override
     public List<Books> selectByBookname(Integer pages, String name) {
         PageHelper.startPage(pages, 10);
+        System.out.println(pages);
+        System.out.println(name);
         BooksExample booksExample=new BooksExample();
-        booksExample.createCriteria().andBookNameLike(name);
+        booksExample.createCriteria().andBookNameLike("%"+name+"%");
         return booksMapper.selectByExample(booksExample);
     }
 
@@ -71,20 +73,25 @@ public class BookServiceImpl implements BooksService {
         PageHelper.startPage(pageNums, 5);
         booksExample.or().andAuthorLike("%"+author+"%");
         booksExample.or().andBookNameLike("%"+author+"%");
-        long count = booksMapper.countByExample(booksExample);
-        if(count/5==0){
-            if(count/5<pageNums){
-                return null;
-            }else {
+        System.out.println(123);
+        System.out.println(booksMapper.countByExample(booksExample));
+        //long count = booksMapper.countByExample(booksExample);
+       // System.out.println(count);
+//        if(count/5==0){
+//            if(count/5<pageNums){
+//                return null;
+//            }else {
+//
+//                return booksMapper.selectByExample(booksExample);
+//            }
+//        }else {
+//            if(count/5+1<pageNums){
+//                return null;
+//            }else {
+//                System.out.println(456);
                 return booksMapper.selectByExample(booksExample);
-            }
-        }else {
-            if(count/5+1<pageNums){
-                return null;
-            }else {
-                return booksMapper.selectByExample(booksExample);
-            }
-        }
+            //}
+       // }
     }
 
     @Override

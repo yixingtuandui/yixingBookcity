@@ -15,7 +15,7 @@ $(document).ready(function(){
         })
     })
     $("#exampleInputUsername1").blur(function(){
-        var reg="^(?![\\d]+$)(?![a-zA-Z]+$)(?![^\\da-zA-Z]+$).{6,20}$";
+        var reg=/^(?![\\d]+$)(?![a-zA-Z]+$)(?![^\\da-zA-Z]+$).{6,20}$/;
         if(reg.test($("#exampleInputUsername2").val())){
             $(".key2").css("background","url(../images/right.png) no-repeat 224px 30px;");
         }else{

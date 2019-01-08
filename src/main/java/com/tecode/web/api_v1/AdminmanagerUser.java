@@ -1,5 +1,6 @@
 package com.tecode.web.api_v1;
 
+import com.tecode.model.Books;
 import com.tecode.model.Message;
 import com.tecode.model.User;
 import com.tecode.service.serviceImpl.UserImpl;
@@ -28,7 +29,7 @@ public class AdminmanagerUser {
         session.removeAttribute("books");
         session.removeAttribute("book");
         session.setAttribute("message",message);
-        session.setAttribute("count",count);
+        session.setAttribute("nomal",count);
         session.setAttribute("users",user);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","userall");
@@ -46,7 +47,7 @@ public class AdminmanagerUser {
         session.removeAttribute("books");
         session.removeAttribute("book");
         session.setAttribute("message",message);
-        session.setAttribute("count",count);
+        session.setAttribute("member",count);
         session.setAttribute("users",user);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","member");
@@ -64,7 +65,7 @@ public class AdminmanagerUser {
         session.removeAttribute("books");
         session.removeAttribute("book");
         session.setAttribute("message",message);
-        session.setAttribute("count",count);
+        session.setAttribute("author",count);
         session.setAttribute("users",user);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","author");
@@ -147,6 +148,22 @@ public class AdminmanagerUser {
         session.setAttribute("users",user);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","authorcheck");
+        return "manager";
+    }
+    @RequestMapping("/searchuser")
+    public String serchbookname(Integer pageNum,String namesbook, HttpSession session){
+        Long count=userimpl.countByUsername(namesbook);
+        List<User> list=userimpl.findByUsername(namesbook);
+        if (pageNum<1){ pageNum=1; };
+        if (pageNum>count/10){pageNum=pageNum-1; };
+        Message message=new Message();
+        message.setStatus(true);
+        message.setMasg("搜索结果书籍");
+        session.setAttribute("message",message);
+        session.setAttribute("count",count);
+        session.setAttribute("pages",pageNum);
+        session.setAttribute("books",list);
+        session.setAttribute("all","searchuser");
         return "manager";
     }
 }
