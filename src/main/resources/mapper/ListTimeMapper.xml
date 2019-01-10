@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tecode.dao.ListTimeMapper">
+  <resultMap id="BaseResultMap" type="com.tecode.model.ListTime">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="WeekStartTime" jdbcType="DATE" property="weekstarttime" />
+    <result column="WeekEndTime" jdbcType="DATE" property="weekendtime" />
+    <result column="MonthStartTime" jdbcType="DATE" property="monthstarttime" />
+    <result column="MonthEndTime" jdbcType="DATE" property="monthendtime" />
+    <result column="bid" jdbcType="INTEGER" property="bid" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="stats" jdbcType="VARCHAR" property="stats" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, WeekStartTime, WeekEndTime, MonthStartTime, MonthEndTime, bid, count, stats
+  </sql>
+  <select id="selectByExample" parameterType="com.tecode.model.ListTimeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from list_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from list_time
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from list_time
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tecode.model.ListTimeExample">
+    delete from list_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tecode.model.ListTime">
+    insert into list_time (id, WeekStartTime, WeekEndTime, 
+      MonthStartTime, MonthEndTime, bid, 
+      count, stats)
+    values (#{id,jdbcType=INTEGER}, #{weekstarttime,jdbcType=DATE}, #{weekendtime,jdbcType=DATE}, 
+      #{monthstarttime,jdbcType=DATE}, #{monthendtime,jdbcType=DATE}, #{bid,jdbcType=INTEGER}, 
+      #{count,jdbcType=INTEGER}, #{stats,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tecode.model.ListTime">
+    insert into list_time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="weekstarttime != null">
+        WeekStartTime,
+      </if>
+      <if test="weekendtime != null">
+        WeekEndTime,
+      </if>
+      <if test="monthstarttime != null">
+        MonthStartTime,
+      </if>
+      <if test="monthendtime != null">
+        MonthEndTime,
+      </if>
+      <if test="bid != null">
+        bid,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="stats != null">
+        stats,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="weekstarttime != null">
+        #{weekstarttime,jdbcType=DATE},
+      </if>
+      <if test="weekendtime != null">
+        #{weekendtime,jdbcType=DATE},
+      </if>
+      <if test="monthstarttime != null">
+        #{monthstarttime,jdbcType=DATE},
+      </if>
+      <if test="monthendtime != null">
+        #{monthendtime,jdbcType=DATE},
+      </if>
+      <if test="bid != null">
+        #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="stats != null">
+        #{stats,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tecode.model.ListTimeExample" resultType="java.lang.Long">
+    select count(*) from list_time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update list_time
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekstarttime != null">
+        WeekStartTime = #{record.weekstarttime,jdbcType=DATE},
+      </if>
+      <if test="record.weekendtime != null">
+        WeekEndTime = #{record.weekendtime,jdbcType=DATE},
+      </if>
+      <if test="record.monthstarttime != null">
+        MonthStartTime = #{record.monthstarttime,jdbcType=DATE},
+      </if>
+      <if test="record.monthendtime != null">
+        MonthEndTime = #{record.monthendtime,jdbcType=DATE},
+      </if>
+      <if test="record.bid != null">
+        bid = #{record.bid,jdbcType=INTEGER},
+      </if>
+      <if test="record.count != null">
+        count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.stats != null">
+        stats = #{record.stats,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update list_time
+    set id = #{record.id,jdbcType=INTEGER},
+      WeekStartTime = #{record.weekstarttime,jdbcType=DATE},
+      WeekEndTime = #{record.weekendtime,jdbcType=DATE},
+      MonthStartTime = #{record.monthstarttime,jdbcType=DATE},
+      MonthEndTime = #{record.monthendtime,jdbcType=DATE},
+      bid = #{record.bid,jdbcType=INTEGER},
+      count = #{record.count,jdbcType=INTEGER},
+      stats = #{record.stats,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tecode.model.ListTime">
+    update list_time
+    <set>
+      <if test="weekstarttime != null">
+        WeekStartTime = #{weekstarttime,jdbcType=DATE},
+      </if>
+      <if test="weekendtime != null">
+        WeekEndTime = #{weekendtime,jdbcType=DATE},
+      </if>
+      <if test="monthstarttime != null">
+        MonthStartTime = #{monthstarttime,jdbcType=DATE},
+      </if>
+      <if test="monthendtime != null">
+        MonthEndTime = #{monthendtime,jdbcType=DATE},
+      </if>
+      <if test="bid != null">
+        bid = #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="stats != null">
+        stats = #{stats,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tecode.model.ListTime">
+    update list_time
+    set WeekStartTime = #{weekstarttime,jdbcType=DATE},
+      WeekEndTime = #{weekendtime,jdbcType=DATE},
+      MonthStartTime = #{monthstarttime,jdbcType=DATE},
+      MonthEndTime = #{monthendtime,jdbcType=DATE},
+      bid = #{bid,jdbcType=INTEGER},
+      count = #{count,jdbcType=INTEGER},
+      stats = #{stats,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

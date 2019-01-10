@@ -35,12 +35,11 @@ public class AdminManager {
         return JSON.toJSON(status);
     }
 //    @RequestMapping("/login")
-//    public ModelAndView login(String username, HttpServletRequest re){
-//        ModelAndView model=new ModelAndView();
-//        re.getSession().setAttribute("user",user);
-//        model.addObject(user);
-//        model.setViewName("manager");
-//        return model;
+//    public String login(String username,String password, HttpSession session){
+//
+//        session.setAttribute("admin",user);
+//
+//        return "manager";
 //    }
     @RequestMapping("/login")//管理员登录
     public String login(HttpSession session){
@@ -61,6 +60,11 @@ public class AdminManager {
         session.setAttribute("book",bookService.homePageData("排行",pages));
         session.setAttribute("all","login");
         return "manager";
+    }
+    @RequestMapping("/exit")
+    public String exit(HttpSession session){
+        session.invalidate();
+        return "index";
     }
 
 }

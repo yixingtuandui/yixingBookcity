@@ -7,6 +7,7 @@ import com.tecode.service.serviceImpl.UserImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -150,8 +151,9 @@ public class AdminmanagerUser {
         session.setAttribute("all","authorcheck");
         return "manager";
     }
-    @RequestMapping("/searchuser")
-    public String serchbookname(Integer pageNum,String namesbook, HttpSession session){
+    @RequestMapping(value = "/searchuser", method = RequestMethod.POST)
+    public String serchbookname(String pageNums,String namesbook, HttpSession session){
+        Integer pageNum=Integer.valueOf(pageNums);
         Long count=userimpl.countByUsername(namesbook);
         List<User> list=userimpl.findByUsername(namesbook);
         if (pageNum<1){ pageNum=1; };
@@ -160,9 +162,10 @@ public class AdminmanagerUser {
         message.setStatus(true);
         message.setMasg("搜索结果书籍");
         session.setAttribute("message",message);
-        session.setAttribute("count",count);
+        session.setAttribute("usercount",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("books",list);
+        session.setAttribute("names",namesbook);
         session.setAttribute("all","searchuser");
         return "manager";
     }

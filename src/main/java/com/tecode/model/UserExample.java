@@ -921,6 +921,66 @@ public class UserExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andIdayIsNull() {
+            addCriterion("iday is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayIsNotNull() {
+            addCriterion("iday is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayEqualTo(Integer value) {
+            addCriterion("iday =", value, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayNotEqualTo(Integer value) {
+            addCriterion("iday <>", value, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayGreaterThan(Integer value) {
+            addCriterion("iday >", value, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayGreaterThanOrEqualTo(Integer value) {
+            addCriterion("iday >=", value, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayLessThan(Integer value) {
+            addCriterion("iday <", value, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayLessThanOrEqualTo(Integer value) {
+            addCriterion("iday <=", value, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayIn(List<Integer> values) {
+            addCriterion("iday in", values, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayNotIn(List<Integer> values) {
+            addCriterion("iday not in", values, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayBetween(Integer value1, Integer value2) {
+            addCriterion("iday between", value1, value2, "iday");
+            return (Criteria) this;
+        }
+
+        public Criteria andIdayNotBetween(Integer value1, Integer value2) {
+            addCriterion("iday not between", value1, value2, "iday");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

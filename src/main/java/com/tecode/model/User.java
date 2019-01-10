@@ -27,6 +27,8 @@ public class User {
 
     private String status;
 
+    private Integer iday;
+
     public Integer getId() {
         return id;
     }
@@ -121,5 +123,13 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public Integer getIday() {
+        return iday;
+    }
+
+    public void setIday(Integer iday) {
+        this.iday = iday;
     }
 }

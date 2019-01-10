@@ -4,12 +4,15 @@ body {
 
 .container {
 	background-color: #120935a3;
+	margin-top: 30px;
 }
 form{text-align: center;}
 .search{height: 35px}
-form button{height:40px}
+form span{
+	margin-left: 15px;
+	font-size: 20px;}
 /* Headings */
-
+table{table-layout: fixed;}
 h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
 	font-family: "Oxygen", sans-serif;
@@ -31,7 +34,6 @@ h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 0;
 	font-family: "Marck Script", sans-serif;
 	margin-left: 2px;
-	background: rgba(0,0,0,0.3);
 	-webkit-border-radius: 60px;
 	-moz-border-radius: 60px;
 	border-radius: 60px;
@@ -133,7 +135,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .secondary-masthead ul {
-	margin: -8px 0 0 0;
+	margin: -18px 0 0 0;
 }
 
 .secondary-masthead ul a {

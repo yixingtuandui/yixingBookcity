@@ -23,10 +23,8 @@ public class BookServiceImpl implements BooksService {
     @Override
     public List<Books> selectByBookname(Integer pages, String name) {
         PageHelper.startPage(pages, 10);
-        System.out.println(pages);
-        System.out.println(name);
         BooksExample booksExample=new BooksExample();
-        booksExample.createCriteria().andBookNameLike("%"+name+"%");
+        booksExample.createCriteria().andAuditingEqualTo("审核通过").andBookNameLike("%"+name+"%");
         return booksMapper.selectByExample(booksExample);
     }
 
@@ -71,8 +69,8 @@ public class BookServiceImpl implements BooksService {
     public List<Books> booksAll(String author,int pageNums) {
         BooksExample booksExample = new BooksExample();
         PageHelper.startPage(pageNums, 5);
-        booksExample.or().andAuthorLike("%"+author+"%");
-        booksExample.or().andBookNameLike("%"+author+"%");
+        booksExample.or().andAuthorLike("%"+author+"%").andAuditingEqualTo("审核通过");
+        booksExample.or().andBookNameLike("%"+author+"%").andAuditingEqualTo("审核通过");
         System.out.println(123);
         System.out.println(booksMapper.countByExample(booksExample));
         //long count = booksMapper.countByExample(booksExample);
@@ -101,7 +99,7 @@ public class BookServiceImpl implements BooksService {
         booksExample.createCriteria().andTypeEqualTo(type);
         booksExample.createCriteria().andAuditingEqualTo("审核通过");
         long county=booksMapper.countByExample(booksExample);
-        if(county/10==0){
+        if(county%10==0){
             if(county/10<pageNum){
                 return null;
             }else {
@@ -124,7 +122,7 @@ public class BookServiceImpl implements BooksService {
         booksExamplel.setOrderByClause("number desc");
 //        List<Books> list=booksMapper.selectByExample(booksExamplel);
         long count=booksMapper.countByExample(booksExamplel);
-        if(count/10==0){
+        if(count%10==0){
             if(count/10<pageNum){
                 return null;
             }else {
@@ -151,7 +149,7 @@ public class BookServiceImpl implements BooksService {
         BooksExample booksExamplels=new BooksExample();
         booksExamplels.setOrderByClause("amount desc");
         long counts=booksMapper.countByExample(booksExamplels);
-        if(counts/10==0){
+        if(counts%10==0){
             if(counts/10<pageNum){
                 return null;
             }else {
@@ -197,7 +195,7 @@ public class BookServiceImpl implements BooksService {
     @Override
     public Long countBooksname(String bookname) {
         BooksExample booksExample=new BooksExample();
-        booksExample.createCriteria().andBookNameLike("%"+bookname+"%");
+        booksExample.createCriteria().andBookNameLike("%"+bookname+"%").andAuditingEqualTo("审核通过");
         return booksMapper.countByExample(booksExample);
     }
 

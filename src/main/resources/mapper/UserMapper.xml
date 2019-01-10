@@ -14,6 +14,7 @@
     <result column="role" jdbcType="VARCHAR" property="role" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="iday" jdbcType="INTEGER" property="iday" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, avator, date_reg, date_sign, day, money, name, pen_name, phone, role, sex, status
+    id, avator, date_reg, date_sign, day, money, name, pen_name, phone, role, sex, status, 
+    iday
   </sql>
   <select id="selectByExample" parameterType="com.tecode.model.UserExample" resultMap="BaseResultMap">
     select
@@ -110,11 +112,11 @@
     insert into user (id, avator, date_reg, 
       date_sign, day, money, name, 
       pen_name, phone, role, 
-      sex, status)
+      sex, status, iday)
     values (#{id,jdbcType=INTEGER}, #{avator,jdbcType=VARCHAR}, #{dateReg,jdbcType=DATE}, 
       #{dateSign,jdbcType=DATE}, #{day,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, #{name,jdbcType=VARCHAR}, 
       #{penName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
+      #{sex,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{iday,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.tecode.model.User">
     insert into user
@@ -155,6 +157,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="iday != null">
+        iday,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -192,6 +197,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="iday != null">
+        #{iday,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -240,6 +248,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
       </if>
+      <if test="record.iday != null">
+        iday = #{record.iday,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -258,7 +269,8 @@
       phone = #{record.phone,jdbcType=VARCHAR},
       role = #{record.role,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR}
+      status = #{record.status,jdbcType=VARCHAR},
+      iday = #{record.iday,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -299,6 +311,9 @@
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="iday != null">
+        iday = #{iday,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -314,7 +329,8 @@
       phone = #{phone,jdbcType=VARCHAR},
       role = #{role,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      iday = #{iday,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

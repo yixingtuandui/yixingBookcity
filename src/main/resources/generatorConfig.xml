@@ -57,5 +57,7 @@
         <table tableName="member"></table>
         <table tableName="news"></table>
         <table tableName="setion_table"></table>
+        <table tableName="manager"></table>
+        <table tableName="list_time"></table>
     </context>
 </generatorConfiguration>

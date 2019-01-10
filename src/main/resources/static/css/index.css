@@ -153,3 +153,5 @@ input[type="submit"]:hover {
     -moz-transition: 1s all;
     -o-transition: 1s all;
 }
+p{text-align: center;
+    font-size: 60px;}

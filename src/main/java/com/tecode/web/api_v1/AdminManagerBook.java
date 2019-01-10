@@ -2,6 +2,7 @@ package com.tecode.web.api_v1;
 
 import com.tecode.model.Books;
 import com.tecode.model.Message;
+import com.tecode.service.BookTypeService;
 import com.tecode.service.serviceImpl.BookServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import java.util.List;
 public class AdminManagerBook {
     @Autowired
     private BookServiceImpl bookService;
+    @Autowired
+    private BookTypeService bookTypeService;
     //书籍查询
     @RequestMapping(value = "/booksall", method = RequestMethod.GET)
     public String search(Integer pageNum, HttpSession session) {
@@ -171,22 +174,32 @@ public class AdminManagerBook {
         session.setAttribute("all","booksdeletenew");
         return "manager";
     }
-    @RequestMapping("/searchbook")
-    public String serchbookname(Integer pageNum,String namesbook, HttpSession session){
-        System.out.println(pageNum);
-        System.out.println(namesbook);
+    @RequestMapping(value = "/searchbook", method = RequestMethod.POST)
+    public String serchbookname(String pageNums,String namesbook, HttpSession session){
+        Integer pageNum=Integer.valueOf(pageNums);
         Long count=bookService.countBooksname(namesbook);
         List<Books> list=bookService.selectByBookname(pageNum,namesbook);
         if (pageNum<1){ pageNum=1; };
         if (pageNum>count/10){pageNum=pageNum-1; };
         Message message=new Message();
         message.setStatus(true);
-        message.setMasg("搜索结果书籍");
+        message.setMasg("搜索书籍结果");
         session.setAttribute("message",message);
-        session.setAttribute("count",count);
+        session.setAttribute("searchcount",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("books",list);
+        session.setAttribute("names",namesbook);
         session.setAttribute("all","searchbook");
+        return "manager";
+    }
+    @RequestMapping("bookstypes")
+    public String bookstypes(HttpSession session){
+        Message message=new Message();
+        message.setStatus(true);
+        message.setMasg("搜索书籍结果");
+        session.setAttribute("message",message);
+        session.setAttribute("types",bookTypeService.findAll());
+        session.setAttribute("all","bookstypes");
         return "manager";
     }
 }
