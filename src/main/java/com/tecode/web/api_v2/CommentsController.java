@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Controller
 public class CommentsController {
@@ -32,7 +32,6 @@ public class CommentsController {
         comm.setBelong(Integer.valueOf(belong));
         comm.setParentid(Integer.valueOf(parentid));
         comm.setTime(time);
-        System.out.println();
         comments.add(comm);
     }
 }
