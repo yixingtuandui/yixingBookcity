@@ -8,7 +8,8 @@
     <result column="MonthStartTime" jdbcType="DATE" property="monthstarttime" />
     <result column="MonthEndTime" jdbcType="DATE" property="monthendtime" />
     <result column="bid" jdbcType="INTEGER" property="bid" />
-    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="monthcount" jdbcType="INTEGER" property="monthcount" />
+    <result column="weekcount" jdbcType="INTEGER" property="weekcount" />
     <result column="stats" jdbcType="VARCHAR" property="stats" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, WeekStartTime, WeekEndTime, MonthStartTime, MonthEndTime, bid, count, stats
+    id, WeekStartTime, WeekEndTime, MonthStartTime, MonthEndTime, bid, monthcount, weekcount, 
+    stats
   </sql>
   <select id="selectByExample" parameterType="com.tecode.model.ListTimeExample" resultMap="BaseResultMap">
     select
@@ -105,10 +107,12 @@
   <insert id="insert" parameterType="com.tecode.model.ListTime">
     insert into list_time (id, WeekStartTime, WeekEndTime, 
       MonthStartTime, MonthEndTime, bid, 
-      count, stats)
+      monthcount, weekcount, stats
+      )
     values (#{id,jdbcType=INTEGER}, #{weekstarttime,jdbcType=DATE}, #{weekendtime,jdbcType=DATE}, 
       #{monthstarttime,jdbcType=DATE}, #{monthendtime,jdbcType=DATE}, #{bid,jdbcType=INTEGER}, 
-      #{count,jdbcType=INTEGER}, #{stats,jdbcType=VARCHAR})
+      #{monthcount,jdbcType=INTEGER}, #{weekcount,jdbcType=INTEGER}, #{stats,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.tecode.model.ListTime">
     insert into list_time
@@ -131,8 +135,11 @@
       <if test="bid != null">
         bid,
       </if>
-      <if test="count != null">
-        count,
+      <if test="monthcount != null">
+        monthcount,
+      </if>
+      <if test="weekcount != null">
+        weekcount,
       </if>
       <if test="stats != null">
         stats,
@@ -157,8 +164,11 @@
       <if test="bid != null">
         #{bid,jdbcType=INTEGER},
       </if>
-      <if test="count != null">
-        #{count,jdbcType=INTEGER},
+      <if test="monthcount != null">
+        #{monthcount,jdbcType=INTEGER},
+      </if>
+      <if test="weekcount != null">
+        #{weekcount,jdbcType=INTEGER},
       </if>
       <if test="stats != null">
         #{stats,jdbcType=VARCHAR},
@@ -192,8 +202,11 @@
       <if test="record.bid != null">
         bid = #{record.bid,jdbcType=INTEGER},
       </if>
-      <if test="record.count != null">
-        count = #{record.count,jdbcType=INTEGER},
+      <if test="record.monthcount != null">
+        monthcount = #{record.monthcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.weekcount != null">
+        weekcount = #{record.weekcount,jdbcType=INTEGER},
       </if>
       <if test="record.stats != null">
         stats = #{record.stats,jdbcType=VARCHAR},
@@ -211,7 +224,8 @@
       MonthStartTime = #{record.monthstarttime,jdbcType=DATE},
       MonthEndTime = #{record.monthendtime,jdbcType=DATE},
       bid = #{record.bid,jdbcType=INTEGER},
-      count = #{record.count,jdbcType=INTEGER},
+      monthcount = #{record.monthcount,jdbcType=INTEGER},
+      weekcount = #{record.weekcount,jdbcType=INTEGER},
       stats = #{record.stats,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -235,8 +249,11 @@
       <if test="bid != null">
         bid = #{bid,jdbcType=INTEGER},
       </if>
-      <if test="count != null">
-        count = #{count,jdbcType=INTEGER},
+      <if test="monthcount != null">
+        monthcount = #{monthcount,jdbcType=INTEGER},
+      </if>
+      <if test="weekcount != null">
+        weekcount = #{weekcount,jdbcType=INTEGER},
       </if>
       <if test="stats != null">
         stats = #{stats,jdbcType=VARCHAR},
@@ -251,7 +268,8 @@
       MonthStartTime = #{monthstarttime,jdbcType=DATE},
       MonthEndTime = #{monthendtime,jdbcType=DATE},
       bid = #{bid,jdbcType=INTEGER},
-      count = #{count,jdbcType=INTEGER},
+      monthcount = #{monthcount,jdbcType=INTEGER},
+      weekcount = #{weekcount,jdbcType=INTEGER},
       stats = #{stats,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

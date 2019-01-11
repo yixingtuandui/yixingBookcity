@@ -19,21 +19,20 @@
     <div class="row">
         <div class="span2">
             <div class="main-left-col">
-                <!--<h1 th:style="'background:url('+${session.admin}+');'"><i class="icon-shopping-cart icon-large"></i>-->
-                    <!--w d-->
-                <!--</h1>-->
+                <h1 th:style="'background:url('+${session.admin.avater}+');'" th:text="${session.admin.username}"><i class="icon-shopping-cart icon-large"></i>
+                </h1>
                 <ul class="side-nav">
                     <li class="active">
                         <h4>操作选项</h4>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#website-dropdown"><i class="icon-sitemap"></i> 用户管理 <b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#website-dropdown"><i class="icon-user"></i> 用户管理 <b class="caret"></b></a>
                         <ul id="website-dropdown" class="collapse">
                             <li><a id="userall" th:href="@{/userall(pageNum=1)}">查看用户</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#store-dropdown"><i class="icon-shopping-cart"></i> 书籍管理 <b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#store-dropdown"><i class="icon-book"></i> 书籍管理 <b class="caret"></b></a>
                         <ul id="store-dropdown" class="collapse">
                             <li><a id="booksall" th:href="@{/booksall(pageNum=1)}">查看书籍</a></li>
                             <li><a id="bookstypes" th:href="@{/bookstypes}">查看类型</a></li>
@@ -45,7 +44,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#reports-dropdown"><i class="icon-signal"></i> 作者管理 <b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#reports-dropdown"><i class="icon-edit"></i> 作者管理 <b class="caret"></b></a>
                         <ul id="reports-dropdown" class="collapse">
                             <li><a id="author" th:href="@{/author(pageNum=1)}">查看作者</a></li>
                             <li><a id="authornew" th:href="@{/authorcheck(pageNum=1)}">审核新作者</a></li>
@@ -163,7 +162,7 @@
                                     <li th:if="${session.searchcount} gt 0">
                                         <a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.searchcount}/10+1)}">尾页</a></li></ul></div>
                         </div>
-                        <!--全部书籍-->
+                        <!--全部书籍类型-->
                         <div class="slate slate_user" th:if="${session.all=='bookstypes'}">
                             <div class="page-header">
                                 <h2 th:text="${session.message.masg}"><i class="icon-shopping-cart pull-right"></i></h2>
@@ -234,8 +233,8 @@
                                     <td><img th:src="@{${book.bookImg}}"></img></td>
                                     <td th:style="'white-space:nowrap;text-overflow:ellipsis;overflow:hidden;'"
                                         th:attr="title=${book.brief}" th:text="${book.brief}"></td>
-                                    <td><a th:href="@{/bookscheckYes(bid=${book.id})}">审核通过</a><br/><br/>
-                                        <a th:href="@{/bookscheckNot(bid=${book.id})}">审核未通过</a>
+                                    <td><a data-toggle="modal" th:href="@{/bookscheckYes(bid=${book.id})}">通过</a><br/><br/>
+                                        <a data-toggle="modal" th:href="@{/bookscheckNot(bid=${book.id})}">不通过</a>
                                     </td>
                                 </tbody>
                             </table>

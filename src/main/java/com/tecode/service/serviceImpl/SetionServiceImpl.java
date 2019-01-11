@@ -10,8 +10,13 @@ import org.springframework.stereotype.Service;
 public class SetionServiceImpl implements SetionService {
     @Autowired
     private SetionTableMapper setionTableMapper;
+
     @Override
-    public void updateSetion(SetionTable setionTable) {
-        setionTableMapper.insert(setionTable);
+    public boolean addChapter(int bid, String filename, String addr) {
+        SetionTable setionTable = new SetionTable();
+        setionTable.setBid(bid);
+        setionTable.setChapter(filename);
+        setionTable.setContent(addr);
+        return setionTableMapper.insert(setionTable) > 0;
     }
 }

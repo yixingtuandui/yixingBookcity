@@ -561,6 +561,66 @@ public class CommentExample {
             addCriterion("uid not between", value1, value2, "uid");
             return (Criteria) this;
         }
+
+        public Criteria andLikeuIsNull() {
+            addCriterion("likeu is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuIsNotNull() {
+            addCriterion("likeu is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuEqualTo(Integer value) {
+            addCriterion("likeu =", value, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuNotEqualTo(Integer value) {
+            addCriterion("likeu <>", value, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuGreaterThan(Integer value) {
+            addCriterion("likeu >", value, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuGreaterThanOrEqualTo(Integer value) {
+            addCriterion("likeu >=", value, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuLessThan(Integer value) {
+            addCriterion("likeu <", value, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuLessThanOrEqualTo(Integer value) {
+            addCriterion("likeu <=", value, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuIn(List<Integer> values) {
+            addCriterion("likeu in", values, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuNotIn(List<Integer> values) {
+            addCriterion("likeu not in", values, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuBetween(Integer value1, Integer value2) {
+            addCriterion("likeu between", value1, value2, "likeu");
+            return (Criteria) this;
+        }
+
+        public Criteria andLikeuNotBetween(Integer value1, Integer value2) {
+            addCriterion("likeu not between", value1, value2, "likeu");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

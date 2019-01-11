@@ -15,7 +15,9 @@ public class ListTime {
 
     private Integer bid;
 
-    private Integer count;
+    private Integer monthcount;
+
+    private Integer weekcount;
 
     private String stats;
 
@@ -67,12 +69,20 @@ public class ListTime {
         this.bid = bid;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getMonthcount() {
+        return monthcount;
     }
 
-    public void setCount(Integer count) {
-        this.count = count;
+    public void setMonthcount(Integer monthcount) {
+        this.monthcount = monthcount;
+    }
+
+    public Integer getWeekcount() {
+        return weekcount;
+    }
+
+    public void setWeekcount(Integer weekcount) {
+        this.weekcount = weekcount;
     }
 
     public String getStats() {

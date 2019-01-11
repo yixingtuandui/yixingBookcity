@@ -17,6 +17,8 @@ public class Comment {
 
     private Integer uid;
 
+    private Integer likeu;
+
     public Integer getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class Comment {
 
     public void setUid(Integer uid) {
         this.uid = uid;
+    }
+
+    public Integer getLikeu() {
+        return likeu;
+    }
+
+    public void setLikeu(Integer likeu) {
+        this.likeu = likeu;
     }
 }

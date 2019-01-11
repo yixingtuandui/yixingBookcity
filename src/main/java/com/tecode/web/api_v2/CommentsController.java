@@ -7,6 +7,7 @@ import com.tecode.service.serviceImpl.UserImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
@@ -33,5 +34,10 @@ public class CommentsController {
         comm.setParentid(Integer.valueOf(parentid));
         comm.setTime(time);
         comments.add(comm);
+    }
+    @RequestMapping(value = "/lesscomment",method = RequestMethod.POST)
+    @ResponseBody
+    public Object lesscomment(String bid){
+        return comments.findByBookIdLess(Integer.valueOf(bid));
     }
 }

@@ -492,63 +492,123 @@ public class ListTimeExample {
             return (Criteria) this;
         }
 
-        public Criteria andCountIsNull() {
-            addCriterion("count is null");
+        public Criteria andMonthcountIsNull() {
+            addCriterion("monthcount is null");
             return (Criteria) this;
         }
 
-        public Criteria andCountIsNotNull() {
-            addCriterion("count is not null");
+        public Criteria andMonthcountIsNotNull() {
+            addCriterion("monthcount is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCountEqualTo(Integer value) {
-            addCriterion("count =", value, "count");
+        public Criteria andMonthcountEqualTo(Integer value) {
+            addCriterion("monthcount =", value, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotEqualTo(Integer value) {
-            addCriterion("count <>", value, "count");
+        public Criteria andMonthcountNotEqualTo(Integer value) {
+            addCriterion("monthcount <>", value, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountGreaterThan(Integer value) {
-            addCriterion("count >", value, "count");
+        public Criteria andMonthcountGreaterThan(Integer value) {
+            addCriterion("monthcount >", value, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("count >=", value, "count");
+        public Criteria andMonthcountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("monthcount >=", value, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountLessThan(Integer value) {
-            addCriterion("count <", value, "count");
+        public Criteria andMonthcountLessThan(Integer value) {
+            addCriterion("monthcount <", value, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountLessThanOrEqualTo(Integer value) {
-            addCriterion("count <=", value, "count");
+        public Criteria andMonthcountLessThanOrEqualTo(Integer value) {
+            addCriterion("monthcount <=", value, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountIn(List<Integer> values) {
-            addCriterion("count in", values, "count");
+        public Criteria andMonthcountIn(List<Integer> values) {
+            addCriterion("monthcount in", values, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotIn(List<Integer> values) {
-            addCriterion("count not in", values, "count");
+        public Criteria andMonthcountNotIn(List<Integer> values) {
+            addCriterion("monthcount not in", values, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountBetween(Integer value1, Integer value2) {
-            addCriterion("count between", value1, value2, "count");
+        public Criteria andMonthcountBetween(Integer value1, Integer value2) {
+            addCriterion("monthcount between", value1, value2, "monthcount");
             return (Criteria) this;
         }
 
-        public Criteria andCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("count not between", value1, value2, "count");
+        public Criteria andMonthcountNotBetween(Integer value1, Integer value2) {
+            addCriterion("monthcount not between", value1, value2, "monthcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountIsNull() {
+            addCriterion("weekcount is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountIsNotNull() {
+            addCriterion("weekcount is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountEqualTo(Integer value) {
+            addCriterion("weekcount =", value, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountNotEqualTo(Integer value) {
+            addCriterion("weekcount <>", value, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountGreaterThan(Integer value) {
+            addCriterion("weekcount >", value, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("weekcount >=", value, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountLessThan(Integer value) {
+            addCriterion("weekcount <", value, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountLessThanOrEqualTo(Integer value) {
+            addCriterion("weekcount <=", value, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountIn(List<Integer> values) {
+            addCriterion("weekcount in", values, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountNotIn(List<Integer> values) {
+            addCriterion("weekcount not in", values, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountBetween(Integer value1, Integer value2) {
+            addCriterion("weekcount between", value1, value2, "weekcount");
+            return (Criteria) this;
+        }
+
+        public Criteria andWeekcountNotBetween(Integer value1, Integer value2) {
+            addCriterion("weekcount not between", value1, value2, "weekcount");
             return (Criteria) this;
         }
 

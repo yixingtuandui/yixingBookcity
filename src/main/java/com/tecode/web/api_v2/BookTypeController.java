@@ -58,27 +58,31 @@ public class BookTypeController {
     }
     //    畅销 月榜
     @RequestMapping(value = "monthCX",method = RequestMethod.POST)
-    public List<Books> monthCX(){
+    public List<Books> monthCX(int pageNum){
         System.out.println("进入了");
-        return bookService.selectByWeekAmount();
+        return bookService.selectByWeekAmount(pageNum);
     }
     //    人气 月榜
     @RequestMapping(value = "monthRQ",method = RequestMethod.POST)
-    public List<Books> monthRQ(){
-//        System.out.println("就是这儿");
-        return bookService.selectByMonthNumber();
+    public List<Books> monthRQ(int pageNum){
+        System.out.println("就是这儿");
+        return bookService.selectByMonthNumber(pageNum);
     }
     //    畅销 周榜
     @RequestMapping(value = "weekCX",method = RequestMethod.POST)
-    public List<Books> weekCX(){
-        System.out.println("进入了1");
-        return bookService.selectByWeekAmount();
+    public List<Books> weekCX(int pageNum){
+//        System.out.println("进入了1");
+        return bookService.selectByWeekAmount(pageNum);
     }
     //    人气 周榜
     @RequestMapping(value = "weekRQ",method = RequestMethod.POST)
-    public List<Books> weekRQ(){
-//        System.out.println("就是这儿");
-        return bookService.selectByWeekNumber();
+    public List<Books> weekRQ(int pageNum){
+        return bookService.selectByWeekNumber(pageNum);
+    }
+    //    增加畅销榜
+    @RequestMapping(value = "join",method = RequestMethod.POST)
+    public void addCX(int id){
+        bookService.addCX(id);
     }
     /**
      * 获得本周的第一天，周一
