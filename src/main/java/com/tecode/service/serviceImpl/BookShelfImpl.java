@@ -12,9 +12,11 @@ import java.util.List;
 
 @Service
 public class BookShelfImpl implements BookShelfService {
+
     @Autowired
     private HistoryMapper historyMapper;
-    private HistoryExample historyExample=new HistoryExample();
+    private HistoryExample historyExample = new HistoryExample();
+
     //根据用户id查询记录
     @Override
     public List<History> BookShelf(Integer uid) {
@@ -23,10 +25,8 @@ public class BookShelfImpl implements BookShelfService {
     }
 
     @Override
-    public List<History> Recently(Integer uid,Date... dates) {
-        historyExample.createCriteria().andUidEqualTo(uid).andReadingTimeBetween(dates[0],dates[1]);
+    public List<History> Recently(Integer uid, Date... dates) {
+        historyExample.createCriteria().andUidEqualTo(uid).andReadingTimeBetween(dates[0], dates[1]);
         return historyMapper.selectByExample(historyExample);
     }
-
-
 }

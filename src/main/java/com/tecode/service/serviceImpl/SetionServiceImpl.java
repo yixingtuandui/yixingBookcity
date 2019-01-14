@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SetionServiceImpl implements SetionService {
+
     @Autowired
     private SetionTableMapper setionTableMapper;
 
-    @Override
+    @Override//作者添加章节信息
     public boolean addChapter(int bid, String filename, String addr) {
         SetionTable setionTable = new SetionTable();
         setionTable.setBid(bid);

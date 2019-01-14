@@ -11,18 +11,20 @@ import java.util.List;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
+
     @Autowired
     private ManagerMapper managerMapper;
+
     @Override
     public List<Manager> selectCheck(String username, String password) {
-        ManagerExample managerExample=new ManagerExample();
+        ManagerExample managerExample = new ManagerExample();
         managerExample.createCriteria().andUsernameEqualTo(username).andPasswordEqualTo(password);
         return managerMapper.selectByExample(managerExample);
     }
 
     @Override
     public List<Manager> selectCheckName(String username) {
-        ManagerExample managerExample=new ManagerExample();
+        ManagerExample managerExample = new ManagerExample();
         managerExample.createCriteria().andUsernameEqualTo(username);
         return managerMapper.selectByExample(managerExample);
     }

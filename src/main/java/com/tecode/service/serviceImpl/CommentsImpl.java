@@ -12,8 +12,10 @@ import java.util.List;
 
 @Service
 public class CommentsImpl implements CommentsService {
+
     @Autowired
     private CommentMapper commentMapper;
+
     @Override
     public void add(Comment com) {
         commentMapper.insert(com);
@@ -21,15 +23,15 @@ public class CommentsImpl implements CommentsService {
 
     @Override
     public List findByBookId(Integer id) {
-        CommentExample example=new CommentExample();
+        CommentExample example = new CommentExample();
         example.createCriteria().andBookidEqualTo(id);
         return commentMapper.selectByExample(example);
     }
 
     @Override
     public List findByBookIdLess(Integer id) {
-        PageHelper.startPage(1,10);
-        CommentExample example=new CommentExample();
+        PageHelper.startPage(1, 10);
+        CommentExample example = new CommentExample();
         example.createCriteria().andBookidEqualTo(id).andParentidEqualTo(0);
         example.setOrderByClause("time desc");
         return commentMapper.selectByExample(example);

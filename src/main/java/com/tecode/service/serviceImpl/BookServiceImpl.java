@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class BookServiceImpl implements BooksService {
+
     @Autowired
     private BooksMapper booksMapper;
     @Autowired
@@ -37,9 +38,10 @@ public class BookServiceImpl implements BooksService {
     @Autowired
     private SetionService setionService;
     private DataUtil dataUtil;
-    @Override
-    public List<Books> selectByAuthor(String author) {//根据作者查询书籍
-        BooksExample booksExample=new BooksExample();
+
+    @Override//根据作者查询书籍
+    public List<Books> selectByAuthor(String author) {
+        BooksExample booksExample = new BooksExample();
         booksExample.createCriteria().andAuditingLike(author);
         return booksMapper.selectByExample(booksExample);
     }
@@ -47,11 +49,10 @@ public class BookServiceImpl implements BooksService {
     @Override
     public List<Books> selectByBookname(Integer pages, String name) {
         PageHelper.startPage(pages, 10);
-        BooksExample booksExample=new BooksExample();
-        booksExample.createCriteria().andAuditingEqualTo("审核通过").andBookNameLike("%"+name+"%");
+        BooksExample booksExample = new BooksExample();
+        booksExample.createCriteria().andAuditingEqualTo("审核通过").andBookNameLike("%" + name + "%");
         return booksMapper.selectByExample(booksExample);
     }
-
 
     @Override//根据id查询书籍
     public Books selectByBookId(Integer id) {
@@ -59,10 +60,10 @@ public class BookServiceImpl implements BooksService {
     }
 
     @Override//首页书籍展示
-    public List<Books> homePageData(String type, int pages,int pageSize) {
-        BooksExample booksExample=new BooksExample();
+    public List<Books> homePageData(String type, int pages, int pageSize) {
+        BooksExample booksExample = new BooksExample();
         PageHelper.startPage(pages, pageSize);
-        switch (type){
+        switch (type) {
             case "推荐":
                 booksExample.createCriteria().andAuditingEqualTo("审核通过");
                 booksExample.setOrderByClause("amount desc");
@@ -73,42 +74,43 @@ public class BookServiceImpl implements BooksService {
                 return booksMapper.selectByExample(booksExample);
             default:
                 booksExample.createCriteria().andAuditingEqualTo("审核通过").andKindsEqualTo(type);
+                booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
         }
     }
-    //查询某一类型的某一作者的书籍
-    @Override
+
+    @Override//查询某一类型的某一作者的书籍
     public List<Books> bookdetails(String author, String type) {
-        BooksExample booksExample=new BooksExample();
-        booksExample.createCriteria().andAuthorEqualTo(author);
+        BooksExample booksExample = new BooksExample();
         if (!type.equals("")) {
-            booksExample.or().andAuthorEqualTo(author).andAuditingLike(type);
-            booksExample.or().andAuthorEqualTo(author).andBookNameLike(type);
-            booksExample.or().andAuthorEqualTo(author).andStatusLike(type);
+            booksExample.or().andAuthorEqualTo(author).andAuditingLike("%" + type + "%");
+            booksExample.or().andAuthorEqualTo(author).andBookNameLike("%" + type + "%");
+        } else {
+            booksExample.createCriteria().andAuthorEqualTo(author);
         }
         return booksMapper.selectByExample(booksExample);
     }
-    //查询某一作者的所有书籍
-    @Override
-    public List<Books> booksAll(String author,int pageNums) {
+
+    @Override //查询某一作者的所有书籍
+    public List<Books> booksAll(String author, int pageNums) {
         BooksExample booksExample = new BooksExample();
         PageHelper.startPage(pageNums, 5);
-        booksExample.or().andAuthorLike("%"+author+"%").andAuditingEqualTo("审核通过");
-        booksExample.or().andBookNameLike("%"+author+"%").andAuditingEqualTo("审核通过");
+        booksExample.or().andAuthorLike("%" + author + "%").andAuditingEqualTo("审核通过");
+        booksExample.or().andBookNameLike("%" + author + "%").andAuditingEqualTo("审核通过");
         long count = booksMapper.countByExample(booksExample);
-        if(author==""){
+        if (author == "") {
             return null;
-        }else {
-            if(count%10==0){
-                if(count/10<pageNums){
+        } else {
+            if (count % 10 == 0) {
+                if (count / 10 < pageNums) {
                     return null;
-                }else {
+                } else {
                     return booksMapper.selectByExample(booksExample);
                 }
-            }else {
-                if(count/10+1<pageNums){
+            } else {
+                if (count / 10 + 1 < pageNums) {
                     return null;
-                }else {
+                } else {
                     return booksMapper.selectByExample(booksExample);
                 }
             }
@@ -116,24 +118,24 @@ public class BookServiceImpl implements BooksService {
     }
 
     @Override//根据类型查询
-    public List<Books> selectByType(Integer type,int pageNum) {
-        PageHelper.startPage(pageNum,10);
-        BooksExample booksExample=new BooksExample();
+    public List<Books> selectByType(Integer type, int pageNum) {
+        PageHelper.startPage(pageNum, 10);
+        BooksExample booksExample = new BooksExample();
         booksExample.createCriteria().andTypeEqualTo(type);
         booksExample.createCriteria().andAuditingEqualTo("审核通过");
-        long county=booksMapper.countByExample(booksExample);
-        if(county%10==0){
-            if(county/10<pageNum){
+        long county = booksMapper.countByExample(booksExample);
+        if (county % 10 == 0) {
+            if (county / 10 < pageNum) {
                 return null;
-            }else {
+            } else {
                 System.out.println(booksMapper.selectByExample(booksExample));
                 return booksMapper.selectByExample(booksExample);
             }
-        }else {
+        } else {
             System.out.println(3);
-            if(county/10+1<pageNum){
+            if (county / 10 + 1 < pageNum) {
                 return null;
-            }else {
+            } else {
                 return booksMapper.selectByExample(booksExample);
             }
         }
@@ -141,25 +143,25 @@ public class BookServiceImpl implements BooksService {
 
     @Override//根据点击量查询
     public List<Books> selectByNumber(int pageNum) {
-        BooksExample booksExamplel=new BooksExample();
+        BooksExample booksExamplel = new BooksExample();
         booksExamplel.setOrderByClause("number desc");
-        long count=booksMapper.countByExample(booksExamplel);
-        if(count%10==0){
-            if(count/10<pageNum){
+        long count = booksMapper.countByExample(booksExamplel);
+        if (count % 10 == 0) {
+            if (count / 10 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                BooksExample booksExample=new BooksExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                BooksExample booksExample = new BooksExample();
                 booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
             }
 
-        }else {
-            if(count/10+1<pageNum){
+        } else {
+            if (count / 10 + 1 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                BooksExample booksExample=new BooksExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                BooksExample booksExample = new BooksExample();
                 booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
             }
@@ -168,25 +170,25 @@ public class BookServiceImpl implements BooksService {
 
     @Override//根据购买量查询
     public List<Books> selectByAmount(int pageNum) {
-        BooksExample booksExamplels=new BooksExample();
+        BooksExample booksExamplels = new BooksExample();
         booksExamplels.setOrderByClause("amount desc");
-        long counts=booksMapper.countByExample(booksExamplels);
-        if(counts%10==0){
-            if(counts/10<pageNum){
+        long counts = booksMapper.countByExample(booksExamplels);
+        if (counts % 10 == 0) {
+            if (counts / 10 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                BooksExample booksExample=new BooksExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                BooksExample booksExample = new BooksExample();
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
             }
 
-        }else {
-            if(counts/10+1<pageNum){
+        } else {
+            if (counts / 10 + 1 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                BooksExample booksExample=new BooksExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                BooksExample booksExample = new BooksExample();
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
             }
@@ -196,45 +198,45 @@ public class BookServiceImpl implements BooksService {
 
     @Override
     public List<Books> selectByMonthNumber(int pageNum) {
-        ListTimeExample timeExample=new ListTimeExample();
+        ListTimeExample timeExample = new ListTimeExample();
         timeExample.setOrderByClause("monthcount desc");
-        long count=timeMapper.countByExample(timeExample);
-        if(count/10==0){
-            System.out.println(count/10<pageNum);
-            if(count/10+1<pageNum){
+        long count = timeMapper.countByExample(timeExample);
+        if (count / 10 == 0) {
+            System.out.println(count / 10 < pageNum);
+            if (count / 10 + 1 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                timeExample=new ListTimeExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                timeExample = new ListTimeExample();
                 timeExample.setOrderByClause("monthcount desc");
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
-                for (ListTime lt:timeList){
-                    if (lt.getStats().equals("number")){
-                        booksExamplels =new BooksExample();
+                List<ListTime> timeList = timeMapper.selectByExample(timeExample);
+                for (ListTime lt : timeList) {
+                    if (lt.getStats().equals("number")) {
+                        booksExamplels = new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
-                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0)) ;
+                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0));
                     }
                 }
                 return booksLists;
             }
-        }else {
-            System.out.println(count/10<pageNum);
-            if(count/10<pageNum){
+        } else {
+            System.out.println(count / 10 < pageNum);
+            if (count / 10 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                timeExample=new ListTimeExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                timeExample = new ListTimeExample();
                 timeExample.setOrderByClause("monthcount desc");
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
-                for (ListTime lt:timeList){
-                    if (lt.getStats().equals("number")){
-                        booksExamplels =new BooksExample();
+                List<ListTime> timeList = timeMapper.selectByExample(timeExample);
+                for (ListTime lt : timeList) {
+                    if (lt.getStats().equals("number")) {
+                        booksExamplels = new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
-                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0)) ;
+                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0));
                     }
                 }
                 return booksLists;
@@ -244,45 +246,45 @@ public class BookServiceImpl implements BooksService {
 
     @Override
     public List<Books> selectByMonthAmount(int pageNum) {
-        ListTimeExample timeExample=new ListTimeExample();
+        ListTimeExample timeExample = new ListTimeExample();
         timeExample.setOrderByClause("monthcount desc");
-        long count=timeMapper.countByExample(timeExample);
-        if(count/10==0){
-            System.out.println(count/10<pageNum);
-            if(count/10+1<pageNum){
+        long count = timeMapper.countByExample(timeExample);
+        if (count / 10 == 0) {
+            System.out.println(count / 10 < pageNum);
+            if (count / 10 + 1 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                timeExample=new ListTimeExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                timeExample = new ListTimeExample();
                 timeExample.setOrderByClause("monthcount desc");
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
-                for (ListTime lt:timeList){
-                    if (lt.getStats().equals("amount")){
-                        booksExamplels =new BooksExample();
+                List<ListTime> timeList = timeMapper.selectByExample(timeExample);
+                for (ListTime lt : timeList) {
+                    if (lt.getStats().equals("amount")) {
+                        booksExamplels = new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
-                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0)) ;
+                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0));
                     }
                 }
                 return booksLists;
             }
-        }else {
-            System.out.println(count/10<pageNum);
-            if(count/10<pageNum){
+        } else {
+            System.out.println(count / 10 < pageNum);
+            if (count / 10 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                timeExample=new ListTimeExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                timeExample = new ListTimeExample();
                 timeExample.setOrderByClause("monthcount desc");
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
-                for (ListTime lt:timeList){
-                    if (lt.getStats().equals("amount")){
-                        booksExamplels =new BooksExample();
+                List<ListTime> timeList = timeMapper.selectByExample(timeExample);
+                for (ListTime lt : timeList) {
+                    if (lt.getStats().equals("amount")) {
+                        booksExamplels = new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
-                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0)) ;
+                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0));
                     }
                 }
                 return booksLists;
@@ -292,46 +294,46 @@ public class BookServiceImpl implements BooksService {
 
     @Override
     public List<Books> selectByWeekNumber(int pageNum) {
-        PageHelper.startPage(pageNum,10);
-        ListTimeExample timeExample=new ListTimeExample();
+        PageHelper.startPage(pageNum, 10);
+        ListTimeExample timeExample = new ListTimeExample();
         timeExample.setOrderByClause("weekcount desc");
-        long count=timeMapper.countByExample(timeExample);
-        if(count/10==0){
-            if(count/10+1<pageNum){
+        long count = timeMapper.countByExample(timeExample);
+        if (count / 10 == 0) {
+            if (count / 10 + 1 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                timeExample=new ListTimeExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                timeExample = new ListTimeExample();
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<Books>();
                 BooksExample booksExamplel;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
-                for (ListTime lt:timeList){
-                    if (lt.getStats().equals("number")){
-                        booksExamplel =new BooksExample();
+                List<ListTime> timeList = timeMapper.selectByExample(timeExample);
+                for (ListTime lt : timeList) {
+                    if (lt.getStats().equals("number")) {
+                        booksExamplel = new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
-                        Books books= booksMapper.selectByExample(booksExamplel).get(0);
-                        booksList.add(books) ;
+                        Books books = booksMapper.selectByExample(booksExamplel).get(0);
+                        booksList.add(books);
                     }
                 }
                 return booksList;
             }
-        }else {
-            if (count/10<pageNum){
-                return  null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                timeExample=new ListTimeExample();
+        } else {
+            if (count / 10 < pageNum) {
+                return null;
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                timeExample = new ListTimeExample();
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<Books>();
                 BooksExample booksExamplel;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
-                for (ListTime lt:timeList){
-                    if (lt.getStats().equals("number")){
-                        booksExamplel =new BooksExample();
+                List<ListTime> timeList = timeMapper.selectByExample(timeExample);
+                for (ListTime lt : timeList) {
+                    if (lt.getStats().equals("number")) {
+                        booksExamplel = new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
-                        Books books= booksMapper.selectByExample(booksExamplel).get(0);
-                        booksList.add(books) ;
+                        Books books = booksMapper.selectByExample(booksExamplel).get(0);
+                        booksList.add(books);
                     }
                 }
                 return booksList;
@@ -341,46 +343,46 @@ public class BookServiceImpl implements BooksService {
 
     @Override
     public List<Books> selectByWeekAmount(int pageNum) {
-        PageHelper.startPage(pageNum,10);
-        ListTimeExample timeExample=new ListTimeExample();
+        PageHelper.startPage(pageNum, 10);
+        ListTimeExample timeExample = new ListTimeExample();
         timeExample.setOrderByClause("weekcount desc");
-        long count=timeMapper.countByExample(timeExample);
-        if(count/10==0){
-            if(count/10+1<pageNum){
+        long count = timeMapper.countByExample(timeExample);
+        if (count / 10 == 0) {
+            if (count / 10 + 1 < pageNum) {
                 return null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                timeExample=new ListTimeExample();
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                timeExample = new ListTimeExample();
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<Books>();
                 BooksExample booksExamplel;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
-                for (ListTime lt:timeList){
-                    if (lt.getStats().equals("amount")){
-                        booksExamplel =new BooksExample();
+                List<ListTime> timeList = timeMapper.selectByExample(timeExample);
+                for (ListTime lt : timeList) {
+                    if (lt.getStats().equals("amount")) {
+                        booksExamplel = new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
-                        Books books= booksMapper.selectByExample(booksExamplel).get(0);
-                        booksList.add(books) ;
+                        Books books = booksMapper.selectByExample(booksExamplel).get(0);
+                        booksList.add(books);
                     }
                 }
                 return booksList;
             }
-        }else {
-            if (count/10<pageNum){
-                return  null;
-            }else {
-                PageHelper.startPage(pageNum,10);
-                timeExample=new ListTimeExample();
+        } else {
+            if (count / 10 < pageNum) {
+                return null;
+            } else {
+                PageHelper.startPage(pageNum, 10);
+                timeExample = new ListTimeExample();
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<Books>();
                 BooksExample booksExamplel;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
-                for (ListTime lt:timeList){
-                    if (lt.getStats().equals("amount")){
-                        booksExamplel =new BooksExample();
+                List<ListTime> timeList = timeMapper.selectByExample(timeExample);
+                for (ListTime lt : timeList) {
+                    if (lt.getStats().equals("amount")) {
+                        booksExamplel = new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
-                        Books books= booksMapper.selectByExample(booksExamplel).get(0);
-                        booksList.add(books) ;
+                        Books books = booksMapper.selectByExample(booksExamplel).get(0);
+                        booksList.add(books);
                     }
                 }
                 return booksList;
@@ -390,23 +392,23 @@ public class BookServiceImpl implements BooksService {
 
     @Override
     public void addCX(int id) {
-        ListTimeExample timeExample=new ListTimeExample();
+        ListTimeExample timeExample = new ListTimeExample();
         timeExample.createCriteria().andStatsEqualTo("amount").andBidEqualTo(id);
-        List<ListTime> listTimes=timeMapper.selectByExample(timeExample);
-        Books books=booksMapper.selectByPrimaryKey(id);
+        List<ListTime> listTimes = timeMapper.selectByExample(timeExample);
+        Books books = booksMapper.selectByPrimaryKey(id);
         ListTime listTime;
-        if (dataUtil.timeDay().after(dataUtil.getCurrentMonthStartTime())&&dataUtil.timeDay().before(dataUtil.getCurrentMonthEndTime())) {
+        if (dataUtil.timeDay().after(dataUtil.getCurrentMonthStartTime()) && dataUtil.timeDay().before(dataUtil.getCurrentMonthEndTime())) {
             if (dataUtil.timeDay().after(dataUtil.getCurrentWeekDayStartTime()) && dataUtil.timeDay().before(dataUtil.getCurrentWeekDayEndTime())) {
                 if (listTimes.size() != 0) {
                     listTime = listTimes.get(0);
                     System.out.println(listTime.getStats());
                     System.out.println(123);
                     listTime.setWeekcount(listTime.getWeekcount() + 1);
-                    listTime.setMonthcount(listTime.getMonthcount()+1);
+                    listTime.setMonthcount(listTime.getMonthcount() + 1);
                     timeMapper.updateByPrimaryKey(listTime);
                 } else {
                     System.out.println(456);
-                    books.setNumber(books.getAmount()+1);
+                    books.setNumber(books.getAmount() + 1);
                     booksMapper.updateByPrimaryKey(books);
                     listTime = new ListTime();
                     listTime.setBid(id);
@@ -426,14 +428,14 @@ public class BookServiceImpl implements BooksService {
     @Override//查询通过的所有书籍
     public List<Books> bookAll(int pages, String auditing) {
         PageHelper.startPage(pages, 10);
-        BooksExample booksExample=new BooksExample();
+        BooksExample booksExample = new BooksExample();
         booksExample.createCriteria().andAuditingEqualTo(auditing);
         return booksMapper.selectByExample(booksExample);
     }
 
     @Override//通过书籍的计数
     public Long countBooks(String auditing) {
-        BooksExample booksExample=new BooksExample();
+        BooksExample booksExample = new BooksExample();
         booksExample.createCriteria().andAuditingEqualTo(auditing);
         return booksMapper.countByExample(booksExample);
     }
@@ -445,8 +447,8 @@ public class BookServiceImpl implements BooksService {
 
     @Override//根据书名查询的计数
     public Long countBooksname(String bookname) {
-        BooksExample booksExample=new BooksExample();
-        booksExample.createCriteria().andBookNameLike("%"+bookname+"%").andAuditingEqualTo("审核通过");
+        BooksExample booksExample = new BooksExample();
+        booksExample.createCriteria().andBookNameLike("%" + bookname + "%").andAuditingEqualTo("审核通过");
         return booksMapper.countByExample(booksExample);
     }
 
@@ -454,6 +456,7 @@ public class BookServiceImpl implements BooksService {
     public void authorUpdate(Books books) {
         booksMapper.updateByPrimaryKey(books);
     }
+
     @Override//作者书籍修改
     public boolean bookUpdate(int id, double price, String status) {
         Books books = selectByBookId(id);
@@ -628,16 +631,17 @@ public class BookServiceImpl implements BooksService {
         String imgaddr = addr.substring(0, addr.lastIndexOf("/")) + "/介绍";
         MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) req;
         MultipartFile multipartFile = multipartHttpServletRequest.getFile("img");
+        String[] imgName = addr.split("/");
         try {
             String proPath = new File(ResourceUtils.getURL("classpath:static").getPath()).getAbsolutePath();
             File dir = new File(proPath + imgaddr);
             if (!dir.exists()) {
                 dir.mkdir();
             }
-            File file = new File(proPath + imgaddr, "1.jpg");
+            File file = new File(proPath + imgaddr, imgName[4] + ".jpg");
             multipartFile.transferTo(file);
             //调方法
-            if (uploadImgs(id, "http://www.tf6boy.vip" + imgaddr)) {
+            if (uploadImgs(id, "http://www.tf6boy.vip" + imgaddr + imgName[4] + ".jpg")) {
                 return true;
             }
         } catch (IOException e) {
@@ -647,6 +651,7 @@ public class BookServiceImpl implements BooksService {
         }
         return false;
     }
+
     //作者添加书籍判断
     public List<Books> authorBookYZ(String author, String bookname) {
         BooksExample booksExample = new BooksExample();

@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 public interface BookShelfService {
+
     List<History> BookShelf(Integer uid);
-    Object Recently(Integer uid,Date...dates);
+
+    Object Recently(Integer uid, Date... dates);
 }

@@ -3,7 +3,6 @@ package com.tecode.web.api_v2;
 import com.alibaba.fastjson.JSON;
 import com.tecode.service.BookTypeService;
 import com.tecode.service.BooksService;
-import com.tecode.service.SetionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class AuthorManager {
+
     @Autowired
     private BooksService booksService;
-    @Autowired
-    private SetionService setionService;
     @Autowired
     private BookTypeService bookTypeService;
 
@@ -26,7 +24,7 @@ public class AuthorManager {
     @RequestMapping(value = "/home_page", method = RequestMethod.GET)
     @ResponseBody
     public Object homePageData(String type, int pages) {
-        return JSON.toJSON(booksService.homePageData(type, pages,5));
+        return JSON.toJSON(booksService.homePageData(type, pages, 5));
     }
 
     //作者书籍查询
@@ -81,7 +79,7 @@ public class AuthorManager {
     //上传图片
     @RequestMapping(value = "/uploadimg", method = RequestMethod.POST)
     @ResponseBody
-    public Object uploadImg(HttpServletRequest req, HttpServletResponse res) {
-        return JSON.toJSON(booksService.uploadImg(req, res));
+    public boolean uploadImg(HttpServletRequest req, HttpServletResponse res) {
+        return booksService.uploadImg(req, res);
     }
 }
