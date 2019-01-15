@@ -20,7 +20,7 @@
         </commentGenerator>
 
         <!-- 链接数据库的配置 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://106.13.7.6/test" userId="root" password="root"/>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql:///book" userId="root" password="root"/>
 
         <!-- 关于生成实体类的设置 -->
         <!-- targetPackage 生成代码的目标目录 -->
