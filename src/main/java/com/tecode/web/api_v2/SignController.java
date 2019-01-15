@@ -34,16 +34,16 @@ public class SignController {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date1 = dateFormat.parse(dateFormat.format(date));//当前时间
-        System.out.println(date1);
+//        System.out.println(date1);
         if (user.getDateSign().equals(date1) && user.getDateSign()!= null) {
-            System.out.println("已签到");
+//            System.out.println("已签到");
             list.add(user.getDay());
             list.add(true);
             return true;
         } else {
 //            list.add(user.getDay());
 //            list.add(false);
-            System.out.println("未签到");
+//            System.out.println("未签到");
             return false;
         }
     }
@@ -63,7 +63,7 @@ public class SignController {
         user.setDay(user.getDay() + 1);
         user.setDateSign(date2);
         signimpl.updateById(user);
-        System.out.println(user);
-        System.out.println(date2);
+//        System.out.println(user);
+//        System.out.println(date2);
     }
 }

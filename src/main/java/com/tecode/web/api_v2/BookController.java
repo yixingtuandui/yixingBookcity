@@ -1,7 +1,12 @@
 package com.tecode.web.api_v2;
 
 import com.alibaba.fastjson.JSON;
+import com.tecode.model.Books;
+import com.tecode.model.History;
+import com.tecode.model.User;
+import com.tecode.service.BookShelfService;
 import com.tecode.service.BooksService;
+import com.tecode.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/12/14.
@@ -20,6 +27,10 @@ import java.net.URLConnection;
 public class BookController {
     @Autowired
     private BooksService booksService;
+    @Autowired
+    private BookShelfService bookShelfService;
+    @Autowired
+    private UserService userService;
     //书籍查询
     @RequestMapping(value = "/booksearch", method = RequestMethod.GET)
     @ResponseBody
@@ -43,5 +54,25 @@ public class BookController {
             is.close();
         }
         return JSON.toJSONString(stringBuffer);
+    }
+    @RequestMapping(value = "buybook",method = RequestMethod.POST)
+    @ResponseBody
+    public Object buybook(Integer bid, Integer uids, Date time){
+        History list=bookShelfService.selectByCheck(bid,uids).get(0);
+        User user=userService.findById(uids);
+        Books books=booksService.selectByBookId(bid);
+        System.out.println(list.getBuy().equals("未购买"));
+        if (list.getBuy().equals("未购买")){
+            if(user.getMoney()>=books.getPrice()){
+                user.setMoney(user.getMoney()-books.getPrice());
+                userService.updateById(user);
+                list.setBuy("已购买");
+                bookShelfService.updateByBuy(list);
+                return JSON.toJSONString("购买成功");
+            }else{
+                return JSON.toJSONString("您的余额不足，请充值");
+            }
+        }
+        return JSON.toJSONString("您已购买");
     }
 }

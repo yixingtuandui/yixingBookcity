@@ -5,6 +5,8 @@ public class BookType {
 
     private String typename;
 
+    private String typeimg;
+
     public Integer getTid() {
         return tid;
     }
@@ -19,5 +21,13 @@ public class BookType {
 
     public void setTypename(String typename) {
         this.typename = typename == null ? null : typename.trim();
+    }
+
+    public String getTypeimg() {
+        return typeimg;
+    }
+
+    public void setTypeimg(String typeimg) {
+        this.typeimg = typeimg == null ? null : typeimg.trim();
     }
 }

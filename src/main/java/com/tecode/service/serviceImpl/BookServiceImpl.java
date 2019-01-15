@@ -82,9 +82,8 @@ public class BookServiceImpl implements BooksService {
         BooksExample booksExample=new BooksExample();
         booksExample.createCriteria().andAuthorEqualTo(author);
         if (!type.equals("")) {
-            booksExample.or().andAuthorEqualTo(author).andAuditingLike(type);
-            booksExample.or().andAuthorEqualTo(author).andBookNameLike(type);
-            booksExample.or().andAuthorEqualTo(author).andStatusLike(type);
+            booksExample.or().andAuthorEqualTo(author).andAuditingLike("%"+type+"%");
+            booksExample.or().andAuthorEqualTo(author).andBookNameLike("%"+type+"%");
         }
         return booksMapper.selectByExample(booksExample);
     }

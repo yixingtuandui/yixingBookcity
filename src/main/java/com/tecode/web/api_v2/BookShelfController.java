@@ -31,7 +31,7 @@ public class BookShelfController {
         List list = new ArrayList();
         List<History> history = bookShelf.BookShelf(uid);//根据userID获取history中所有书籍
         for (History history1 : history) {
-            System.out.println(history1);
+//            System.out.println(history1);
             if (history1.getAddbookshelf()) {
                 Object books = bookService.selectByBookId(history1.getBookid());//根据书籍ID查书
                 list.add(books);

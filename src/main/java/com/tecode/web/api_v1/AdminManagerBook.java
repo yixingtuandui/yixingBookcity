@@ -174,6 +174,21 @@ public class AdminManagerBook {
         session.setAttribute("all","booksdeletenew");
         return "manager";
     }
+    //已下架书籍重新上架
+    @RequestMapping(value = "/booksdeletenew_one", method = RequestMethod.GET)
+    public String booksdeletenewone(Integer bid, HttpSession session) {
+        Books books=bookService.selectByBookId(bid);
+        books.setAuditing("审核通过");
+        bookService.deletebooks(books);
+        Integer pageNum=1;
+        Long count=bookService.countBooks("已下架");
+        List<Books> list=bookService.bookAll(pageNum,"已下架");
+        session.setAttribute("count",count);
+        session.setAttribute("pages",pageNum);
+        session.setAttribute("books",list);
+        session.setAttribute("all","booksdeletenew");
+        return "manager";
+    }
     @RequestMapping(value = "/searchbook", method = RequestMethod.POST)
     public String serchbookname(String pageNums,String namesbook, HttpSession session){
         Integer pageNum=Integer.valueOf(pageNums);
@@ -196,7 +211,7 @@ public class AdminManagerBook {
     public String bookstypes(HttpSession session){
         Message message=new Message();
         message.setStatus(true);
-        message.setMasg("搜索书籍结果");
+        message.setMasg("搜索书籍类型结果");
         session.setAttribute("message",message);
         session.setAttribute("types",bookTypeService.findAll());
         session.setAttribute("all","bookstypes");

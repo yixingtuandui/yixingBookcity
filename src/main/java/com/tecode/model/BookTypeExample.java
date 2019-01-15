@@ -233,6 +233,76 @@ public class BookTypeExample {
             addCriterion("typename not between", value1, value2, "typename");
             return (Criteria) this;
         }
+
+        public Criteria andTypeimgIsNull() {
+            addCriterion("typeimg is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgIsNotNull() {
+            addCriterion("typeimg is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgEqualTo(String value) {
+            addCriterion("typeimg =", value, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgNotEqualTo(String value) {
+            addCriterion("typeimg <>", value, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgGreaterThan(String value) {
+            addCriterion("typeimg >", value, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgGreaterThanOrEqualTo(String value) {
+            addCriterion("typeimg >=", value, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgLessThan(String value) {
+            addCriterion("typeimg <", value, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgLessThanOrEqualTo(String value) {
+            addCriterion("typeimg <=", value, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgLike(String value) {
+            addCriterion("typeimg like", value, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgNotLike(String value) {
+            addCriterion("typeimg not like", value, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgIn(List<String> values) {
+            addCriterion("typeimg in", values, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgNotIn(List<String> values) {
+            addCriterion("typeimg not in", values, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgBetween(String value1, String value2) {
+            addCriterion("typeimg between", value1, value2, "typeimg");
+            return (Criteria) this;
+        }
+
+        public Criteria andTypeimgNotBetween(String value1, String value2) {
+            addCriterion("typeimg not between", value1, value2, "typeimg");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

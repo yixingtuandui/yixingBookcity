@@ -18,7 +18,7 @@ public class UserController {
     @RequestMapping("userLogin")
     @ResponseBody
     public Object userLogin(String username, String sex, String avater, Date date_reg){
-        System.out.println(username);
+//        System.out.println(username);
         User us=new User();
         List<User> user= userService.findByUsername(username);
         int sexs=Integer.valueOf(sex);

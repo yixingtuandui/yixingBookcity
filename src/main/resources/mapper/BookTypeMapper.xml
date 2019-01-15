@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.tecode.model.BookType">
     <id column="tid" jdbcType="INTEGER" property="tid" />
     <result column="typename" jdbcType="VARCHAR" property="typename" />
+    <result column="typeimg" jdbcType="VARCHAR" property="typeimg" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    tid, typename
+    tid, typename, typeimg
   </sql>
   <select id="selectByExample" parameterType="com.tecode.model.BookTypeExample" resultMap="BaseResultMap">
     select
@@ -97,8 +98,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.tecode.model.BookType">
-    insert into book_type (tid, typename)
-    values (#{tid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR})
+    insert into book_type (tid, typename, typeimg
+      )
+    values (#{tid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{typeimg,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.tecode.model.BookType">
     insert into book_type
@@ -109,6 +112,9 @@
       <if test="typename != null">
         typename,
       </if>
+      <if test="typeimg != null">
+        typeimg,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="tid != null">
@@ -116,6 +122,9 @@
       </if>
       <if test="typename != null">
         #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="typeimg != null">
+        #{typeimg,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +143,9 @@
       <if test="record.typename != null">
         typename = #{record.typename,jdbcType=VARCHAR},
       </if>
+      <if test="record.typeimg != null">
+        typeimg = #{record.typeimg,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -142,7 +154,8 @@
   <update id="updateByExample" parameterType="map">
     update book_type
     set tid = #{record.tid,jdbcType=INTEGER},
-      typename = #{record.typename,jdbcType=VARCHAR}
+      typename = #{record.typename,jdbcType=VARCHAR},
+      typeimg = #{record.typeimg,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -153,12 +166,16 @@
       <if test="typename != null">
         typename = #{typename,jdbcType=VARCHAR},
       </if>
+      <if test="typeimg != null">
+        typeimg = #{typeimg,jdbcType=VARCHAR},
+      </if>
     </set>
     where tid = #{tid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tecode.model.BookType">
     update book_type
-    set typename = #{typename,jdbcType=VARCHAR}
+    set typename = #{typename,jdbcType=VARCHAR},
+      typeimg = #{typeimg,jdbcType=VARCHAR}
     where tid = #{tid,jdbcType=INTEGER}
   </update>
 </mapper>

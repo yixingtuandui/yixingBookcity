@@ -14,18 +14,31 @@ import java.util.List;
 public class BookShelfImpl implements BookShelfService {
     @Autowired
     private HistoryMapper historyMapper;
-    private HistoryExample historyExample=new HistoryExample();
     //根据用户id查询记录
     @Override
     public List<History> BookShelf(Integer uid) {
+        HistoryExample historyExample=new HistoryExample();
         historyExample.createCriteria().andUidEqualTo(uid);
         return historyMapper.selectByExample(historyExample);
     }
 
     @Override
     public List<History> Recently(Integer uid,Date... dates) {
+        HistoryExample historyExample=new HistoryExample();
         historyExample.createCriteria().andUidEqualTo(uid).andReadingTimeBetween(dates[0],dates[1]);
         return historyMapper.selectByExample(historyExample);
+    }
+
+    @Override
+    public List<History> selectByCheck(Integer bid, Integer uid) {
+        HistoryExample historyExample=new HistoryExample();
+        historyExample.createCriteria().andUidEqualTo(uid).andBookidEqualTo(bid);
+        return historyMapper.selectByExample(historyExample);
+    }
+
+    @Override
+    public void updateByBuy(History history) {
+        historyMapper.updateByPrimaryKey(history);
     }
 
 

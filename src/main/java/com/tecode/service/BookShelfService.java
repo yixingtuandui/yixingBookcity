@@ -8,4 +8,6 @@ import java.util.List;
 public interface BookShelfService {
     List<History> BookShelf(Integer uid);
     Object Recently(Integer uid,Date...dates);
+    List<History> selectByCheck(Integer bid,Integer uid);
+    void updateByBuy(History history);
 }
