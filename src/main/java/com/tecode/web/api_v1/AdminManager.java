@@ -80,7 +80,7 @@ public class AdminManager {
         return "redirect:/index";
     }
     //返回登录页面
-    @RequestMapping(value = {"/index","","/"})
+    @RequestMapping(value = {"index","","/"})
     public String firstpage(){
         return "index";
     }
