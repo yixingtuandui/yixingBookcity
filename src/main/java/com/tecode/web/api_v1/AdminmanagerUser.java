@@ -36,24 +36,24 @@ public class AdminmanagerUser {
         session.setAttribute("all","userall");
         return "manager";
     }
-    @RequestMapping("/member")//查看所有会员
-    public String allUsermember(Integer pageNum, HttpSession session){
-        Long count=userimpl.countPage("会员");
-        List<User> user= userimpl.findByRole(pageNum,pageSize,"会员");
-        if (pageNum<1){ pageNum=1; };
-        if (pageNum>count/10){pageNum=pageNum-1; };
-        Message message=new Message();
-        message.setStatus(true);
-        message.setMasg("所有会员");
-        session.removeAttribute("books");
-        session.removeAttribute("book");
-        session.setAttribute("message",message);
-        session.setAttribute("member",count);
-        session.setAttribute("users",user);
-        session.setAttribute("pages",pageNum);
-        session.setAttribute("all","member");
-        return "manager";
-    }
+//    @RequestMapping("/member")//查看所有会员
+//    public String allUsermember(Integer pageNum, HttpSession session){
+//        Long count=userimpl.countPage("会员");
+//        List<User> user= userimpl.findByRole(pageNum,pageSize,"会员");
+//        if (pageNum<1){ pageNum=1; };
+//        if (pageNum>count/10){pageNum=pageNum-1; };
+//        Message message=new Message();
+//        message.setStatus(true);
+//        message.setMasg("所有会员");
+//        session.removeAttribute("books");
+//        session.removeAttribute("book");
+//        session.setAttribute("message",message);
+//        session.setAttribute("member",count);
+//        session.setAttribute("users",user);
+//        session.setAttribute("pages",pageNum);
+//        session.setAttribute("all","member");
+//        return "manager";
+//    }
     @RequestMapping("/author")//查看所有作者
     public String allUserauthor(Integer pageNum, HttpSession session){
         Long count=userimpl.countPage("作者");
@@ -75,7 +75,7 @@ public class AdminmanagerUser {
     @RequestMapping("/authorOut")//撤销作者权限
     public String authorOut(int bid, HttpSession session){
         User users=userimpl.findById(bid);
-        users.setRole("会员");
+        users.setRole("普通用户");
         userimpl.updateById(users);
         Integer pageNum=1;
         Long count=userimpl.countPage("作者");
@@ -151,6 +151,7 @@ public class AdminmanagerUser {
         session.setAttribute("all","authorcheck");
         return "manager";
     }
+    //根据作者进行搜索
     @RequestMapping(value = "/searchuser", method = RequestMethod.POST)
     public String serchbookname(String pageNums,String namesbook, HttpSession session){
         Integer pageNum=Integer.valueOf(pageNums);
@@ -164,7 +165,7 @@ public class AdminmanagerUser {
         session.setAttribute("message",message);
         session.setAttribute("usercount",count);
         session.setAttribute("pages",pageNum);
-        session.setAttribute("books",list);
+        session.setAttribute("users",list);
         session.setAttribute("names",namesbook);
         session.setAttribute("all","searchuser");
         return "manager";

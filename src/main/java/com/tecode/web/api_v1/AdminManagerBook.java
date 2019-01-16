@@ -217,4 +217,24 @@ public class AdminManagerBook {
         session.setAttribute("all","bookstypes");
         return "manager";
     }
+    @RequestMapping(value = "searchorders",method = RequestMethod.POST)
+    public String searchorders(String comm,HttpSession session){
+        Integer pageNums= (Integer) session.getAttribute("pages");
+        String namesbook= (String) session.getAttribute("names");
+        Integer pageNum=Integer.valueOf(pageNums);
+        Long count=bookService.countBooksname(namesbook);
+        List<Books> list=bookService.selectByBookname(pageNum,namesbook);
+        if (pageNum<1){ pageNum=1; };
+        if (pageNum>count/10){pageNum=pageNum-1; };
+        Message message=new Message();
+        message.setStatus(true);
+        message.setMasg("搜索书籍结果");
+        session.setAttribute("message",message);
+        session.setAttribute("searchcount",count);
+        session.setAttribute("pages",pageNum);
+        session.setAttribute("books",list);
+        session.setAttribute("names",namesbook);
+        session.setAttribute("all","searchbook");
+        return "manager";
+    }
 }

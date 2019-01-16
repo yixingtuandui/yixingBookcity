@@ -1,7 +1,29 @@
 body {
 	background: url(../images/bg.png) repeat-y;
 }
+#btn{    margin-left: -2px;
+	background-color: #af78aea3;}
+#files{width: 70px}
+.arrow {
+	display: inline-block;
+	vertical-align: middle;
+	width: 5px;
+	height: 0;
+	margin-left: 5px;
+	opacity: 0.66;
+}
 
+.arrow.asc {
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-bottom: 4px solid #af2020;
+}
+
+.arrow.desc {
+	border-left: 4px solid transparent;
+	border-right: 4px solid transparent;
+	border-top: 4px solid #af2020;
+}
 .container {
 	background-color: #120935a3;
 	margin-top: 30px;

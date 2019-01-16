@@ -1,9 +1,12 @@
 package com.tecode.web.api_v2;
 
 import com.alibaba.fastjson.JSON;
+import com.tecode.model.Books;
 import com.tecode.model.History;
+import com.tecode.model.User;
 import com.tecode.service.serviceImpl.BookServiceImpl;
 import com.tecode.service.serviceImpl.BookShelfImpl;
+import com.tecode.service.serviceImpl.UserImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +26,8 @@ public class BookShelfController {
     private BookShelfImpl bookShelf;
     @Autowired
     private BookServiceImpl bookService;
+    @Autowired
+    private UserImpl user;
 
     // 书架 (显示添加到书架的书)
     @RequestMapping(value = "/bookshelf", method = RequestMethod.POST)
@@ -33,13 +38,45 @@ public class BookShelfController {
         for (History history1 : history) {
 //            System.out.println(history1);
             if (history1.getAddbookshelf()) {
-                Object books = bookService.selectByBookId(history1.getBookid());//根据书籍ID查书
+                Books books = bookService.selectByBookId(history1.getBookid());//根据书籍ID查书
+                if(books.getAuditing().equals("已下架")){
+                    continue;
+                }
                 list.add(books);
             }
         }
         return JSON.toJSON(list);
     }
+    //添加书籍到书架
+    @RequestMapping(value = "/addshelf",method = RequestMethod.POST)
+    @ResponseBody//返回数据
+    private Object addBookShelf(String name,Integer bookid){
+        System.out.println(name);
+        System.out.println(bookid);
 
+        User user1=  user.findByUsername(name).get(0);
+        History history= bookShelf.ByHistory(bookid,user1.getId()).get(0);
+        if(!history.getAddbookshelf()){
+            history.setAddbookshelf(true);
+            bookShelf.updateById(history);
+            return true;
+        }
+//        System.out.println(history);
+
+        System.out.println("进");
+        return false;
+    }
+    //删除书架书籍
+    @ResponseBody
+    @RequestMapping(value = "deletebook",method = RequestMethod.POST)
+    public Object deletebook(String name,Integer bookid){
+        System.out.println("删除");
+        User user1=  user.findByUsername(name).get(0);
+        History history=bookShelf.ByHistory(bookid,user1.getId()).get(0);
+        history.setAddbookshelf(false);
+        bookShelf.updateById(history);
+        return BookShelf(user1.getId());
+    }
     // 最近阅读 (只显示最近一周的书)
     @RequestMapping(value = "/recently", method = RequestMethod.POST)
     @ResponseBody
@@ -74,5 +111,31 @@ public class BookShelfController {
             }
         }
         return JSON.toJSON(list);
+    }
+    //添加阅读记录
+    @RequestMapping(value = "/addrecently",method = RequestMethod.POST)
+    @ResponseBody
+    private void addRecently(String uname,Integer bookid) throws ParseException {
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = dateFormat.parse(dateFormat.format(date));//当前时间
+        User user1=  user.findByUsername(uname).get(0);
+        //判断是否存在
+        if(bookShelf.ByHistory(bookid,user1.getId()).size()!=0){
+            for (History history1:bookShelf.ByHistory(bookid,user1.getId())){
+                history1.setReadingTime(date1);
+                bookShelf.updateById(history1);
+            }
+        }else {
+            History history= new History();
+            history.setAddbookshelf(false);
+            history.setBookid(bookid);
+            history.setBuy("未购买");
+            history.setReadingTime(date1);
+            history.setUid(user1.getId());
+            bookShelf.addRecently(history);
+            System.out.println("添加阅读记录成功");
+        }
+
     }
 }

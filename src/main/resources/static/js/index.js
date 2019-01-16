@@ -6,20 +6,21 @@ $(document).ready(function(){
             data:{"username":$("#exampleInputUsername1").val()},
             dataType:'json',
             success:function(data){
-                if(data.status){
-                    $(".key1").css("background","url(../images/right.png) no-repeat 235px 27px;");
+                if(data){
+                    $(".key1").attr("style","background:url(../images/right.png) no-repeat 390px 60px;");
                 }else{
-                    $(".key1").css("background","url(../images/pass.png) no-repeat 235px 27px;");
+                    console.log($(".key1"))
+                    $(".key1").attr("style","background:url(../images/pass.png) no-repeat 390px 60px;");
                 }
             }
         })
     })
-    $("#exampleInputUsername1").blur(function(){
+    $("#exampleInputUsername2").blur(function(){
         var reg=/^(?![\\d]+$)(?![a-zA-Z]+$)(?![^\\da-zA-Z]+$).{6,20}$/;
         if(reg.test($("#exampleInputUsername2").val())){
-            $(".key2").css("background","url(../images/right.png) no-repeat 224px 30px;");
+            $(".key2").attr("style","background:url(../images/right.png) no-repeat 390px 30px;");
         }else{
-            $(".key2").css("background","url(../images/pass.png) no-repeat 224px 30px;");
+            $(".key2").attr("style","background:url(../images/pass.png) no-repeat 390px 30px;");
         }
     })
 })

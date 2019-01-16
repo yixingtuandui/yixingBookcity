@@ -9,9 +9,10 @@ import java.util.List;
 public interface BooksService {
 
     List<Books> selectByAuthor(String author);
-
+    //根据书名获取xinx
     List<Books> selectByBookname(Integer pages, String name);
-
+    //根据书名获取信息并排序
+    List<Books> selectByBooknameOrder(Integer pages, String name,String comds);
     Books selectByBookId(Integer id);
 
     //首页查询

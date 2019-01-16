@@ -52,6 +52,15 @@ public class BookServiceImpl implements BooksService {
         return booksMapper.selectByExample(booksExample);
     }
 
+    @Override
+    public List<Books> selectByBooknameOrder(Integer pages, String name, String comds) {
+        PageHelper.startPage(pages, 10);
+        BooksExample booksExample=new BooksExample();
+        booksExample.createCriteria().andAuditingEqualTo("审核通过").andBookNameLike("%"+name+"%");
+        booksExample.setOrderByClause(comds+" desc");
+        return booksMapper.selectByExample(booksExample);
+    }
+
 
     @Override//根据id查询书籍
     public Books selectByBookId(Integer id) {
