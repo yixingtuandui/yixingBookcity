@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -65,8 +66,8 @@ public class AdminManager {
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("pages",1);
+        session.setAttribute("total",1);
         session.setAttribute("nomal",userimpl.countPage("普通用户"));
-        session.setAttribute("member",userimpl.countPage("会员"));
         session.setAttribute("author",userimpl.countPage("作者"));
         session.setAttribute("booknumber",bookService.countBooks("审核通过"));
         session.setAttribute("book",bookService.homePageData("排行",pages,10));
@@ -80,7 +81,7 @@ public class AdminManager {
         return "redirect:/index";
     }
     //返回登录页面
-    @RequestMapping(value = {"index","","/"})
+    @RequestMapping(value = {"index","","/"}, method = RequestMethod.GET)
     public String firstpage(){
         return "index";
     }

@@ -6,6 +6,7 @@ import com.tecode.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
@@ -36,5 +37,11 @@ public class UserController {
             return JSON.toJSON(us);
         }
         return JSON.toJSON(user);
+    }
+    //成为作者
+    @RequestMapping(value = "/applyauthor", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean applyAuthor(int id){
+        return userService.applyAuthor(id);
     }
 }

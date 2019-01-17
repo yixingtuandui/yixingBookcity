@@ -17,10 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -40,10 +37,10 @@ public class BookServiceImpl implements BooksService {
     @Override
     public List<Books> selectByAuthor(String author) {//根据作者查询书籍
         BooksExample booksExample=new BooksExample();
-        booksExample.createCriteria().andAuditingLike(author);
+        booksExample.createCriteria().andAuditingLike("%"+author+"%");
         return booksMapper.selectByExample(booksExample);
     }
-
+    //根据书名进行模糊查询
     @Override
     public List<Books> selectByBookname(Integer pages, String name) {
         PageHelper.startPage(pages, 10);
@@ -51,7 +48,7 @@ public class BookServiceImpl implements BooksService {
         booksExample.createCriteria().andAuditingEqualTo("审核通过").andBookNameLike("%"+name+"%");
         return booksMapper.selectByExample(booksExample);
     }
-
+    //对书籍查询进行排序
     @Override
     public List<Books> selectByBooknameOrder(Integer pages, String name, String comds) {
         PageHelper.startPage(pages, 10);
@@ -64,6 +61,49 @@ public class BookServiceImpl implements BooksService {
 
     @Override//根据id查询书籍
     public Books selectByBookId(Integer id) {
+        int weekcount=1;
+        int monthcount=1;
+        ListTimeExample timeExample=new ListTimeExample();
+        timeExample.createCriteria().andBidEqualTo(id).andStatsEqualTo("number");
+        List<ListTime> listTimes=timeMapper.selectByExample(timeExample);
+        Books books=booksMapper.selectByPrimaryKey(id);
+        if (dataUtil.timeDay().after(dataUtil.getCurrentMonthStartTime())&&dataUtil.timeDay().before(dataUtil.getCurrentMonthEndTime())) {
+            if (dataUtil.timeDay().after(dataUtil.getCurrentWeekDayStartTime()) && dataUtil.timeDay().before(dataUtil.getCurrentWeekDayEndTime())) {
+                books.setNumber(books.getNumber() + monthcount);
+                booksMapper.updateByPrimaryKey(books);
+                if (listTimes.size() != 0) {
+                    for (ListTime listTime : listTimes) {
+                        if (listTime.getBid() == id && listTime.getMonthstarttime().equals(dataUtil.getCurrentMonthStartTime()) && listTime.getMonthendtime().equals(dataUtil.getCurrentMonthEndTime())) {
+                            if(listTime.getMonthcount()!=null){
+                                listTime.setMonthcount(listTime.getMonthcount() + 1);
+                                timeMapper.updateByPrimaryKey(listTime);
+                            }
+                            if (listTime.getBid() == id && listTime.getWeekstarttime().equals(dataUtil.getCurrentWeekDayStartTime()) && listTime.getWeekendtime().equals(dataUtil.getCurrentWeekDayEndTime())) {
+                                listTime.setWeekcount(listTime.getWeekcount() + 1);
+                                timeMapper.updateByPrimaryKey(listTime);
+                            }else {
+                                listTime.setWeekendtime(dataUtil.getCurrentWeekDayEndTime());
+                                listTime.setWeekstarttime(dataUtil.getCurrentWeekDayStartTime());
+                                listTime.setWeekcount(weekcount);
+                                timeMapper.updateByPrimaryKey(listTime);
+                            }
+                        }
+                    }
+                }else {
+                    System.out.println(123);
+                    ListTime listTime1 = new ListTime();
+                    listTime1.setBid(id);
+                    listTime1.setWeekendtime(dataUtil.getCurrentWeekDayEndTime());
+                    listTime1.setWeekstarttime(dataUtil.getCurrentWeekDayStartTime());
+                    listTime1.setMonthstarttime(dataUtil.getCurrentMonthStartTime());
+                    listTime1.setMonthendtime(dataUtil.getCurrentMonthEndTime());
+                    listTime1.setStats("number");
+                    listTime1.setMonthcount(monthcount);
+                    listTime1.setWeekcount(weekcount);
+                    timeMapper.insert(listTime1);
+                }
+            }
+        }
         return booksMapper.selectByPrimaryKey(id);
     }
 
@@ -80,8 +120,9 @@ public class BookServiceImpl implements BooksService {
                 booksExample.createCriteria().andAuditingEqualTo("审核通过");
                 booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
-            default:
+            default://男、女类型书籍
                 booksExample.createCriteria().andAuditingEqualTo("审核通过").andKindsEqualTo(type);
+                booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
         }
     }
@@ -123,41 +164,43 @@ public class BookServiceImpl implements BooksService {
         }
     }
 
-    @Override//根据类型查询
-    public List<Books> selectByType(Integer type,int pageNum) {
+    @Override
+    public List<Books> selectByType(Integer type, int pageNum) {
+        BooksExample booksExamples=new BooksExample();
         PageHelper.startPage(pageNum,10);
-        BooksExample booksExample=new BooksExample();
-        booksExample.createCriteria().andTypeEqualTo(type);
-        booksExample.createCriteria().andAuditingEqualTo("审核通过");
-        long county=booksMapper.countByExample(booksExample);
+        booksExamples.createCriteria().andAuditingEqualTo("审核通过").andTypeEqualTo(type);
+//        booksExamples.createCriteria().andTypeEqualTo(type);
+        long county=booksMapper.countByExample(booksExamples);
         if(county%10==0){
             if(county/10<pageNum){
                 return null;
             }else {
-                System.out.println(booksMapper.selectByExample(booksExample));
-                return booksMapper.selectByExample(booksExample);
+                return booksMapper.selectByExample(booksExamples);
             }
         }else {
             System.out.println(3);
             if(county/10+1<pageNum){
                 return null;
             }else {
-                return booksMapper.selectByExample(booksExample);
+                return booksMapper.selectByExample(booksExamples);
             }
         }
     }
 
-    @Override//根据点击量查询
+    @Override
     public List<Books> selectByNumber(int pageNum) {
-        BooksExample booksExamplel=new BooksExample();
-        booksExamplel.setOrderByClause("number desc");
-        long count=booksMapper.countByExample(booksExamplel);
+        BooksExample booksExample = new BooksExample();
+        booksExample.createCriteria().andAuditingEqualTo("审核通过");
+        booksExample.setOrderByClause("number desc");
+//        List<Books> list=booksMapper.selectByExample(booksExamplel);
+        long count=booksMapper.countByExample(booksExample);
         if(count%10==0){
             if(count/10<pageNum){
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
-                BooksExample booksExample=new BooksExample();
+                booksExample=new BooksExample();
+                booksExample.createCriteria().andAuditingEqualTo("审核通过");
                 booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
             }
@@ -167,24 +210,27 @@ public class BookServiceImpl implements BooksService {
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
-                BooksExample booksExample=new BooksExample();
+                booksExample=new BooksExample();
+                booksExample.createCriteria().andAuditingEqualTo("审核通过");
                 booksExample.setOrderByClause("number desc");
                 return booksMapper.selectByExample(booksExample);
             }
         }
     }
 
-    @Override//根据购买量查询
+    @Override
     public List<Books> selectByAmount(int pageNum) {
-        BooksExample booksExamplels=new BooksExample();
-        booksExamplels.setOrderByClause("amount desc");
-        long counts=booksMapper.countByExample(booksExamplels);
+        BooksExample booksExample = new BooksExample();
+        booksExample.createCriteria().andAuditingEqualTo("审核通过");
+        booksExample.setOrderByClause("amount desc");
+        long counts=booksMapper.countByExample(booksExample);
         if(counts%10==0){
             if(counts/10<pageNum){
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
-                BooksExample booksExample=new BooksExample();
+                booksExample=new BooksExample();
+                booksExample.createCriteria().andAuditingEqualTo("审核通过");
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
             }
@@ -194,7 +240,8 @@ public class BookServiceImpl implements BooksService {
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
-                BooksExample booksExample=new BooksExample();
+                booksExample=new BooksExample();
+                booksExample.createCriteria().andAuditingEqualTo("审核通过");
                 booksExample.setOrderByClause("amount desc");
                 return booksMapper.selectByExample(booksExample);
             }
@@ -204,16 +251,19 @@ public class BookServiceImpl implements BooksService {
 
     @Override
     public List<Books> selectByMonthNumber(int pageNum) {
+        System.out.println("month"+pageNum);
         ListTimeExample timeExample=new ListTimeExample();
+        timeExample.createCriteria().andMonthstarttimeEqualTo(dataUtil.getCurrentMonthStartTime()).andMonthendtimeEqualTo(dataUtil.getCurrentMonthEndTime());
         timeExample.setOrderByClause("monthcount desc");
         long count=timeMapper.countByExample(timeExample);
-        if(count/10==0){
+        if(count%10==0){
             System.out.println(count/10<pageNum);
-            if(count/10+1<pageNum){
+            if(count/10<pageNum){
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
                 timeExample=new ListTimeExample();
+                timeExample.createCriteria().andMonthstarttimeEqualTo(dataUtil.getCurrentMonthStartTime()).andMonthendtimeEqualTo(dataUtil.getCurrentMonthEndTime());
                 timeExample.setOrderByClause("monthcount desc");
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
@@ -229,11 +279,12 @@ public class BookServiceImpl implements BooksService {
             }
         }else {
             System.out.println(count/10<pageNum);
-            if(count/10<pageNum){
+            if(count/10+1<pageNum){
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
                 timeExample=new ListTimeExample();
+                timeExample.createCriteria().andMonthstarttimeEqualTo(dataUtil.getCurrentMonthStartTime()).andMonthendtimeEqualTo(dataUtil.getCurrentMonthEndTime());
                 timeExample.setOrderByClause("monthcount desc");
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
@@ -248,25 +299,28 @@ public class BookServiceImpl implements BooksService {
                 return booksLists;
             }
         }
-    }
 
+    }
+    //    畅销 月榜
     @Override
     public List<Books> selectByMonthAmount(int pageNum) {
         ListTimeExample timeExample=new ListTimeExample();
+        timeExample.createCriteria().andMonthstarttimeEqualTo(dataUtil.getCurrentMonthStartTime()).andMonthendtimeEqualTo(dataUtil.getCurrentMonthEndTime());
         timeExample.setOrderByClause("monthcount desc");
         long count=timeMapper.countByExample(timeExample);
-        if(count/10==0){
-            System.out.println(count/10<pageNum);
-            if(count/10+1<pageNum){
+        if(count%10==0){
+            if(count/10<pageNum){
                 return null;
             }else {
-                PageHelper.startPage(pageNum,10);
                 timeExample=new ListTimeExample();
+                PageHelper.startPage(pageNum,10);
+                timeExample.createCriteria().andMonthstarttimeEqualTo(dataUtil.getCurrentMonthStartTime()).andMonthendtimeEqualTo(dataUtil.getCurrentMonthEndTime());
                 timeExample.setOrderByClause("monthcount desc");
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
+                    System.out.println(lt);
                     if (lt.getStats().equals("amount")){
                         booksExamplels =new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
@@ -276,21 +330,22 @@ public class BookServiceImpl implements BooksService {
                 return booksLists;
             }
         }else {
-            System.out.println(count/10<pageNum);
-            if(count/10<pageNum){
+            if(count/10+1<pageNum){
                 return null;
             }else {
-                PageHelper.startPage(pageNum,10);
                 timeExample=new ListTimeExample();
+                PageHelper.startPage(pageNum,10);
+                timeExample.createCriteria().andMonthstarttimeEqualTo(dataUtil.getCurrentMonthStartTime()).andMonthendtimeEqualTo(dataUtil.getCurrentMonthEndTime());
                 timeExample.setOrderByClause("monthcount desc");
+                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
+                System.out.println(timeList.size());
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
-                List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
                     if (lt.getStats().equals("amount")){
                         booksExamplels =new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
-                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0)) ;
+                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0));
                     }
                 }
                 return booksLists;
@@ -302,14 +357,16 @@ public class BookServiceImpl implements BooksService {
     public List<Books> selectByWeekNumber(int pageNum) {
         PageHelper.startPage(pageNum,10);
         ListTimeExample timeExample=new ListTimeExample();
+        timeExample.createCriteria().andWeekstarttimeEqualTo(dataUtil.getCurrentWeekDayStartTime()).andWeekendtimeEqualTo(dataUtil.getCurrentWeekDayEndTime());
         timeExample.setOrderByClause("weekcount desc");
         long count=timeMapper.countByExample(timeExample);
-        if(count/10==0){
-            if(count/10+1<pageNum){
+        if(count%10==0){
+            if(count/10<pageNum){
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
                 timeExample=new ListTimeExample();
+                timeExample.createCriteria().andWeekstarttimeEqualTo(dataUtil.getCurrentWeekDayStartTime()).andWeekendtimeEqualTo(dataUtil.getCurrentWeekDayEndTime());
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<Books>();
                 BooksExample booksExamplel;
@@ -325,11 +382,12 @@ public class BookServiceImpl implements BooksService {
                 return booksList;
             }
         }else {
-            if (count/10<pageNum){
+            if (count/10+1<pageNum){
                 return  null;
             }else {
                 PageHelper.startPage(pageNum,10);
                 timeExample=new ListTimeExample();
+                timeExample.createCriteria().andWeekstarttimeEqualTo(dataUtil.getCurrentWeekDayStartTime()).andWeekendtimeEqualTo(dataUtil.getCurrentWeekDayEndTime());
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<Books>();
                 BooksExample booksExamplel;
@@ -345,20 +403,23 @@ public class BookServiceImpl implements BooksService {
                 return booksList;
             }
         }
-    }
 
+    }
+    //    畅销 周榜
     @Override
     public List<Books> selectByWeekAmount(int pageNum) {
         PageHelper.startPage(pageNum,10);
         ListTimeExample timeExample=new ListTimeExample();
+        timeExample.createCriteria().andWeekstarttimeEqualTo(dataUtil.getCurrentWeekDayStartTime()).andWeekendtimeEqualTo(dataUtil.getCurrentWeekDayEndTime());
         timeExample.setOrderByClause("weekcount desc");
         long count=timeMapper.countByExample(timeExample);
-        if(count/10==0){
-            if(count/10+1<pageNum){
+        if(count%10==0){
+            if(count/10<pageNum){
                 return null;
             }else {
                 PageHelper.startPage(pageNum,10);
                 timeExample=new ListTimeExample();
+                timeExample.createCriteria().andWeekstarttimeEqualTo(dataUtil.getCurrentWeekDayStartTime()).andWeekendtimeEqualTo(dataUtil.getCurrentWeekDayEndTime());
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<Books>();
                 BooksExample booksExamplel;
@@ -374,11 +435,12 @@ public class BookServiceImpl implements BooksService {
                 return booksList;
             }
         }else {
-            if (count/10<pageNum){
+            if (count/10+1<pageNum){
                 return  null;
             }else {
                 PageHelper.startPage(pageNum,10);
                 timeExample=new ListTimeExample();
+                timeExample.createCriteria().andWeekstarttimeEqualTo(dataUtil.getCurrentWeekDayStartTime()).andWeekendtimeEqualTo(dataUtil.getCurrentWeekDayEndTime());
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<Books>();
                 BooksExample booksExamplel;
@@ -402,40 +464,51 @@ public class BookServiceImpl implements BooksService {
         timeExample.createCriteria().andStatsEqualTo("amount").andBidEqualTo(id);
         List<ListTime> listTimes=timeMapper.selectByExample(timeExample);
         Books books=booksMapper.selectByPrimaryKey(id);
-        ListTime listTime;
         if (dataUtil.timeDay().after(dataUtil.getCurrentMonthStartTime())&&dataUtil.timeDay().before(dataUtil.getCurrentMonthEndTime())) {
             if (dataUtil.timeDay().after(dataUtil.getCurrentWeekDayStartTime()) && dataUtil.timeDay().before(dataUtil.getCurrentWeekDayEndTime())) {
-                if (listTimes.size() != 0) {
-                    listTime = listTimes.get(0);
-                    System.out.println(listTime.getStats());
-                    System.out.println(123);
-                    listTime.setWeekcount(listTime.getWeekcount() + 1);
-                    listTime.setMonthcount(listTime.getMonthcount()+1);
-                    timeMapper.updateByPrimaryKey(listTime);
-                } else {
-                    System.out.println(456);
-                    books.setNumber(books.getAmount()+1);
-                    booksMapper.updateByPrimaryKey(books);
-                    listTime = new ListTime();
-                    listTime.setBid(id);
-                    listTime.setWeekendtime(dataUtil.getCurrentWeekDayEndTime());
-                    listTime.setWeekstarttime(dataUtil.getCurrentWeekDayStartTime());
-                    listTime.setMonthstarttime(dataUtil.getCurrentMonthStartTime());
-                    listTime.setMonthendtime(dataUtil.getCurrentMonthEndTime());
-                    listTime.setStats("amount");
-                    listTime.setMonthcount(1);
-                    listTime.setWeekcount(1);
-                    timeMapper.insert(listTime);
+                books.setNumber(books.getAmount()+1);
+                booksMapper.updateByPrimaryKey(books);
+                if(listTimes.size()!=0) {
+                    for (ListTime listTime : listTimes) {
+                        if (listTime.getBid() == id && listTime.getMonthstarttime().equals(dataUtil.getCurrentMonthStartTime()) && listTime.getMonthendtime().equals(dataUtil.getCurrentMonthEndTime())) {
+                            if (listTime.getMonthcount()!=null){
+                                listTime.setMonthcount(listTime.getMonthcount() + 1);
+                                timeMapper.updateByPrimaryKey(listTime);
+                            }
+                            if (listTime.getBid() == id && listTime.getWeekstarttime().equals(dataUtil.getCurrentWeekDayStartTime()) && listTime.getWeekendtime().equals(dataUtil.getCurrentWeekDayEndTime())) {
+                                listTime.setWeekcount(listTime.getWeekcount() + 1);
+                                timeMapper.updateByPrimaryKey(listTime);
+                            }else {
+                                listTime.setWeekendtime(dataUtil.getCurrentWeekDayEndTime());
+                                listTime.setWeekstarttime(dataUtil.getCurrentWeekDayStartTime());
+                                listTime.setWeekcount(1);
+                                timeMapper.updateByPrimaryKey(listTime);
+                            }
+                        }
+                    }
+                }else {
+                    ListTime listTime1 = new ListTime();
+                    listTime1.setBid(id);
+                    listTime1.setWeekendtime(dataUtil.getCurrentWeekDayEndTime());
+                    listTime1.setWeekstarttime(dataUtil.getCurrentWeekDayStartTime());
+                    listTime1.setMonthstarttime(dataUtil.getCurrentMonthStartTime());
+                    listTime1.setMonthendtime(dataUtil.getCurrentMonthEndTime());
+                    listTime1.setStats("amount");
+                    listTime1.setMonthcount(1);
+                    listTime1.setWeekcount(1);
+                    timeMapper.insert(listTime1);
                 }
             }
         }
+
     }
 
     @Override//查询通过的所有书籍
-    public List<Books> bookAll(int pages, String auditing) {
+    public List<Books> bookAll(int pages, String auditing,String orders) {
         PageHelper.startPage(pages, 10);
         BooksExample booksExample=new BooksExample();
         booksExample.createCriteria().andAuditingEqualTo(auditing);
+        booksExample.setOrderByClause(orders);
         return booksMapper.selectByExample(booksExample);
     }
 
@@ -655,6 +728,65 @@ public class BookServiceImpl implements BooksService {
         }
         return false;
     }
+    @Override//作者删除书籍
+    public boolean bookRemove(int id, String addr) {
+        if (booksMapper.deleteByPrimaryKey(id) > 0) {
+            if (setionService.chapterRemove(id)) {
+                Matcher matcher = Pattern.compile("/").matcher(addr);
+                int index = 0;
+                while (matcher.find()) {
+                    index++;
+                    if (index == 3)
+                        break;
+                }
+                try {
+                    //书籍地址
+                    String proPath = new File(ResourceUtils.getURL("classpath:static")
+                            .getPath()).getAbsolutePath() + addr.substring(matcher.start(), addr.lastIndexOf("/"));
+                    delFolder(proPath);
+                    return true;
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override//作者修改图片
+    public String updateImg(HttpServletRequest req, HttpServletResponse res) {
+        int bookid = Integer.parseInt(req.getParameter("id"));
+        String bookaddr = req.getParameter("addr");
+        String bookname = PingYinUtil.getFirstSpell(req.getParameter("bookname"));
+        Matcher matcher = Pattern.compile("/").matcher(bookaddr);
+        int index = 0;
+        while (matcher.find()) {
+            index++;
+            if (index == 3)
+                break;
+        }
+        String imgaddr = bookaddr.substring(matcher.start(), bookaddr.lastIndexOf("/")) + "/介绍";
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) req;
+        MultipartFile multipartFile = multipartHttpServletRequest.getFile("img");
+        try {
+            String proPath = new File(ResourceUtils.getURL("classpath:static").getPath()).getAbsolutePath();
+            File dir = new File(proPath + imgaddr);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            File file = new File(proPath + imgaddr, bookname + ".jpg");
+            multipartFile.transferTo(file);
+            //调方法
+            if (uploadImgs(bookid, "http://www.tf6boy.vip" + imgaddr +"/"+ bookname + ".jpg")) {
+                return "http://www.tf6boy.vip" + imgaddr +"/"+ bookname + ".jpg";
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
     //作者添加书籍判断
     public List<Books> authorBookYZ(String author, String bookname) {
         BooksExample booksExample = new BooksExample();
@@ -697,5 +829,85 @@ public class BookServiceImpl implements BooksService {
         Books books = booksMapper.selectByPrimaryKey(id);
         books.setBookImg(imgaddr);
         return booksMapper.updateByPrimaryKey(books) > 0;
+    }
+    //作者删除书籍文件夹
+    public void delFolder(String folderPath) {
+        try {
+            delAllFile(folderPath);
+            String filePath = folderPath;
+            filePath = filePath.toString();
+            File myFilePath = new File(filePath);
+            myFilePath.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //作者删除书籍相关文件
+    public boolean delAllFile(String path) {
+        boolean flag = false;
+        File file = new File(path);
+        if (!file.exists()) {
+            return flag;
+        }
+        if (!file.isDirectory()) {
+            return flag;
+        }
+        String[] tempList = file.list();
+        File temp = null;
+        for (int i = 0; i < tempList.length; i++) {
+            if (path.endsWith(File.separator)) {
+                temp = new File(path + tempList[i]);
+            } else {
+                temp = new File(path + File.separator + tempList[i]);
+            }
+            if (temp.isFile()) {
+                temp.delete();
+            }
+            if (temp.isDirectory()) {
+                delAllFile(path + "/" + tempList[i]);
+                delFolder(path + "/" + tempList[i]);
+            }
+            flag = true;
+        }
+        return flag;
+    }
+    //    章节列表
+    @Override
+    public List<SetionTable> selectZJ(int id,int pages) {
+        SetionTableExample setionTableExample = new SetionTableExample();
+
+        setionTableExample.createCriteria().andBidEqualTo(id);
+        long count = setionTableMapper.countByExample(setionTableExample);
+        if(count%50==0){
+            if(count/50<pages){
+                return null;
+            }else {
+                PageHelper.startPage(pages, 50);
+                return setionTableMapper.selectByExample(setionTableExample);
+            }
+        }else {
+            if(count/50+1<pages){
+                return null;
+            }else {
+                PageHelper.startPage(pages, 50);
+                return setionTableMapper.selectByExample(setionTableExample);
+            }
+
+        }
+    }
+    //  返回章节内容
+    @Override
+    public List<SetionTable> selectzjnr(int bid, String djz) {
+        SetionTableExample setionTableExample = new SetionTableExample();
+        setionTableExample.createCriteria().andBidEqualTo(bid).andChapterEqualTo(djz);
+        return setionTableMapper.selectByExample(setionTableExample);
+    }
+    //根据id查找章节
+    @Override
+    public List<SetionTable> selectzjid(int id) {
+        SetionTableExample setionTableExample = new SetionTableExample();
+        setionTableExample.createCriteria().andIdEqualTo(id);
+        return setionTableMapper.selectByExample(setionTableExample);
     }
 }

@@ -3,6 +3,7 @@ package com.tecode.web.api_v2;
 import com.alibaba.fastjson.JSON;
 import com.tecode.model.Books;
 import com.tecode.model.History;
+import com.tecode.model.SetionTable;
 import com.tecode.model.User;
 import com.tecode.service.BookShelfService;
 import com.tecode.service.BooksService;
@@ -17,8 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Administrator on 2018/12/14.
@@ -39,10 +39,33 @@ public class BookController {
         return JSON.toJSON(booksService.booksAll(book,pageNums));
     }
 
-    @RequestMapping(value = "/read",produces = "text/html;charset=UTF-8")
+    //获取文本内容
+    @RequestMapping(value = "/read")
     @ResponseBody
-    public String read(String url) throws IOException {
-        System.out.println(url);
+    public Object read(int bid, String djz,boolean flag) throws IOException {
+        System.out.println(bid+djz+flag);
+        String url="";
+        String djz1 = "";
+        int id=0 ;
+        if(flag){
+            for (SetionTable s:booksService.selectzjnr(bid,djz)){
+                id= s.getId();
+            }
+            id+=1;
+            for (SetionTable d:booksService.selectzjid(id)){
+                url=d.getContent();
+                djz1=d.getChapter();
+            }
+        }else {
+            for (SetionTable s:booksService.selectzjnr(bid,djz)){
+                id= s.getId();
+            }
+            id-=1;
+            for (SetionTable d:booksService.selectzjid(id)){
+                url=d.getContent();
+                djz1=d.getChapter();
+            }
+        }
         URL myurl = new URL(url);
         URLConnection uc = myurl.openConnection();//创建连接
         InputStream is = uc.getInputStream();//创建输入流
@@ -53,26 +76,45 @@ public class BookController {
         if (is != null) {
             is.close();
         }
-        return JSON.toJSONString(stringBuffer);
+        Map<String,String> map = new HashMap();
+        map.put("stringBuffer",stringBuffer);
+        map.put("djz1",djz1);
+        return JSON.toJSON(map);
     }
-    @RequestMapping(value = "buybook",method = RequestMethod.POST)
+    //获取章节目录
+    @RequestMapping(value = "/zj", method = RequestMethod.GET)
     @ResponseBody
-    public Object buybook(Integer bid, Integer uids, Date time){
-        History list=bookShelfService.selectByCheck(bid,uids).get(0);
-        User user=userService.findById(uids);
-        Books books=booksService.selectByBookId(bid);
-        System.out.println(list.getBuy().equals("未购买"));
-        if (list.getBuy().equals("未购买")){
-            if(user.getMoney()>=books.getPrice()){
-                user.setMoney(user.getMoney()-books.getPrice());
-                userService.updateById(user);
-                list.setBuy("已购买");
-                bookShelfService.updateByBuy(list);
-                return JSON.toJSONString("购买成功");
-            }else{
-                return JSON.toJSONString("您的余额不足，请充值");
+    public Object zj(int bid,int pages){
+        List list = new ArrayList();
+        if(booksService.selectZJ(bid,pages)!=null){
+            for(SetionTable a:booksService.selectZJ(bid,pages)){
+                list.add(a.getChapter());
             }
+            return JSON.toJSON(list);
+        }else {
+            return null;
         }
-        return JSON.toJSONString("您已购买");
+    }
+    //返回章节内容
+    @RequestMapping(value = "/zjnr", method = RequestMethod.GET)
+    @ResponseBody
+    public String zjnr(int bid, String djz) throws IOException {
+        System.out.println(bid+djz);
+        String url="";
+        for (SetionTable s:booksService.selectzjnr(bid,djz)){
+            url = s.getContent();
+        }
+        URL myurl = new URL(url);
+        URLConnection uc = myurl.openConnection();//创建连接
+        InputStream is = uc.getInputStream();//创建输入流
+        byte[] a = new byte[is.available()];
+        is.read(a);
+        String stringBuffer = new String(a);
+        System.out.println(stringBuffer);
+        if (is != null) {
+            is.close();
+        }
+
+        return stringBuffer;
     }
 }

@@ -3,8 +3,6 @@ package com.tecode.model;
 public class Member {
     private Integer id;
 
-    private String rank;
-
     private Integer rep;
 
     private Integer uid;
@@ -15,14 +13,6 @@ public class Member {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank == null ? null : rank.trim();
     }
 
     public Integer getRep() {

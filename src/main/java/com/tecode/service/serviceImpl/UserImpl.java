@@ -30,10 +30,11 @@ public class UserImpl implements UserService {
 
     //根据角色查询user
     @Override
-    public List<User> findByRole(Integer pageNum, Integer pageSize, String role) {
+    public List<User> findByRole(Integer pageNum, Integer pageSize, String role,String orders) {
         PageHelper.startPage(pageNum, pageSize);
         UserExample userExample = new UserExample();
         userExample.createCriteria().andRoleEqualTo(role);
+        userExample.setOrderByClause(orders);
         return userMapper.selectByExample(userExample);
     }
 
@@ -53,6 +54,14 @@ public class UserImpl implements UserService {
         return userMapper.selectByExample(userExample);
     }
 
+    @Override
+    public List<User> findByUsername(String username, String orders) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andNameLike("%"+username+"%");
+        userExample.setOrderByClause(orders);
+        return userMapper.selectByExample(userExample);
+    }
+
     //修改user数据
     @Override
     public void updateById(User user) {
@@ -60,10 +69,11 @@ public class UserImpl implements UserService {
     }
 
     @Override
-    public List<User> findByStatus(Integer pageNum, Integer pageSize) {
+    public List<User> findByStatus(Integer pageNum, Integer pageSize,String orders) {
         PageHelper.startPage(pageNum, pageSize);
         UserExample userExample = new UserExample();
         userExample.createCriteria().andStatusEqualTo("审核中");
+        userExample.setOrderByClause(orders);
         return userMapper.selectByExample(userExample);
     }
 
@@ -79,5 +89,12 @@ public class UserImpl implements UserService {
         UserExample userExample = new UserExample();
         userExample.createCriteria().andNameLike("%" + username + "%");
         return userMapper.countByExample(userExample);
+    }
+    @Override//成为作者
+    public boolean applyAuthor(int id) {
+        User user = findById(id);
+        System.out.println(user.toString());
+        user.setStatus("审核中");
+        return userMapper.updateByPrimaryKey(user) > 0;
     }
 }

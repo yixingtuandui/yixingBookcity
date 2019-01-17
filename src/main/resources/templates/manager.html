@@ -39,26 +39,20 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="collapse" data-target="#store-dropdown"><i class="icon-book"></i> 书籍管理 <b class="caret"></b></a>
                         <ul id="store-dropdown" class="collapse">
-                            <li><a id="booksall" th:href="@{/booksall(pageNum=1)}">查看书籍</a></li>
+                            <li><a id="booksall" th:href="@{/booksall(pageNum=1,orders='id asc')}">查看书籍</a></li>
                             <li><a id="bookstypes" th:href="@{/bookstypes}">查看类型</a></li>
-                            <li><a id="bookscheck" th:href="@{/bookscheck(pageNum=1)}">审核新书</a></li>
-                            <li><a id="bookscheckNots" th:href="@{/bookscheckNots(pageNum=1)}">未通过书籍</a></li>
-                            <li><a id="booksnew" th:href="@{/updatesetion(pageNum=1)}">更新章节</a></li>
-                            <li><a id="booksdelete" th:href="@{/deletebooks(pageNum=1)}">下架书籍</a></li>
-                            <li><a id="booksdeletenew" th:href="@{/booksdeletenew(pageNum=1)}">已下架书籍</a></li>
+                            <li><a id="bookscheck" th:href="@{/bookscheck(pageNum=1,orders='id asc')}">审核新书</a></li>
+                            <li><a id="bookscheckNots" th:href="@{/bookscheckNots(pageNum=1,orders='id asc')}">未通过书籍</a></li>
+                            <li><a id="booksnew" th:href="@{/updatesetion(pageNum=1,orders='id asc')}">更新章节</a></li>
+                            <li><a id="booksdelete" th:href="@{/deletebooks(pageNum=1,orders='id asc')}">下架书籍</a></li>
+                            <li><a id="booksdeletenew" th:href="@{/booksdeletenew(pageNum=1,orders='id asc')}">已下架书籍</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="collapse" data-target="#reports-dropdown"><i class="icon-edit"></i> 作者管理 <b class="caret"></b></a>
                         <ul id="reports-dropdown" class="collapse">
-                            <li><a id="author" th:href="@{/author(pageNum=1)}">查看作者</a></li>
-                            <li><a id="authornew" th:href="@{/authorcheck(pageNum=1)}">审核新作者</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="collapse" data-target="#members-dropdown"><i class="icon-group"></i> 会员管理 <b class="caret"></b></a>
-                        <ul id="members-dropdown" class="collapse">
-                            <li><a id="member" th:href="@{/member(pageNum=1)}">查看会员</a></li>
+                            <li><a id="author" th:href="@{/author(pageNum=1,orders='id asc')}">查看作者</a></li>
+                            <li><a id="authornew" th:href="@{/authorcheck(pageNum=1,orders='id asc')}">审核新作者</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -81,10 +75,6 @@
                                 <span>浏览用户</span>
                             </a>
                             <a class="stat-column">
-                                <span class="number" th:text="${session.member}"></span>
-                                <span>已有会员</span>
-                            </a>
-                            <a class="stat-column">
                                 <span class="number" th:text="${session.author}"></span>
                                 <span>已签约作者</span>
                             </a>
@@ -97,6 +87,7 @@
                 </div>
                 <div class="row">
                     <form id="forms"  method="post">
+                        <input type="hidden" name="orders" value="id asc">
                         <input name="pageNums" th:type="hidden" th:value="1">
                         <input name="namesbook" class="search" placeholder="按书名搜索"><span id="searchbook">搜索书籍</span>
                         <span id="searchuser">搜索账户</span></form>
@@ -121,6 +112,10 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <div class="pages">
+                                <ul class="pages1">
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    </ul></div>
                     </div>
                     <!--请求数据-->
                     <div class="span5" th:if="${session.message.status}==true">
@@ -151,12 +146,13 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
                                     <li><a th:href="@{${session.all}(namesbook=${session.names},pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.searchcount} gt 0">
-                                        <a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.searchcount}/10+1)}">尾页</a></li></ul></div>
+                                    <li th:if="${session.pages} gt 1"><a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.pages}-1)}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.pages}+1)}">下一页</a></li>
+                                    <li >
+                                        <a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.total})}">尾页</a>
+                                    </li></ul></div>
                         </div>
                         <!--全部书籍类型-->
                         <div class="slate slate_user" th:if="${session.all=='bookstypes'}">
@@ -174,6 +170,10 @@
                                     <td th:text="${book.typename}"></td>
                                 </tbody>
                             </table>
+                            <div class="pages">
+                                <ul class="pages1">
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                </ul></div>
                         </div>
                         <!--全部书籍-->
                         <div class="slate slate_user" th:if="${session.all=='booksall'}">
@@ -183,8 +183,23 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>书名</th><th>作者</th><th>价格</th><th>点击量</th>
-                                <th>类型</th><th>更新状态</th><th>类别</th><th>购买量</th>
+                                <th>序号</th>
+                                <th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'book_name asc'?'book_name desc':'book_name asc'))}">书名
+                                    <span th:class="${session.orderas} eq 'book_name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'author asc'?'author desc':'author asc'))}">作者
+                                    <span th:class="${session.orderas} eq 'author asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'price asc'?'price desc':'price asc'))}">价格
+                                    <span th:class="${session.orderas} eq 'price asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'number asc'?'number desc':'number asc'))}">点击量
+                                    <span th:class="${session.orderas} eq 'number asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'type asc'?'type desc':'type asc'))}">类型
+                                    <span th:class="${session.orderas} eq 'type asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'status asc'?'status desc':'status asc'))}">更新状态
+                                    <span th:class="${session.orderas} eq 'status asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'kinds asc'?'kinds desc':'kinds asc'))}">类别
+                                    <span th:class="${session.orderas} eq 'kinds asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'amount asc'?'amount desc':'amount asc'))}">购买量
+                                    <span th:class="${session.orderas} eq 'amount asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
                                 </thead>
                                 <tbody>
                                 <tr th:each="book,userStat:${session.books}" th:class="${userStat.odd}?'odd':'even'">
@@ -201,11 +216,11 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.booknumber} gt 0"><a th:href="@{${session.all}(pageNum=${session.booknumber}/10+1)}">尾页</a></li></ul></div>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    <li><a th:href="@{${session.all}(pageNum=1,orders=${session.orderas})}">首页</a></li>
+                                    <li th:if="${session.pages} gt 1"><a th:href="@{${session.all}(pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li><a th:href="@{${session.all}(pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--审核书籍-->
                         <div class="slate slate_user" th:if="${session.all=='bookscheck'}">
@@ -215,7 +230,16 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>书名</th><th>作者</th><th>类型</th><th>类别</th><th>审核状态</th><th>书籍图片</th>
+                                <th>序号</th>
+                                <th><a th:href="@{/bookscheck(pageNum=1,orders=(${session.orderas} eq 'book_name asc'?'book_name desc':'book_name asc'))}">书名
+                                    <span th:class="${session.orderas} eq 'book_name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/bookscheck(pageNum=1,orders=(${session.orderas} eq 'author asc'?'author desc':'author asc'))}">作者
+                                    <span th:class="${session.orderas} eq 'author asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/bookscheck(pageNum=1,orders=(${session.orderas} eq 'type asc'?'type desc':'type asc'))}">类型
+                                    <span th:class="${session.orderas} eq 'type asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/bookscheck(pageNum=1,orders=(${session.orderas} eq 'kinds asc'?'kinds desc':'kinds asc'))}">类别
+                                    <span th:class="${session.orderas} eq 'kinds asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th>审核状态</th><th>书籍图片</th>
                                 <th>书籍简介</th><th>操作</th>
                                 </thead>
                                 <tbody>
@@ -236,11 +260,11 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.count} gt 0"><a th:href="@{${session.all}(pageNum=${session.count}/10+1)}">尾页</a></li></ul></div>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    <li><a th:href="@{${session.all}(pageNum=1,orders=${session.orderas})}">首页</a></li>
+                                    <li th:if="${session.pages} gt 1"><a th:href="@{${session.all}(pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li><a th:href="@{${session.all}(pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--审核未通过的所有书籍-->
                         <div class="slate slate_user" th:if="${session.all=='bookscheckNots'}">
@@ -250,7 +274,16 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>书名</th><th>作者</th><th>类型</th><th>类别</th><th>审核状态</th><th>书籍图片</th>
+                                <th>序号</th>
+                                <th><a th:href="@{/bookscheckNots(pageNum=1,orders=(${session.orderas} eq 'book_name asc'?'book_name desc':'book_name asc'))}">书名
+                                    <span th:class="${session.orderas} eq 'book_name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/bookscheckNots(pageNum=1,orders=(${session.orderas} eq 'author asc'?'author desc':'author asc'))}">作者
+                                    <span th:class="${session.orderas} eq 'author asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/bookscheckNots(pageNum=1,orders=(${session.orderas} eq 'type asc'?'type desc':'type asc'))}">类型
+                                    <span th:class="${session.orderas} eq 'type asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/bookscheckNots(pageNum=1,orders=(${session.orderas} eq 'kinds asc'?'kinds desc':'kinds asc'))}">类别
+                                    <span th:class="${session.orderas} eq 'kinds asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th>审核状态</th><th>书籍图片</th>
                                 <th>书籍简介</th><th>操作</th>
                                 </thead>
                                 <tbody>
@@ -271,43 +304,43 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.count} gt 0"><a th:href="@{${session.all}(pageNum=${session.count}/10+1)}">尾页</a></li></ul></div>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    <li><a th:href="@{${session.all}(pageNum=1,orders=${session.orderas})}">首页</a></li>
+                                    <li th:if="${session.pages} gt 1"><a th:href="@{${session.all}(pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li><a th:href="@{${session.all}(pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--书籍章节更新-->
-                        <div class="slate slate_user" th:if="${session.all=='updatesetion'}">
-                            <div class="page-header">
-                                <h2 th:text="${session.message.masg}"><i class="icon-shopping-cart pull-right"></i></h2>
-                                <span th:text="'总共'+${session.count}+'条记录'"></span>
-                            </div>
-                            <table class="orders-table table table-hover">
-                                <thead>
-                                <th>序号</th><th>书名</th><th>作者</th><th>类型</th><th>类别</th><th>审核状态</th><th>书籍图片</th>
-                                <th>书籍简介</th>
-                                </thead>
-                                <tbody>
-                                <tr th:each="book,userStat:${session.books}" th:class="${userStat.odd}?'odd':'even'">
-                                    <td th:text="${userStat.index}+1"></td>
-                                    <td th:text="${book.bookName}"></td>
-                                    <td th:text="${book.author}"></td>
-                                    <td th:text="${book.kinds}"></td>
-                                    <td th:text="${book.type}"></td>
-                                    <td th:text="${book.auditing}"></td>
-                                    <td><img th:src="@{${book.bookImg}}"></img></td>
-                                    <td th:text="${book.brief}"></td>
-                                </tbody>
-                            </table>
-                            <div class="pages">
-                                <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.count} gt 0"><a th:href="@{${session.all}(pageNum=${session.count}/10+1)}">尾页</a></li></ul></div>
-                        </div>
+                        <!--<div class="slate slate_user" th:if="${session.all=='updatesetion'}">-->
+                            <!--<div class="page-header">-->
+                                <!--<h2 th:text="${session.message.masg}"><i class="icon-shopping-cart pull-right"></i></h2>-->
+                                <!--<span th:text="'总共'+${session.count}+'条记录'"></span>-->
+                            <!--</div>-->
+                            <!--<table class="orders-table table table-hover">-->
+                                <!--<thead>-->
+                                <!--<th>序号</th><th>书名</th><th>作者</th><th>类型</th><th>类别</th><th>审核状态</th><th>书籍图片</th>-->
+                                <!--<th>书籍简介</th>-->
+                                <!--</thead>-->
+                                <!--<tbody>-->
+                                <!--<tr th:each="book,userStat:${session.books}" th:class="${userStat.odd}?'odd':'even'">-->
+                                    <!--<td th:text="${userStat.index}+1"></td>-->
+                                    <!--<td th:text="${book.bookName}"></td>-->
+                                    <!--<td th:text="${book.author}"></td>-->
+                                    <!--<td th:text="${book.kinds}"></td>-->
+                                    <!--<td th:text="${book.type}"></td>-->
+                                    <!--<td th:text="${book.auditing}"></td>-->
+                                    <!--<td><img th:src="@{${book.bookImg}}"></img></td>-->
+                                    <!--<td th:text="${book.brief}"></td>-->
+                                <!--</tbody>-->
+                            <!--</table>-->
+                            <!--<div class="pages">-->
+                                <!--<ul class="pages1">-->
+                                    <!--<li th:text="'当前是第'+${session.pages}+'页'"></li>-->
+                                    <!--<li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>-->
+                                    <!--<li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>-->
+                                    <!--<li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>-->
+                                    <!--<li th:if="${session.count} gt 0"><a th:href="@{${session.all}(pageNum=${session.count}/10+1)}">尾页</a></li></ul></div>-->
+                        <!--</div>-->
                         <!--书籍下架-->
                         <div class="slate slate_user" th:if="${session.all=='deletebooks'}">
                             <div class="page-header">
@@ -316,8 +349,24 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>书名</th><th>作者</th><th>价格</th><th>点击量</th>
-                                <th>类型</th><th>更新状态</th><th>类别</th><th>购买量</th><th>操作</th>
+                                <th>序号</th>
+                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'book_name asc'?'book_name desc':'book_name asc'))}">书名
+                                    <span th:class="${session.orderas} eq 'book_name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'author asc'?'author desc':'author asc'))}">作者
+                                    <span th:class="${session.orderas} eq 'author asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'price asc'?'price desc':'price asc'))}">价格
+                                    <span th:class="${session.orderas} eq 'price asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'number asc'?'number desc':'number asc'))}">点击量
+                                    <span th:class="${session.orderas} eq 'number asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'type asc'?'type desc':'type asc'))}">类型
+                                    <span th:class="${session.orderas} eq 'type asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'status asc'?'status desc':'status asc'))}">更新状态
+                                    <span th:class="${session.orderas} eq 'status asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'kinds asc'?'kinds desc':'kinds asc'))}">类别
+                                    <span th:class="${session.orderas} eq 'kinds asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'amount asc'?'amount desc':'amount asc'))}">购买量
+                                    <span th:class="${session.orderas} eq 'amount asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th>操作</th>
                                 </thead>
                                 <tbody>
                                 <tr th:each="book,userStat:${session.books}" th:class="${userStat.odd}?'odd':'even'">
@@ -335,11 +384,11 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.count} gt 0"><a th:href="@{${session.all}(pageNum=${session.count}/10+1)}">尾页</a></li></ul></div>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    <li><a th:href="@{${session.all}(pageNum=1,orders=${session.orderas})}">首页</a></li>
+                                    <li th:if="${session.pages} gt 1"><a th:href="@{${session.all}(pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li><a th:href="@{${session.all}(pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--已下架书籍-->
                         <div class="slate slate_user" th:if="${session.all=='booksdeletenew'}">
@@ -349,8 +398,24 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>书名</th><th>作者</th><th>价格</th><th>点击量</th>
-                                <th>类型</th><th>更新状态</th><th>类别</th><th>购买量</th><th>操作</th>
+                                <th>序号</th>
+                                <th><a th:href="@{/booksdeletenew(pageNum=1,orders=(${session.orderas} eq 'book_name asc'?'book_name desc':'book_name asc'))}">书名
+                                    <span th:class="${session.orderas} eq 'book_name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksdeletenew(pageNum=1,orders=(${session.orderas} eq 'author asc'?'author desc':'author asc'))}">作者
+                                    <span th:class="${session.orderas} eq 'author asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksdeletenew(pageNum=1,orders=(${session.orderas} eq 'price asc'?'price desc':'price asc'))}">价格
+                                    <span th:class="${session.orderas} eq 'price asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksdeletenew(pageNum=1,orders=(${session.orderas} eq 'number asc'?'number desc':'number asc'))}">点击量
+                                    <span th:class="${session.orderas} eq 'number asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksdeletenew(pageNum=1,orders=(${session.orderas} eq 'type asc'?'type desc':'type asc'))}">类型
+                                    <span th:class="${session.orderas} eq 'type asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksdeletenew(pageNum=1,orders=(${session.orderas} eq 'status asc'?'status desc':'status asc'))}">更新状态
+                                    <span th:class="${session.orderas} eq 'status asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksdeletenew(pageNum=1,orders=(${session.orderas} eq 'kinds asc'?'kinds desc':'kinds asc'))}">类别
+                                    <span th:class="${session.orderas} eq 'kinds asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/booksdeletenew(pageNum=1,orders=(${session.orderas} eq 'amount asc'?'amount desc':'amount asc'))}">购买量
+                                    <span th:class="${session.orderas} eq 'amount asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th>操作</th>
                                 </thead>
                                 <tbody>
                                 <tr th:each="book,userStat:${session.books}" th:class="${userStat.odd}?'odd':'even'">
@@ -368,11 +433,11 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.count} gt 0"><a th:href="@{${session.all}(pageNum=${session.count}/10+1)}">尾页</a></li></ul></div>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    <li><a th:href="@{${session.all}(pageNum=1,orders=${session.orderas})}">首页</a></li>
+                                    <li th:if="${session.pages} gt 1"><a th:href="@{${session.all}(pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li><a th:href="@{${session.all}(pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--搜索用户结果展示-->
                         <div class="slate slate_user" th:if="${session.all=='searchuser'}">
@@ -382,8 +447,21 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>用户名</th><th>手机号</th><th>书券</th><th>性别</th>
-                                <th>连签天数</th><th>上一次签到</th><th>注册时间</th>
+                                <th>序号</th>
+                                <th><a th:href="@{/searchuser(pageNum=1,orders=(${session.orderas} eq 'name asc'?'name desc':'name asc'))}">用户名
+                                    <span th:class="${session.orderas} eq 'name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/searchuser(pageNum=1,orders=(${session.orderas} eq 'phone asc'?'phone desc':'phone asc'))}">手机号
+                                    <span th:class="${session.orderas} eq 'phone asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/searchuser(pageNum=1,orders=(${session.orderas} eq 'money asc'?'money desc':'money asc'))}">书券
+                                    <span th:class="${session.orderas} eq 'money asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/searchuser(pageNum=1,orders=(${session.orderas} eq 'sex asc'?'sex desc':'sex asc'))}">性别
+                                    <span th:class="${session.orderas} eq 'sex asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/searchuser(pageNum=1,orders=(${session.orderas} eq 'day asc'?'day desc':'day asc'))}">连签天数
+                                    <span th:class="${session.orderas} eq 'day asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/searchuser(pageNum=1,orders=(${session.orderas} eq 'date_sign asc'?'date_sign desc':'date_sign asc'))}">上一次签到
+                                    <span th:class="${session.orderas} eq 'date_sign asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/searchuser(pageNum=1,orders=(${session.orderas} eq 'date_reg asc'?'date_reg desc':'date_reg asc'))}">注册时间
+                                    <span th:class="${session.orderas} eq 'date_reg asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
                                 </thead>
                                 <tbody>
                                 <tr th:each="user,userStat:${session.users}" th:class="${userStat.odd}?'odd':'even'">
@@ -399,12 +477,12 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(namesbook=${session.names},pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.usercount} gt 0">
-                                        <a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.usercount}/10)}">尾页</a></li></ul></div>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    <li><a th:href="@{${session.all}(namesbook=${session.names},pageNum=1,orders=${session.orderas})}">首页</a></li>
+                                    <li th:if="${session.pages} gt 1"><a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li>
+                                        <a th:href="@{${session.all}(namesbook=${session.names},pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--全部普通用户-->
                         <div class="slate slate_user" th:if="${session.all=='userall'}">
@@ -414,8 +492,20 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>用户名</th><th>手机号</th><th>书券</th><th>性别</th>
-                                <th>连签天数</th><th>上一次签到</th><th>注册时间</th>
+                                <th>序号</th><th><a th:href="@{/booksall(pageNum=1,orders=(${session.orderas} eq 'name asc'?'name desc':'name asc'))}">用户名
+                                    <span th:class="${session.orderas} eq 'name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/userall(pageNum=1,orders=(${session.orderas} eq 'phone asc'?'phone desc':'phone asc'))}">手机号
+                                    <span th:class="${session.orderas} eq 'phone asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/userall(pageNum=1,orders=(${session.orderas} eq 'money asc'?'money desc':'money asc'))}">书券
+                                    <span th:class="${session.orderas} eq 'money asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/userall(pageNum=1,orders=(${session.orderas} eq 'sex asc'?'sex desc':'sex asc'))}">性别
+                                    <span th:class="${session.orderas} eq 'sex asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/userall(pageNum=1,orders=(${session.orderas} eq 'day asc'?'day desc':'day asc'))}">连签天数
+                                    <span th:class="${session.orderas} eq 'day asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/userall(pageNum=1,orders=(${session.orderas} eq 'date_sign asc'?'date_sign desc':'date_sign asc'))}">上一次签到
+                                    <span th:class="${session.orderas} eq 'date_sign asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/userall(pageNum=1,orders=(${session.orderas} eq 'date_reg asc'?'date_reg desc':'date_reg asc'))}">注册时间
+                                    <span th:class="${session.orderas} eq 'date_reg asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
                                 </thead>
                                 <tbody>
                                 <tr th:each="user,userStat:${session.users}" th:class="${userStat.odd}?'odd':'even'">
@@ -431,11 +521,11 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
                                     <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.nomal} gt 0"><a th:href="@{${session.all}(pageNum=${session.nomal}/10)}">尾页</a></li></ul></div>
+                                    <li  th:if="${session.pages} gt 1"><a th:href="@{${session.all}(pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li><a th:href="@{${session.all}(pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--全部作者-->
                         <div class="slate slate_user" th:if="${session.all=='author'}">
@@ -445,8 +535,22 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>用户名</th><th>手机号</th><th>书券</th><th>性别</th>
-                                <th>连签天数</th><th>上一次签到</th><th>注册时间</th><th>操作</th>
+                                <th>序号</th>
+                                <th><a th:href="@{/author(pageNum=1,orders=(${session.orderas} eq 'name asc'?'name desc':'name asc'))}">用户名
+                                    <span th:class="${session.orderas} eq 'name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/author(pageNum=1,orders=(${session.orderas} eq 'phone asc'?'phone desc':'phone asc'))}">手机号
+                                    <span th:class="${session.orderas} eq 'phone asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/author(pageNum=1,orders=(${session.orderas} eq 'money asc'?'money desc':'money asc'))}">书券
+                                    <span th:class="${session.orderas} eq 'money asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/author(pageNum=1,orders=(${session.orderas} eq 'sex asc'?'sex desc':'sex asc'))}">性别
+                                    <span th:class="${session.orderas} eq 'sex asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/author(pageNum=1,orders=(${session.orderas} eq 'day asc'?'day desc':'day asc'))}">连签天数
+                                    <span th:class="${session.orderas} eq 'day asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/author(pageNum=1,orders=(${session.orderas} eq 'date_sign asc'?'date_sign desc':'date_sign asc'))}">上一次签到
+                                    <span th:class="${session.orderas} eq 'date_sign asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/author(pageNum=1,orders=(${session.orderas} eq 'date_reg asc'?'date_reg desc':'date_reg asc'))}">注册时间
+                                    <span th:class="${session.orderas} eq 'date_reg asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th>操作</th>
                                 </thead>
                                 <tbody>
                                 <tr th:each="user,userStat:${session.users}" th:class="${userStat.odd}?'odd':'even'">
@@ -464,11 +568,11 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.author} gt 0"><a th:href="@{${session.all}(pageNum=${session.author}/10)}">尾页</a></li></ul></div>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    <li><a th:href="@{${session.all}(pageNum=1,orders=${session.orderas})}">首页</a></li>
+                                    <li th:if="${session.pages} gt 1"><a th:href="@{${session.all}(pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li><a th:href="@{${session.all}(pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--审核新作者-->
                         <div class="slate slate_user" th:if="${session.all=='authorcheck'}">
@@ -478,8 +582,22 @@
                             </div>
                             <table class="orders-table table table-hover">
                                 <thead>
-                                <th>序号</th><th>用户名</th><th>手机号</th><th>书券</th><th>性别</th>
-                                <th>连签天数</th><th>上一次签到</th><th>注册时间</th><th>操作</th>
+                                <th>序号</th>
+                                <th><a th:href="@{/authorcheck(pageNum=1,orders=(${session.orderas} eq 'name asc'?'name desc':'name asc'))}">用户名
+                                    <span th:class="${session.orderas} eq 'name asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/authorcheck(pageNum=1,orders=(${session.orderas} eq 'phone asc'?'phone desc':'phone asc'))}">手机号
+                                    <span th:class="${session.orderas} eq 'phone asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/authorcheck(pageNum=1,orders=(${session.orderas} eq 'money asc'?'money desc':'money asc'))}">书券
+                                    <span th:class="${session.orderas} eq 'money asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/authorcheck(pageNum=1,orders=(${session.orderas} eq 'sex asc'?'sex desc':'sex asc'))}">性别
+                                    <span th:class="${session.orderas} eq 'sex asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/authorcheck(pageNum=1,orders=(${session.orderas} eq 'day asc'?'day desc':'day asc'))}">连签天数
+                                    <span th:class="${session.orderas} eq 'day asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/authorcheck(pageNum=1,orders=(${session.orderas} eq 'date_sign asc'?'date_sign desc':'date_sign asc'))}">上一次签到
+                                    <span th:class="${session.orderas} eq 'date_sign asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th><a th:href="@{/authorcheck(pageNum=1,orders=(${session.orderas} eq 'date_reg asc'?'date_reg desc':'date_reg asc'))}">注册时间
+                                    <span th:class="${session.orderas} eq 'date_reg asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th>操作</th>
                                 </thead>
                                 <tbody>
                                 <tr th:each="user,userStat:${session.users}" th:class="${userStat.odd}?'odd':'even'">
@@ -498,11 +616,11 @@
                             </table>
                             <div class="pages">
                                 <ul class="pages1">
-                                    <li th:text="'当前是第'+${session.pages}+'页'"></li>
-                                    <li><a th:href="@{${session.all}(pageNum=1)}">首页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}-1)}">上一页</a></li>
-                                    <li><a th:href="@{${session.all}(pageNum=${session.pages}+1)}">下一页</a></li>
-                                    <li th:if="${session.count} gt 0"><a th:href="@{${session.all}(pageNum=${session.count}/10)}">尾页</a></li></ul></div>
+                                    <li th:text="'当前是第'+${session.pages}+'页,共'+${session.total}+'页'"></li>
+                                    <li><a th:href="@{${session.all}(pageNum=1,orders=${session.orderas})}">首页</a></li>
+                                    <li  th:if="${session.pages} gt 1"><a th:href="@{${session.all}(pageNum=${session.pages}-1,orders=${session.orderas})}">上一页</a></li>
+                                    <li th:if="${session.pages} lt ${session.total}"><a th:href="@{${session.all}(pageNum=${session.pages}+1,orders=${session.orderas})}">下一页</a></li>
+                                    <li><a th:href="@{${session.all}(pageNum=${session.total},orders=${session.orderas})}">尾页</a></li></ul></div>
                         </div>
                         <!--全部会员-->
                         <!--<div class="slate slate_user" th:if="${session.all=='member'}">-->

@@ -25,7 +25,7 @@ public class CommentsController {
     }
     @RequestMapping("/setcomment")//用户留言评论
     @ResponseBody
-    public void setComments(String bid, String uid, String belong,String context,String parentid, Date time){
+    public Object setComments(String bid, String uid, String belong,String context,String parentid, Date time){
         Comment comm=new Comment();
         comm.setBookid(Integer.valueOf(bid));
         comm.setUid(Integer.valueOf(uid));
@@ -34,6 +34,7 @@ public class CommentsController {
         comm.setParentid(Integer.valueOf(parentid));
         comm.setTime(time);
         comments.add(comm);
+        return JSON.toJSON(comments.findByBookId(Integer.valueOf(bid)));
     }
     @RequestMapping(value = "/lesscomment",method = RequestMethod.POST)
     @ResponseBody

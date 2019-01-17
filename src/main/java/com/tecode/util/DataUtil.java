@@ -9,7 +9,7 @@ import java.util.Date;
 @Component
 public class DataUtil {
     private final static SimpleDateFormat shortSdf = new SimpleDateFormat("yyyy-MM-dd");
-    private final static SimpleDateFormat longSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final static SimpleDateFormat longSdf = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * 获得当前时间
      */
@@ -31,7 +31,7 @@ public class DataUtil {
         try {
             int weekday = c.get(Calendar.DAY_OF_WEEK) - 2;
             c.add(Calendar.DATE, -weekday);
-            c.setTime(longSdf.parse(shortSdf.format(c.getTime()) + " 00:00:00"));
+            c.setTime(longSdf.parse(shortSdf.format(c.getTime())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class DataUtil {
         try {
             int weekday = c.get(Calendar.DAY_OF_WEEK);
             c.add(Calendar.DATE, 8 - weekday);
-            c.setTime(longSdf.parse(shortSdf.format(c.getTime()) + " 23:59:59"));
+            c.setTime(longSdf.parse(shortSdf.format(c.getTime())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class DataUtil {
     public Date getCurrentDayEndTime() {
         Date now = new Date();
         try {
-            now = longSdf.parse(shortSdf.format(now) + " 23:59:59");
+            now = longSdf.parse(shortSdf.format(now));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,7 +107,7 @@ public class DataUtil {
             c.set(Calendar.DATE, 1);
             c.add(Calendar.MONTH, 1);
             c.add(Calendar.DATE, -1);
-            now = longSdf.parse(shortSdf.format(c.getTime()) + " 23:59:59");
+            now = longSdf.parse(shortSdf.format(c.getTime()));
         } catch (Exception e) {
             e.printStackTrace();
         }

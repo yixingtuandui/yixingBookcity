@@ -981,6 +981,66 @@ public class UserExample {
             addCriterion("iday not between", value1, value2, "iday");
             return (Criteria) this;
         }
+
+        public Criteria andRepIsNull() {
+            addCriterion("rep is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepIsNotNull() {
+            addCriterion("rep is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepEqualTo(Integer value) {
+            addCriterion("rep =", value, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepNotEqualTo(Integer value) {
+            addCriterion("rep <>", value, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepGreaterThan(Integer value) {
+            addCriterion("rep >", value, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepGreaterThanOrEqualTo(Integer value) {
+            addCriterion("rep >=", value, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepLessThan(Integer value) {
+            addCriterion("rep <", value, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepLessThanOrEqualTo(Integer value) {
+            addCriterion("rep <=", value, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepIn(List<Integer> values) {
+            addCriterion("rep in", values, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepNotIn(List<Integer> values) {
+            addCriterion("rep not in", values, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepBetween(Integer value1, Integer value2) {
+            addCriterion("rep between", value1, value2, "rep");
+            return (Criteria) this;
+        }
+
+        public Criteria andRepNotBetween(Integer value1, Integer value2) {
+            addCriterion("rep not between", value1, value2, "rep");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

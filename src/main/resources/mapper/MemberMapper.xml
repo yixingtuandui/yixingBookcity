@@ -3,7 +3,6 @@
 <mapper namespace="com.tecode.dao.MemberMapper">
   <resultMap id="BaseResultMap" type="com.tecode.model.Member">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="rank" jdbcType="VARCHAR" property="rank" />
     <result column="rep" jdbcType="INTEGER" property="rep" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
   </resultMap>
@@ -66,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, rank, rep, uid
+    id, rep, uid
   </sql>
   <select id="selectByExample" parameterType="com.tecode.model.MemberExample" resultMap="BaseResultMap">
     select
@@ -99,19 +98,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.tecode.model.Member">
-    insert into member (id, rank, rep, 
-      uid)
-    values (#{id,jdbcType=INTEGER}, #{rank,jdbcType=VARCHAR}, #{rep,jdbcType=INTEGER}, 
-      #{uid,jdbcType=INTEGER})
+    insert into member (id, rep, uid)
+    values (#{id,jdbcType=INTEGER}, #{rep,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.tecode.model.Member">
     insert into member
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
-      </if>
-      <if test="rank != null">
-        rank,
       </if>
       <if test="rep != null">
         rep,
@@ -123,9 +117,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
-      </if>
-      <if test="rank != null">
-        #{rank,jdbcType=VARCHAR},
       </if>
       <if test="rep != null">
         #{rep,jdbcType=INTEGER},
@@ -147,9 +138,6 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.rank != null">
-        rank = #{record.rank,jdbcType=VARCHAR},
-      </if>
       <if test="record.rep != null">
         rep = #{record.rep,jdbcType=INTEGER},
       </if>
@@ -164,7 +152,6 @@
   <update id="updateByExample" parameterType="map">
     update member
     set id = #{record.id,jdbcType=INTEGER},
-      rank = #{record.rank,jdbcType=VARCHAR},
       rep = #{record.rep,jdbcType=INTEGER},
       uid = #{record.uid,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -174,9 +161,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.tecode.model.Member">
     update member
     <set>
-      <if test="rank != null">
-        rank = #{rank,jdbcType=VARCHAR},
-      </if>
       <if test="rep != null">
         rep = #{rep,jdbcType=INTEGER},
       </if>
@@ -188,8 +172,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tecode.model.Member">
     update member
-    set rank = #{rank,jdbcType=VARCHAR},
-      rep = #{rep,jdbcType=INTEGER},
+    set rep = #{rep,jdbcType=INTEGER},
       uid = #{uid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

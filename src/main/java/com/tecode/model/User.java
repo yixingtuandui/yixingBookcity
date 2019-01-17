@@ -29,6 +29,8 @@ public class User {
 
     private Integer iday;
 
+    private Integer rep;
+
     public Integer getId() {
         return id;
     }
@@ -131,5 +133,13 @@ public class User {
 
     public void setIday(Integer iday) {
         this.iday = iday;
+    }
+
+    public Integer getRep() {
+        return rep;
+    }
+
+    public void setRep(Integer rep) {
+        this.rep = rep;
     }
 }

@@ -1,6 +1,7 @@
 package com.tecode.service;
 
 import com.tecode.model.Books;
+import com.tecode.model.SetionTable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,7 +50,7 @@ public interface BooksService {
     void addCX(int id);
 
     //根据是否通过查询书籍
-    List<Books> bookAll(int pages, String auditing);
+    List<Books> bookAll(int pages, String auditing,String orders);
 
     //查询通过或未通过书籍的数量
     Long countBooks(String auditing);
@@ -77,4 +78,15 @@ public interface BooksService {
 
     //上传图片
     boolean uploadImg(HttpServletRequest request, HttpServletResponse response);
+    //作者删除书籍
+    boolean bookRemove(int id, String addr);
+
+    //作者修改书籍图片
+    String updateImg(HttpServletRequest req, HttpServletResponse res);
+    //获取章节列表
+    List<SetionTable>  selectZJ (int id, int pages);
+    //返回章节内容
+    List<SetionTable> selectzjnr(int bid,String djz);
+    //根据id查找章节
+    List<SetionTable> selectzjid(int id);
 }

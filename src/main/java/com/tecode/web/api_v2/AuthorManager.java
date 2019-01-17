@@ -82,4 +82,17 @@ public class AuthorManager {
     public boolean uploadImg(HttpServletRequest req, HttpServletResponse res) {
         return booksService.uploadImg(req, res);
     }
+    //作者书籍删除
+    @RequestMapping(value = "/bookremove")
+    @ResponseBody
+    public boolean bookRemove(int id, String addr) {
+        return booksService.bookRemove(id, addr);
+    }
+
+    //作者修改书籍图片
+    @RequestMapping(value = "/updateimg", method = RequestMethod.POST)
+    @ResponseBody
+    public String updateImg(HttpServletRequest req, HttpServletResponse res) {
+        return booksService.updateImg(req, res);
+    }
 }

@@ -10,17 +10,19 @@ public interface UserService {
 
     User findById(Integer id);//根据id查询
 
-    List<User> findByRole(Integer pageNum, Integer pageSize, String role);//分页
+    List<User> findByRole(Integer pageNum, Integer pageSize, String role,String orders);//分页
 
     Long countPage(String role);//根据角色查询
 
     List<User> findByUsername(String username);//根据username查询
+    List<User> findByUsername(String username,String orders);//根据username查询并排序
 
     void updateById(User user);//根据id修改user信息
 
-    List<User> findByStatus(Integer pageNum, Integer pageSize);
+    List<User> findByStatus(Integer pageNum, Integer pageSize,String orders);
 
     Long countStatus(String status);//根据审核状态查询
 
     Long countByUsername(String username);//模糊查询用户
+    boolean applyAuthor(int id);//成为作者
 }
