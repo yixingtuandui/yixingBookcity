@@ -19,7 +19,7 @@ public class UserController {
     @RequestMapping("userLogin")
     @ResponseBody
     public Object userLogin(String username, String sex, String avater, Date date_reg){
-//        System.out.println(username);
+        System.out.println(date_reg);
         User us=new User();
         List<User> user= userService.findByUsername(username);
         int sexs=Integer.valueOf(sex);
@@ -28,6 +28,9 @@ public class UserController {
             us.setAvator(avater);
             us.setRole("普通用户");
             us.setDateReg(date_reg);
+            us.setDay(0);
+            us.setIday(0);
+            us.setRep(0);
             if(sexs==1){
                 us.setSex("男");
             }else{

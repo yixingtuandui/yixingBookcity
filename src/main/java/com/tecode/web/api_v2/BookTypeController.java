@@ -41,37 +41,31 @@ public class BookTypeController {
 //    返回类型
     @RequestMapping(value = "type",method = RequestMethod.POST)
     public BookType booksType(int id){
-//        System.out.println(id);
         return bookTypeService.findById(id);
     }
 //    畅销
     @RequestMapping(value = "shopp",method = RequestMethod.POST)
     public List<Books> shopp(int pageNum){
-//        System.out.println("进入了");
         return bookService.selectByAmount(pageNum);
     }
 //    人气
     @RequestMapping(value = "heat",method = RequestMethod.POST)
     public List<Books> heat(int pageNum){
-//        System.out.println("就是这儿");
         return bookService.selectByNumber(pageNum);
     }
     //    畅销 月榜
     @RequestMapping(value = "monthCX",method = RequestMethod.POST)
     public List<Books> monthCX(int pageNum){
-        System.out.println("进入了");
-        return bookService.selectByWeekAmount(pageNum);
+        return bookService.selectByMonthAmount(pageNum);
     }
     //    人气 月榜
     @RequestMapping(value = "monthRQ",method = RequestMethod.POST)
     public List<Books> monthRQ(int pageNum){
-        System.out.println("就是这儿");
         return bookService.selectByMonthNumber(pageNum);
     }
     //    畅销 周榜
     @RequestMapping(value = "weekCX",method = RequestMethod.POST)
     public List<Books> weekCX(int pageNum){
-//        System.out.println("进入了1");
         return bookService.selectByWeekAmount(pageNum);
     }
     //    人气 周榜
@@ -84,41 +78,5 @@ public class BookTypeController {
     public void addCX(int id){
         bookService.addCX(id);
     }
-    /**
-     * 获得本周的第一天，周一
-     *
-     * @return
-     */
-    private final static SimpleDateFormat shortSdf = new SimpleDateFormat("yyyy-MM-dd");
-    private final static SimpleDateFormat longHourSdf = new SimpleDateFormat("yyyy-MM-dd HH");;
-    private final static SimpleDateFormat longSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");;
-    public static Date getCurrentWeekDayStartTime() {
-        Calendar c = Calendar.getInstance();
-        try {
-            int weekday = c.get(Calendar.DAY_OF_WEEK) - 2;
-            c.add(Calendar.DATE, -weekday);
-            c.setTime(longSdf.parse(shortSdf.format(c.getTime()) + " 00:00:00"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return c.getTime();
-    }
 
-    /**
-     * 获得本周的最后一天，周日
-     *
-     * @return
-     */
-    public static Date getCurrentWeekDayEndTime() {
-        Calendar c = Calendar.getInstance();
-        try {
-            int weekday = c.get(Calendar.DAY_OF_WEEK);
-            c.add(Calendar.DATE, 8 - weekday);
-            c.setTime(longSdf.parse(shortSdf.format(c.getTime()) + " 23:59:59"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(c.getTime());
-        return c.getTime();
-    }
 }
