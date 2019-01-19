@@ -1,5 +1,4 @@
 package com.tecode.model;
-
 import org.springframework.stereotype.Component;
 
 @Component

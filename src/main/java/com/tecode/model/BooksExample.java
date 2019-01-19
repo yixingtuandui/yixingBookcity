@@ -963,6 +963,66 @@ public class BooksExample {
             addCriterion("type not between", value1, value2, "type");
             return (Criteria) this;
         }
+
+        public Criteria andBancoutIsNull() {
+            addCriterion("bancout is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutIsNotNull() {
+            addCriterion("bancout is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutEqualTo(Integer value) {
+            addCriterion("bancout =", value, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutNotEqualTo(Integer value) {
+            addCriterion("bancout <>", value, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutGreaterThan(Integer value) {
+            addCriterion("bancout >", value, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutGreaterThanOrEqualTo(Integer value) {
+            addCriterion("bancout >=", value, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutLessThan(Integer value) {
+            addCriterion("bancout <", value, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutLessThanOrEqualTo(Integer value) {
+            addCriterion("bancout <=", value, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutIn(List<Integer> values) {
+            addCriterion("bancout in", values, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutNotIn(List<Integer> values) {
+            addCriterion("bancout not in", values, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutBetween(Integer value1, Integer value2) {
+            addCriterion("bancout between", value1, value2, "bancout");
+            return (Criteria) this;
+        }
+
+        public Criteria andBancoutNotBetween(Integer value1, Integer value2) {
+            addCriterion("bancout not between", value1, value2, "bancout");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

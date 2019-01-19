@@ -25,4 +25,9 @@ public interface UserService {
 
     Long countByUsername(String username);//模糊查询用户
     boolean applyAuthor(int id);//成为作者
+    //修改性别
+    User sexUpdate(int id, String sex);
+
+    //修改手机
+    User phoneUpdate(int id, String phone);
 }

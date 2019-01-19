@@ -276,11 +276,14 @@ public class BookServiceImpl implements BooksService {
                 BooksExample booksExamplels;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
-                    if (lt.getStats().equals("number")){
-                        booksExamplels =new BooksExample();
-                        booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
-                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0)) ;
-                    }
+                    booksExamplels =new BooksExample();
+                    booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
+                    Books books= booksMapper.selectByExample(booksExamplels).get(0);
+                    books.setBancout(lt.getMonthcount());
+                    booksMapper.updateByPrimaryKey(books);
+                    BooksExample booksExamplel =new BooksExample();
+                    booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
+                    booksLists.add(booksMapper.selectByExample(booksExamplel).get(0)) ;
                 }
                 return booksLists;
             }
@@ -296,11 +299,14 @@ public class BookServiceImpl implements BooksService {
                 BooksExample booksExamplels;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
-                    if (lt.getStats().equals("number")){
                         booksExamplels =new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
-                        booksLists.add(booksMapper.selectByExample(booksExamplels).get(0)) ;
-                    }
+                        Books books= booksMapper.selectByExample(booksExamplels).get(0);
+                        books.setBancout(lt.getMonthcount());
+                        booksMapper.updateByPrimaryKey(books);
+                        BooksExample booksExamplel =new BooksExample();
+                        booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
+                        booksLists.add(booksMapper.selectByExample(booksExamplel).get(0)) ;
                 }
                 return booksLists;
             }
@@ -376,10 +382,16 @@ public class BookServiceImpl implements BooksService {
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
                     if (lt.getStats().equals("number")){
+                        System.out.println(123);
                         booksExamplel =new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
                         Books books= booksMapper.selectByExample(booksExamplel).get(0);
-                        booksList.add(books);
+                        books.setBancout(lt.getWeekcount());
+                        booksMapper.updateByPrimaryKey(books);
+                        BooksExample booksExamplels=new BooksExample();
+                        booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
+                        Books book= booksMapper.selectByExample(booksExamplels).get(0);
+                        booksList.add(book);
                     }
                 }
                 return booksList;
@@ -396,12 +408,15 @@ public class BookServiceImpl implements BooksService {
                 BooksExample booksExamplel;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
-                    if (lt.getStats().equals("number")){
                         booksExamplel =new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
                         Books books= booksMapper.selectByExample(booksExamplel).get(0);
-                        booksList.add(books) ;
-                    }
+                        books.setBancout(lt.getWeekcount());
+                        booksMapper.updateByPrimaryKey(books);
+                        BooksExample booksExamplels=new BooksExample();
+                        booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
+                        Books book= booksMapper.selectByExample(booksExamplels).get(0);
+                        booksList.add(book);
                 }
                 return booksList;
             }

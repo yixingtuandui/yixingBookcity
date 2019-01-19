@@ -16,24 +16,22 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
     @RequestMapping("userLogin")
     @ResponseBody
-    public Object userLogin(String username, String sex, String avater, Date date_reg){
-        System.out.println(date_reg);
-        User us=new User();
-        List<User> user= userService.findByUsername(username);
-        int sexs=Integer.valueOf(sex);
-        if(user.size()==0){
+    public Object userLogin(String username, String sex, String avater, Date date_reg) {
+//        System.out.println(username);
+        User us = new User();
+        List<User> user = userService.findByUsername(username);
+        int sexs = Integer.valueOf(sex);
+        if (user.size() == 0) {
             us.setName(username);
             us.setAvator(avater);
             us.setRole("普通用户");
             us.setDateReg(date_reg);
-            us.setDay(0);
-            us.setIday(0);
-            us.setRep(0);
-            if(sexs==1){
+            if (sexs == 1) {
                 us.setSex("男");
-            }else{
+            } else {
                 us.setSex("女");
             }
             userService.add(us);
@@ -41,10 +39,24 @@ public class UserController {
         }
         return JSON.toJSON(user);
     }
+
     //成为作者
     @RequestMapping(value = "/applyauthor", method = RequestMethod.GET)
     @ResponseBody
-    public boolean applyAuthor(int id){
+    public boolean applyAuthor(int id) {
         return userService.applyAuthor(id);
+    }
+    //修改性别
+    @RequestMapping(value = "/sexupdate", method = RequestMethod.GET)
+    @ResponseBody
+    public User sexUpdate(int id, String sex) {
+        return userService.sexUpdate(id, sex);
+    }
+
+    //修改手机
+    @RequestMapping(value = "/phoneupdate", method = RequestMethod.GET)
+    @ResponseBody
+    public User sexPhone(int id, String phone) {
+        return userService.phoneUpdate(id, phone);
     }
 }

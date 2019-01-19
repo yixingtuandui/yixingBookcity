@@ -97,4 +97,27 @@ public class UserImpl implements UserService {
         user.setStatus("审核中");
         return userMapper.updateByPrimaryKey(user) > 0;
     }
+    @Override//性别修改
+    public User sexUpdate(int id, String sex) {
+        User user = findById(id);
+        user.setSex(sex);
+        if (userMapper.updateByPrimaryKey(user) > 0) {
+            return findById(id);
+        }
+        return null;
+    }
+
+    @Override//手机修改
+    public User phoneUpdate(int id, String phone) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andPhoneEqualTo(phone);
+        if (!(userMapper.selectByExample(userExample).size() > 0)) {
+            User user = findById(id);
+            user.setPhone(phone);
+            if (userMapper.updateByPrimaryKey(user) > 0) {
+                return findById(id);
+            }
+        }
+        return null;
+    }
 }

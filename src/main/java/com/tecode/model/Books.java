@@ -27,6 +27,8 @@ public class Books {
 
     private Integer type;
 
+    private Integer bancout;
+
     public Integer getId() {
         return id;
     }
@@ -129,5 +131,13 @@ public class Books {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getBancout() {
+        return bancout;
+    }
+
+    public void setBancout(Integer bancout) {
+        this.bancout = bancout;
     }
 }
