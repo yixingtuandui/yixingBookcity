@@ -138,4 +138,37 @@ public class BookShelfController {
         }
 
     }
+    //购买书籍
+    @RequestMapping(value = "buybook")
+    @ResponseBody
+    public Object buybook(Integer bid,Integer uid){
+        List<History> list=bookShelf.selectByCheck(bid,uid,"已购买");
+        User user1=user.findById(uid);
+        Books books=bookService.selectByBookId(bid);
+        if(list.size()==0){
+            if(books.getPrice()<=user1.getMoney()){
+                user1.setMoney(user1.getMoney()-books.getPrice());
+                user.updateById(user1);
+                return JSON.toJSONString("购买成功");
+            }else{
+                return JSON.toJSONString("购买失败，您的余额不足，请充值");
+            }
+        }
+            return JSON.toJSONString("您已购买此书");
+    }
+    //展示购买的购买书籍
+    @RequestMapping(value = "mybooks")
+    @ResponseBody
+    public Object mybooks(Integer uid){
+        List<History> histories=bookShelf.selectByBuy(uid,"已购买");
+        List<Books> book=new ArrayList<Books>();
+        Books books=null;
+        if(histories.size()!=0){
+            for(History hist:histories){
+                books=bookService.selectByBookId(hist.getBookid());
+                book.add(books);
+            }
+        }
+        return JSON.toJSON(book);
+    }
 }

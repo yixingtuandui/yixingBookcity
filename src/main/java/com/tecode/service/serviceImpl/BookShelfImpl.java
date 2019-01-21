@@ -41,19 +41,23 @@ public class BookShelfImpl implements BookShelfService {
         historyMapper.updateByPrimaryKey(history);
     }
 
-
-
     @Override
-    public List<History> selectByCheck(Integer bid, Integer uid) {
+    public List<History> selectByBuy(Integer uid, String buy) {
         HistoryExample historyExample=new HistoryExample();
-        historyExample.createCriteria().andUidEqualTo(uid).andBookidEqualTo(bid);
+        historyExample.createCriteria().andUidEqualTo(uid).andBuyEqualTo(buy);
+        historyExample.setOrderByClause("Reading_time desc");
         return historyMapper.selectByExample(historyExample);
     }
 
+
     @Override
-    public void updateByBuy(History history) {
-        historyMapper.updateByPrimaryKey(history);
+    public List<History> selectByCheck(Integer bid, Integer uid,String buy) {
+        HistoryExample historyExample=new HistoryExample();
+        historyExample.createCriteria().andUidEqualTo(uid).andBookidEqualTo(bid).andBuyEqualTo(buy);
+        return historyMapper.selectByExample(historyExample);
     }
+
+
 
 
 }

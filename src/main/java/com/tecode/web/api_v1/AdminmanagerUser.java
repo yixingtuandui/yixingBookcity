@@ -21,7 +21,7 @@ public class AdminmanagerUser {
     public String allUser(Integer pageNum,String orders, HttpSession session){
         Long count=userimpl.countPage("普通用户");
         List<User> user= userimpl.findByRole(pageNum,pageSize,"普通用户",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         if (pageNum<1){ pageNum=1; };
@@ -34,6 +34,7 @@ public class AdminmanagerUser {
         session.setAttribute("message",message);
         session.setAttribute("nomal",count);
         session.setAttribute("users",user);
+        session.setAttribute("orderas",orders);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","userall");
         return "manager";
@@ -60,7 +61,7 @@ public class AdminmanagerUser {
     public String allUserauthor(Integer pageNum,String orders, HttpSession session){
         Long count=userimpl.countPage("作者");
         List<User> user= userimpl.findByRole(pageNum,pageSize,"作者",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         if (pageNum<1){ pageNum=1; };
@@ -73,6 +74,7 @@ public class AdminmanagerUser {
         session.setAttribute("author",count);
         session.setAttribute("total",pageTotal);
         session.setAttribute("users",user);
+        session.setAttribute("orderas",orders);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","author");
         return "manager";
@@ -85,7 +87,7 @@ public class AdminmanagerUser {
         Integer pageNum=1;
         Long count=userimpl.countPage("作者");
         List<User> user= userimpl.findByRole(pageNum,pageSize,"作者",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         Message message=new Message();
@@ -97,6 +99,7 @@ public class AdminmanagerUser {
         session.setAttribute("total",pageTotal);
         session.setAttribute("count",count);
         session.setAttribute("users",user);
+        session.setAttribute("orderas",orders);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","author");
         return "manager";
@@ -106,7 +109,7 @@ public class AdminmanagerUser {
         Long count=userimpl.countStatus("审核中");
         List<User> user= userimpl.findByStatus(pageNum,pageSize,orders);
         if (pageNum<1){ pageNum=1; };
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         Message message=new Message();
@@ -118,6 +121,7 @@ public class AdminmanagerUser {
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("users",user);
+        session.setAttribute("orderas",orders);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","authorcheck");
         return "manager";
@@ -131,7 +135,7 @@ public class AdminmanagerUser {
         Integer pageNum=1;
         Long count=userimpl.countStatus("审核中");
         List<User> user= userimpl.findByStatus(pageNum,pageSize,orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         Message message=new Message();
@@ -143,6 +147,7 @@ public class AdminmanagerUser {
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("users",user);
+        session.setAttribute("orderas",orders);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","authorcheck");
         return "manager";
@@ -155,7 +160,7 @@ public class AdminmanagerUser {
         Integer pageNum=1;
         Long count=userimpl.countStatus("审核中");
         List<User> user= userimpl.findByStatus(pageNum,pageSize,orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         Message message=new Message();
@@ -167,6 +172,7 @@ public class AdminmanagerUser {
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("users",user);
+        session.setAttribute("orderas",orders);
         session.setAttribute("pages",pageNum);
         session.setAttribute("all","authorcheck");
         return "manager";
@@ -189,6 +195,7 @@ public class AdminmanagerUser {
         session.setAttribute("usercount",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("users",list);
+        session.setAttribute("orderas",orders);
         session.setAttribute("names",namesbook);
         session.setAttribute("all","searchuser");
         return "manager";

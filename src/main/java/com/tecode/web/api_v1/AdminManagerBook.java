@@ -23,7 +23,7 @@ public class AdminManagerBook {
     @RequestMapping(value = "/booksall", method = RequestMethod.GET)
     public String search(Integer pageNum,String orders, HttpSession session) {
         Long count=bookService.countBooks("审核通过");
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         if (pageNum<1){ pageNum=1; };
@@ -52,7 +52,7 @@ public class AdminManagerBook {
     public String bookscheck(Integer pageNum, String orders,HttpSession session) {
         Long count=bookService.countBooks("审核中");
         List<Books> list=bookService.bookAll(pageNum,"审核中",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         if (pageNum<1){ pageNum=1; };
@@ -62,6 +62,7 @@ public class AdminManagerBook {
         session.setAttribute("total",pageTotal);
         session.removeAttribute("book");
         session.removeAttribute("users");
+        session.setAttribute("orderas",orders);
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
@@ -78,7 +79,7 @@ public class AdminManagerBook {
         Integer pageNum=1;
         Long count=bookService.countBooks("审核中");
         List<Books> list=bookService.bookAll(pageNum,"审核中",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         session.setAttribute("total",pageTotal);
@@ -86,6 +87,7 @@ public class AdminManagerBook {
         session.removeAttribute("users");
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
+        session.setAttribute("orderas",orders);
         session.setAttribute("books",list);
         session.setAttribute("all","bookscheck");
         return "manager";
@@ -99,13 +101,14 @@ public class AdminManagerBook {
         Integer pageNum=1;
         Long count=bookService.countBooks("审核中");
         List<Books> list=bookService.bookAll(pageNum,"审核中",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         session.removeAttribute("book");
         session.removeAttribute("users");
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
+        session.setAttribute("orderas",orders);
         session.setAttribute("books",list);
         session.setAttribute("total",pageTotal);
         session.setAttribute("all","bookscheck");
@@ -116,7 +119,7 @@ public class AdminManagerBook {
     public String bookscheckNots(Integer pageNum,String orders, HttpSession session) {
         Long count=bookService.countBooks("审核未通过");
         List<Books> list=bookService.bookAll(pageNum,"审核未通过",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         if (pageNum<1){ pageNum=1; };
@@ -129,6 +132,7 @@ public class AdminManagerBook {
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
+        session.setAttribute("orderas",orders);
         session.setAttribute("books",list);
         session.setAttribute("all","bookscheckNots");
         return "manager";
@@ -138,7 +142,7 @@ public class AdminManagerBook {
     public String deletebooks(Integer pageNum,String orders, HttpSession session) {
         Long count=bookService.countBooks("审核通过");
         List<Books> list=bookService.bookAll(pageNum,"审核通过",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         if (pageNum<1){ pageNum=1; };
@@ -150,6 +154,7 @@ public class AdminManagerBook {
         session.setAttribute("message",message);
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
+        session.setAttribute("orderas",orders);
         session.setAttribute("books",list);
         session.setAttribute("total",pageTotal);
         session.setAttribute("all","deletebooks");
@@ -164,7 +169,7 @@ public class AdminManagerBook {
         Integer pageNum=1;
         Long count=bookService.countBooks("审核通过");
         List<Books> list=bookService.bookAll(pageNum,"审核通过",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         Message message=new Message();
@@ -176,6 +181,7 @@ public class AdminManagerBook {
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("books",list);
+        session.setAttribute("orderas",orders);
         session.setAttribute("total",pageTotal);
         session.setAttribute("all","deletebooks");
         return "manager";
@@ -186,7 +192,7 @@ public class AdminManagerBook {
         Long count=bookService.countBooks("已下架");
         List<Books> list=bookService.bookAll(pageNum,"已下架",orders);
         if (pageNum<1){ pageNum=1; };
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         Message message=new Message();
@@ -198,6 +204,7 @@ public class AdminManagerBook {
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("books",list);
+        session.setAttribute("orderas",orders);
         session.setAttribute("total",pageTotal);
         session.setAttribute("all","booksdeletenew");
         return "manager";
@@ -211,12 +218,13 @@ public class AdminManagerBook {
         Integer pageNum=1;
         Long count=bookService.countBooks("已下架");
         List<Books> list=bookService.bookAll(pageNum,"已下架",orders);
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         session.setAttribute("count",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("books",list);
+        session.setAttribute("orderas",orders);
         session.setAttribute("total",pageTotal);
         session.setAttribute("all","booksdeletenew");
         return "manager";
@@ -228,7 +236,7 @@ public class AdminManagerBook {
         Long count=bookService.countBooksname(namesbook);
         List<Books> list=bookService.selectByBooknameOrder(pageNum,namesbook,orders);
         if (pageNum<1){ pageNum=1; };
-        if (count%10==0){
+        if (count%10==0&&count>0){
             pageTotal=count/10;
         }else {pageTotal=count/10+1;}
         Message message=new Message();
@@ -238,6 +246,7 @@ public class AdminManagerBook {
         session.setAttribute("searchcount",count);
         session.setAttribute("pages",pageNum);
         session.setAttribute("books",list);
+        session.setAttribute("orderas",orders);
         session.setAttribute("names",namesbook);
         session.setAttribute("total",pageTotal);
         session.setAttribute("all","searchbook");
