@@ -9,7 +9,7 @@ import java.util.Date;
 @Component
 public class DataUtil {
     private final static SimpleDateFormat shortSdf = new SimpleDateFormat("yyyy-MM-dd");
-    private final static SimpleDateFormat longSdf = new SimpleDateFormat("yyyy-MM-dd");
+    private final static SimpleDateFormat longSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /**
      * 获得当前时间
      */
@@ -20,7 +20,6 @@ public class DataUtil {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        System.out.println("当前时间"+time);
         return time;
     }
     /**
@@ -31,11 +30,10 @@ public class DataUtil {
         try {
             int weekday = c.get(Calendar.DAY_OF_WEEK) - 2;
             c.add(Calendar.DATE, -weekday);
-            c.setTime(longSdf.parse(shortSdf.format(c.getTime())));
+            c.setTime(longSdf.parse(shortSdf.format(c.getTime())+" 00:00:00"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("本周一"+c.getTime());
         return c.getTime();
     }
 
@@ -47,11 +45,11 @@ public class DataUtil {
         try {
             int weekday = c.get(Calendar.DAY_OF_WEEK);
             c.add(Calendar.DATE, 8 - weekday);
-            c.setTime(longSdf.parse(shortSdf.format(c.getTime())));
+            c.setTime(longSdf.parse(shortSdf.format(c.getTime())+" 23:59:59"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("本周末"+c.getTime());
+        //System.out.println("本周末"+c.getTime());
         return c.getTime();
     }
     /**
@@ -64,7 +62,7 @@ public class DataUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(now);
+       // System.out.println(now);
         return now;
     }
 
@@ -74,11 +72,11 @@ public class DataUtil {
     public Date getCurrentDayEndTime() {
         Date now = new Date();
         try {
-            now = longSdf.parse(shortSdf.format(now));
+            now = longSdf.parse(shortSdf.format(now)+" 23:59:59");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(now);
+        //System.out.println(now);
         return now;
     }
     /**
@@ -93,7 +91,7 @@ public class DataUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("本月第一天"+now);
+        //System.out.println("本月第一天"+now);
         return now;
     }
 
@@ -107,11 +105,11 @@ public class DataUtil {
             c.set(Calendar.DATE, 1);
             c.add(Calendar.MONTH, 1);
             c.add(Calendar.DATE, -1);
-            now = longSdf.parse(shortSdf.format(c.getTime()));
+            now = longSdf.parse(shortSdf.format(c.getTime())+" 23:59:59");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("本月最后一天"+now);
+       // System.out.println("本月最后一天"+now);
         return now;
     }
 }

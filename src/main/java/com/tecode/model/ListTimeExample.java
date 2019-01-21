@@ -2,7 +2,6 @@ package com.tecode.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class ListTimeExample {
@@ -106,32 +105,6 @@ public class ListTimeExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
-        }
-
         public Criteria andIdIsNull() {
             addCriterion("id is null");
             return (Criteria) this;
@@ -203,52 +176,52 @@ public class ListTimeExample {
         }
 
         public Criteria andWeekstarttimeEqualTo(Date value) {
-            addCriterionForJDBCDate("WeekStartTime =", value, "weekstarttime");
+            addCriterion("WeekStartTime =", value, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("WeekStartTime <>", value, "weekstarttime");
+            addCriterion("WeekStartTime <>", value, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("WeekStartTime >", value, "weekstarttime");
+            addCriterion("WeekStartTime >", value, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("WeekStartTime >=", value, "weekstarttime");
+            addCriterion("WeekStartTime >=", value, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeLessThan(Date value) {
-            addCriterionForJDBCDate("WeekStartTime <", value, "weekstarttime");
+            addCriterion("WeekStartTime <", value, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("WeekStartTime <=", value, "weekstarttime");
+            addCriterion("WeekStartTime <=", value, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeIn(List<Date> values) {
-            addCriterionForJDBCDate("WeekStartTime in", values, "weekstarttime");
+            addCriterion("WeekStartTime in", values, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("WeekStartTime not in", values, "weekstarttime");
+            addCriterion("WeekStartTime not in", values, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("WeekStartTime between", value1, value2, "weekstarttime");
+            addCriterion("WeekStartTime between", value1, value2, "weekstarttime");
             return (Criteria) this;
         }
 
         public Criteria andWeekstarttimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("WeekStartTime not between", value1, value2, "weekstarttime");
+            addCriterion("WeekStartTime not between", value1, value2, "weekstarttime");
             return (Criteria) this;
         }
 
@@ -263,52 +236,52 @@ public class ListTimeExample {
         }
 
         public Criteria andWeekendtimeEqualTo(Date value) {
-            addCriterionForJDBCDate("WeekEndTime =", value, "weekendtime");
+            addCriterion("WeekEndTime =", value, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("WeekEndTime <>", value, "weekendtime");
+            addCriterion("WeekEndTime <>", value, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("WeekEndTime >", value, "weekendtime");
+            addCriterion("WeekEndTime >", value, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("WeekEndTime >=", value, "weekendtime");
+            addCriterion("WeekEndTime >=", value, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeLessThan(Date value) {
-            addCriterionForJDBCDate("WeekEndTime <", value, "weekendtime");
+            addCriterion("WeekEndTime <", value, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("WeekEndTime <=", value, "weekendtime");
+            addCriterion("WeekEndTime <=", value, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeIn(List<Date> values) {
-            addCriterionForJDBCDate("WeekEndTime in", values, "weekendtime");
+            addCriterion("WeekEndTime in", values, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("WeekEndTime not in", values, "weekendtime");
+            addCriterion("WeekEndTime not in", values, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("WeekEndTime between", value1, value2, "weekendtime");
+            addCriterion("WeekEndTime between", value1, value2, "weekendtime");
             return (Criteria) this;
         }
 
         public Criteria andWeekendtimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("WeekEndTime not between", value1, value2, "weekendtime");
+            addCriterion("WeekEndTime not between", value1, value2, "weekendtime");
             return (Criteria) this;
         }
 
@@ -323,52 +296,52 @@ public class ListTimeExample {
         }
 
         public Criteria andMonthstarttimeEqualTo(Date value) {
-            addCriterionForJDBCDate("MonthStartTime =", value, "monthstarttime");
+            addCriterion("MonthStartTime =", value, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("MonthStartTime <>", value, "monthstarttime");
+            addCriterion("MonthStartTime <>", value, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("MonthStartTime >", value, "monthstarttime");
+            addCriterion("MonthStartTime >", value, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("MonthStartTime >=", value, "monthstarttime");
+            addCriterion("MonthStartTime >=", value, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeLessThan(Date value) {
-            addCriterionForJDBCDate("MonthStartTime <", value, "monthstarttime");
+            addCriterion("MonthStartTime <", value, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("MonthStartTime <=", value, "monthstarttime");
+            addCriterion("MonthStartTime <=", value, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeIn(List<Date> values) {
-            addCriterionForJDBCDate("MonthStartTime in", values, "monthstarttime");
+            addCriterion("MonthStartTime in", values, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("MonthStartTime not in", values, "monthstarttime");
+            addCriterion("MonthStartTime not in", values, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("MonthStartTime between", value1, value2, "monthstarttime");
+            addCriterion("MonthStartTime between", value1, value2, "monthstarttime");
             return (Criteria) this;
         }
 
         public Criteria andMonthstarttimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("MonthStartTime not between", value1, value2, "monthstarttime");
+            addCriterion("MonthStartTime not between", value1, value2, "monthstarttime");
             return (Criteria) this;
         }
 
@@ -383,52 +356,52 @@ public class ListTimeExample {
         }
 
         public Criteria andMonthendtimeEqualTo(Date value) {
-            addCriterionForJDBCDate("MonthEndTime =", value, "monthendtime");
+            addCriterion("MonthEndTime =", value, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("MonthEndTime <>", value, "monthendtime");
+            addCriterion("MonthEndTime <>", value, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("MonthEndTime >", value, "monthendtime");
+            addCriterion("MonthEndTime >", value, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("MonthEndTime >=", value, "monthendtime");
+            addCriterion("MonthEndTime >=", value, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeLessThan(Date value) {
-            addCriterionForJDBCDate("MonthEndTime <", value, "monthendtime");
+            addCriterion("MonthEndTime <", value, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("MonthEndTime <=", value, "monthendtime");
+            addCriterion("MonthEndTime <=", value, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeIn(List<Date> values) {
-            addCriterionForJDBCDate("MonthEndTime in", values, "monthendtime");
+            addCriterion("MonthEndTime in", values, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("MonthEndTime not in", values, "monthendtime");
+            addCriterion("MonthEndTime not in", values, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("MonthEndTime between", value1, value2, "monthendtime");
+            addCriterion("MonthEndTime between", value1, value2, "monthendtime");
             return (Criteria) this;
         }
 
         public Criteria andMonthendtimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("MonthEndTime not between", value1, value2, "monthendtime");
+            addCriterion("MonthEndTime not between", value1, value2, "monthendtime");
             return (Criteria) this;
         }
 

@@ -24,5 +24,17 @@ public interface UserService {
     Long countStatus(String status);//根据审核状态查询
 
     Long countByUsername(String username);//模糊查询用户
-    boolean applyAuthor(int id);//成为作者
+    boolean applyAuthor(int id, String penname, String phone, String sex);//成为作者
+    //修改性别
+    User sexUpdate(int id, String sex);
+
+    //修改手机
+    User phoneUpdate(int id, String phone);
+    //笔名验证
+    boolean inspectPenName(String penname);
+
+    //手机验证
+    boolean inspectPhone(String phone);
+    //按签到排序
+    List<User> leaderboard();
 }

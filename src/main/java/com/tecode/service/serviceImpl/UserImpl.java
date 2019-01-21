@@ -91,10 +91,60 @@ public class UserImpl implements UserService {
         return userMapper.countByExample(userExample);
     }
     @Override//成为作者
-    public boolean applyAuthor(int id) {
+    public boolean applyAuthor(int id, String penname, String phone, String sex) {
         User user = findById(id);
-        System.out.println(user.toString());
+        user.setPenName(penname);
+        user.setPhone(phone);
+        user.setSex(sex);
         user.setStatus("审核中");
         return userMapper.updateByPrimaryKey(user) > 0;
     }
+
+    @Override//性别修改
+    public User sexUpdate(int id, String sex) {
+        User user = findById(id);
+        user.setSex(sex);
+        if (userMapper.updateByPrimaryKey(user) > 0) {
+            return findById(id);
+        }
+        return null;
+    }
+
+    @Override//手机修改
+    public User phoneUpdate(int id, String phone) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andPhoneEqualTo(phone);
+        if (!(userMapper.selectByExample(userExample).size() > 0)) {
+            User user = findById(id);
+            user.setPhone(phone);
+            if (userMapper.updateByPrimaryKey(user) > 0) {
+                return findById(id);
+            }
+        }
+        return null;
+    }
+
+    @Override//验证别名
+    public boolean inspectPenName(String penname) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andPenNameEqualTo(penname);
+        return !(userMapper.selectByExample(userExample).size() > 0);
+    }
+
+    @Override//验证手机
+    public boolean inspectPhone(String phone) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andPhoneEqualTo(phone);
+        return !(userMapper.selectByExample(userExample).size() > 0);
+    }
+    //按签到排序
+    @Override
+    public List<User> leaderboard() {
+        //System.out.println("545");
+        UserExample userExample = new UserExample();
+        PageHelper.startPage(1, 50);
+        userExample.setOrderByClause("day DESC");
+        return userMapper.selectByExample(userExample);
+    }
+
 }

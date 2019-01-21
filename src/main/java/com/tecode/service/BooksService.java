@@ -89,4 +89,6 @@ public interface BooksService {
     List<SetionTable> selectzjnr(int bid,String djz);
     //根据id查找章节
     List<SetionTable> selectzjid(int id);
+    //章节页数
+    public int zjnum(int id);
 }

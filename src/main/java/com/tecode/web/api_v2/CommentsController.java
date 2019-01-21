@@ -2,6 +2,7 @@ package com.tecode.web.api_v2;
 
 import com.alibaba.fastjson.JSON;
 import com.tecode.model.Comment;
+import com.tecode.model.History;
 import com.tecode.service.serviceImpl.CommentsImpl;
 import com.tecode.service.serviceImpl.UserImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class CommentsController {
@@ -41,4 +43,5 @@ public class CommentsController {
     public Object lesscomment(String bid){
         return comments.findByBookIdLess(Integer.valueOf(bid));
     }
+
 }

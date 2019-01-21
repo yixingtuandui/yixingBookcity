@@ -1,10 +1,7 @@
 package com.tecode.web.api_v2;
 
 import com.alibaba.fastjson.JSON;
-import com.tecode.model.Books;
-import com.tecode.model.History;
 import com.tecode.model.SetionTable;
-import com.tecode.model.User;
 import com.tecode.service.BookShelfService;
 import com.tecode.service.BooksService;
 import com.tecode.service.UserService;
@@ -18,7 +15,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2018/12/14.
@@ -43,7 +43,7 @@ public class BookController {
     @RequestMapping(value = "/read")
     @ResponseBody
     public Object read(int bid, String djz,boolean flag) throws IOException {
-        System.out.println(bid+djz+flag);
+       // System.out.println(bid+djz+flag);
         String url="";
         String djz1 = "";
         int id=0 ;
@@ -72,7 +72,7 @@ public class BookController {
         byte[] a = new byte[is.available()];
         is.read(a);
         String stringBuffer = new String(a);
-        System.out.println(stringBuffer);
+      //  System.out.println(stringBuffer);
         if (is != null) {
             is.close();
         }
@@ -86,10 +86,13 @@ public class BookController {
     @ResponseBody
     public Object zj(int bid,int pages){
         List list = new ArrayList();
+        int page = 0;
+        page = booksService.zjnum(bid);
         if(booksService.selectZJ(bid,pages)!=null){
             for(SetionTable a:booksService.selectZJ(bid,pages)){
                 list.add(a.getChapter());
             }
+            list.add(page);
             return JSON.toJSON(list);
         }else {
             return null;
@@ -99,7 +102,7 @@ public class BookController {
     @RequestMapping(value = "/zjnr", method = RequestMethod.GET)
     @ResponseBody
     public String zjnr(int bid, String djz) throws IOException {
-        System.out.println(bid+djz);
+      //  System.out.println(bid+djz);
         String url="";
         for (SetionTable s:booksService.selectzjnr(bid,djz)){
             url = s.getContent();
@@ -110,11 +113,18 @@ public class BookController {
         byte[] a = new byte[is.available()];
         is.read(a);
         String stringBuffer = new String(a);
-        System.out.println(stringBuffer);
+       // System.out.println(stringBuffer);
         if (is != null) {
             is.close();
         }
 
         return stringBuffer;
+    }
+    //热门搜索
+    @RequestMapping(value = "/Popular",method = RequestMethod.GET)
+    @ResponseBody
+    public Object Popular(int pages){
+
+        return booksService.selectByMonthNumber(pages);
     }
 }

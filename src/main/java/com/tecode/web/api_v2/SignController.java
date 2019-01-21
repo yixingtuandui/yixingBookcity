@@ -17,11 +17,11 @@ import java.util.*;
 public class SignController {
     @Autowired
     private UserImpl signimpl;
+    //签到排行榜
     @ResponseBody
-    @RequestMapping(value = "/member",method = RequestMethod.POST)
-    public String Member(Integer id){
-        User user = signimpl.findById(id);
-        return user.getRole();
+    @RequestMapping(value = "/leaderboard",method = RequestMethod.POST)
+    public Object Member(){
+        return JSON.toJSON(signimpl.leaderboard());
     }
 
     //判断是否签到
@@ -36,7 +36,6 @@ public class SignController {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         for(User user:users){
             String week = sdf.format(user.getDateSign());
-            System.out.println(week);
             switch (week){
                 case "星期一":
                     list.put("week",1);
@@ -62,13 +61,13 @@ public class SignController {
             }
             if (user.getDateSign().equals(date1) && user.getDateSign()!= null) {
 
-//                System.out.println("已签到");
                 list.put("iday",user.getIday());
                 list.put("boolean",true);
+                list.put("money",user.getMoney());
             } else {
                 list.put("iday",user.getIday());
                 list.put("boolean",false);
-//                System.out.println("未签到");
+                list.put("money",user.getMoney());
             }
         }
         return JSON.toJSON(list);
@@ -93,15 +92,12 @@ public class SignController {
                 user.setDateSign(date1);
                 user.setIday(user.getIday()+1);
                 signimpl.updateById(user);
-//              System.out.println("连续签到");
             }else {
                 user.setDay(user.getDay() + 1);
                 user.setDateSign(date1);
                 user.setIday(1);
                 signimpl.updateById(user);
-                System.out.println("非连续签到");
             }
         }
-//        System.out.println(user);
     }
 }
