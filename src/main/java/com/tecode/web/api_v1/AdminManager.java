@@ -3,7 +3,6 @@ package com.tecode.web.api_v1;
 import com.alibaba.fastjson.JSON;
 import com.tecode.model.Manager;
 import com.tecode.model.Message;
-import com.tecode.model.User;
 import com.tecode.service.ManagerService;
 import com.tecode.service.serviceImpl.BookServiceImpl;
 import com.tecode.service.serviceImpl.UserImpl;
@@ -22,7 +21,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class AdminManager {

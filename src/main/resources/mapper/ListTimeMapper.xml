@@ -3,10 +3,10 @@
 <mapper namespace="com.tecode.dao.ListTimeMapper">
   <resultMap id="BaseResultMap" type="com.tecode.model.ListTime">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="WeekStartTime" jdbcType="DATE" property="weekstarttime" />
-    <result column="WeekEndTime" jdbcType="DATE" property="weekendtime" />
-    <result column="MonthStartTime" jdbcType="DATE" property="monthstarttime" />
-    <result column="MonthEndTime" jdbcType="DATE" property="monthendtime" />
+    <result column="WeekStartTime" jdbcType="TIMESTAMP" property="weekstarttime" />
+    <result column="WeekEndTime" jdbcType="TIMESTAMP" property="weekendtime" />
+    <result column="MonthStartTime" jdbcType="TIMESTAMP" property="monthstarttime" />
+    <result column="MonthEndTime" jdbcType="TIMESTAMP" property="monthendtime" />
     <result column="bid" jdbcType="INTEGER" property="bid" />
     <result column="monthcount" jdbcType="INTEGER" property="monthcount" />
     <result column="weekcount" jdbcType="INTEGER" property="weekcount" />
@@ -109,8 +109,8 @@
       MonthStartTime, MonthEndTime, bid, 
       monthcount, weekcount, stats
       )
-    values (#{id,jdbcType=INTEGER}, #{weekstarttime,jdbcType=DATE}, #{weekendtime,jdbcType=DATE}, 
-      #{monthstarttime,jdbcType=DATE}, #{monthendtime,jdbcType=DATE}, #{bid,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{weekstarttime,jdbcType=TIMESTAMP}, #{weekendtime,jdbcType=TIMESTAMP}, 
+      #{monthstarttime,jdbcType=TIMESTAMP}, #{monthendtime,jdbcType=TIMESTAMP}, #{bid,jdbcType=INTEGER}, 
       #{monthcount,jdbcType=INTEGER}, #{weekcount,jdbcType=INTEGER}, #{stats,jdbcType=VARCHAR}
       )
   </insert>
@@ -150,16 +150,16 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="weekstarttime != null">
-        #{weekstarttime,jdbcType=DATE},
+        #{weekstarttime,jdbcType=TIMESTAMP},
       </if>
       <if test="weekendtime != null">
-        #{weekendtime,jdbcType=DATE},
+        #{weekendtime,jdbcType=TIMESTAMP},
       </if>
       <if test="monthstarttime != null">
-        #{monthstarttime,jdbcType=DATE},
+        #{monthstarttime,jdbcType=TIMESTAMP},
       </if>
       <if test="monthendtime != null">
-        #{monthendtime,jdbcType=DATE},
+        #{monthendtime,jdbcType=TIMESTAMP},
       </if>
       <if test="bid != null">
         #{bid,jdbcType=INTEGER},
@@ -188,16 +188,16 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.weekstarttime != null">
-        WeekStartTime = #{record.weekstarttime,jdbcType=DATE},
+        WeekStartTime = #{record.weekstarttime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.weekendtime != null">
-        WeekEndTime = #{record.weekendtime,jdbcType=DATE},
+        WeekEndTime = #{record.weekendtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.monthstarttime != null">
-        MonthStartTime = #{record.monthstarttime,jdbcType=DATE},
+        MonthStartTime = #{record.monthstarttime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.monthendtime != null">
-        MonthEndTime = #{record.monthendtime,jdbcType=DATE},
+        MonthEndTime = #{record.monthendtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.bid != null">
         bid = #{record.bid,jdbcType=INTEGER},
@@ -219,10 +219,10 @@
   <update id="updateByExample" parameterType="map">
     update list_time
     set id = #{record.id,jdbcType=INTEGER},
-      WeekStartTime = #{record.weekstarttime,jdbcType=DATE},
-      WeekEndTime = #{record.weekendtime,jdbcType=DATE},
-      MonthStartTime = #{record.monthstarttime,jdbcType=DATE},
-      MonthEndTime = #{record.monthendtime,jdbcType=DATE},
+      WeekStartTime = #{record.weekstarttime,jdbcType=TIMESTAMP},
+      WeekEndTime = #{record.weekendtime,jdbcType=TIMESTAMP},
+      MonthStartTime = #{record.monthstarttime,jdbcType=TIMESTAMP},
+      MonthEndTime = #{record.monthendtime,jdbcType=TIMESTAMP},
       bid = #{record.bid,jdbcType=INTEGER},
       monthcount = #{record.monthcount,jdbcType=INTEGER},
       weekcount = #{record.weekcount,jdbcType=INTEGER},
@@ -235,16 +235,16 @@
     update list_time
     <set>
       <if test="weekstarttime != null">
-        WeekStartTime = #{weekstarttime,jdbcType=DATE},
+        WeekStartTime = #{weekstarttime,jdbcType=TIMESTAMP},
       </if>
       <if test="weekendtime != null">
-        WeekEndTime = #{weekendtime,jdbcType=DATE},
+        WeekEndTime = #{weekendtime,jdbcType=TIMESTAMP},
       </if>
       <if test="monthstarttime != null">
-        MonthStartTime = #{monthstarttime,jdbcType=DATE},
+        MonthStartTime = #{monthstarttime,jdbcType=TIMESTAMP},
       </if>
       <if test="monthendtime != null">
-        MonthEndTime = #{monthendtime,jdbcType=DATE},
+        MonthEndTime = #{monthendtime,jdbcType=TIMESTAMP},
       </if>
       <if test="bid != null">
         bid = #{bid,jdbcType=INTEGER},
@@ -263,10 +263,10 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.tecode.model.ListTime">
     update list_time
-    set WeekStartTime = #{weekstarttime,jdbcType=DATE},
-      WeekEndTime = #{weekendtime,jdbcType=DATE},
-      MonthStartTime = #{monthstarttime,jdbcType=DATE},
-      MonthEndTime = #{monthendtime,jdbcType=DATE},
+    set WeekStartTime = #{weekstarttime,jdbcType=TIMESTAMP},
+      WeekEndTime = #{weekendtime,jdbcType=TIMESTAMP},
+      MonthStartTime = #{monthstarttime,jdbcType=TIMESTAMP},
+      MonthEndTime = #{monthendtime,jdbcType=TIMESTAMP},
       bid = #{bid,jdbcType=INTEGER},
       monthcount = #{monthcount,jdbcType=INTEGER},
       weekcount = #{weekcount,jdbcType=INTEGER},
