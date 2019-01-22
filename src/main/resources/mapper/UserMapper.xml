@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.tecode.model.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="avator" jdbcType="VARCHAR" property="avator" />
-    <result column="date_reg" jdbcType="DATE" property="dateReg" />
-    <result column="date_sign" jdbcType="DATE" property="dateSign" />
+    <result column="date_reg" jdbcType="TIMESTAMP" property="dateReg" />
+    <result column="date_sign" jdbcType="TIMESTAMP" property="dateSign" />
     <result column="day" jdbcType="INTEGER" property="day" />
     <result column="money" jdbcType="DOUBLE" property="money" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -111,15 +111,15 @@
   </delete>
   <insert id="insert" parameterType="com.tecode.model.User">
     insert into user (id, avator, date_reg, 
-      date_sign, day, money, name, 
-      pen_name, phone, role, 
-      sex, status, iday, 
-      rep)
-    values (#{id,jdbcType=INTEGER}, #{avator,jdbcType=VARCHAR}, #{dateReg,jdbcType=DATE}, 
-      #{dateSign,jdbcType=DATE}, #{day,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, #{name,jdbcType=VARCHAR}, 
-      #{penName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{iday,jdbcType=INTEGER}, 
-      #{rep,jdbcType=INTEGER})
+      date_sign, day, money, 
+      name, pen_name, phone, 
+      role, sex, status, 
+      iday, rep)
+    values (#{id,jdbcType=INTEGER}, #{avator,jdbcType=VARCHAR}, #{dateReg,jdbcType=TIMESTAMP}, 
+      #{dateSign,jdbcType=TIMESTAMP}, #{day,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE}, 
+      #{name,jdbcType=VARCHAR}, #{penName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{role,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{iday,jdbcType=INTEGER}, #{rep,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.tecode.model.User">
     insert into user
@@ -175,10 +175,10 @@
         #{avator,jdbcType=VARCHAR},
       </if>
       <if test="dateReg != null">
-        #{dateReg,jdbcType=DATE},
+        #{dateReg,jdbcType=TIMESTAMP},
       </if>
       <if test="dateSign != null">
-        #{dateSign,jdbcType=DATE},
+        #{dateSign,jdbcType=TIMESTAMP},
       </if>
       <if test="day != null">
         #{day,jdbcType=INTEGER},
@@ -228,10 +228,10 @@
         avator = #{record.avator,jdbcType=VARCHAR},
       </if>
       <if test="record.dateReg != null">
-        date_reg = #{record.dateReg,jdbcType=DATE},
+        date_reg = #{record.dateReg,jdbcType=TIMESTAMP},
       </if>
       <if test="record.dateSign != null">
-        date_sign = #{record.dateSign,jdbcType=DATE},
+        date_sign = #{record.dateSign,jdbcType=TIMESTAMP},
       </if>
       <if test="record.day != null">
         day = #{record.day,jdbcType=INTEGER},
@@ -272,8 +272,8 @@
     update user
     set id = #{record.id,jdbcType=INTEGER},
       avator = #{record.avator,jdbcType=VARCHAR},
-      date_reg = #{record.dateReg,jdbcType=DATE},
-      date_sign = #{record.dateSign,jdbcType=DATE},
+      date_reg = #{record.dateReg,jdbcType=TIMESTAMP},
+      date_sign = #{record.dateSign,jdbcType=TIMESTAMP},
       day = #{record.day,jdbcType=INTEGER},
       money = #{record.money,jdbcType=DOUBLE},
       name = #{record.name,jdbcType=VARCHAR},
@@ -295,10 +295,10 @@
         avator = #{avator,jdbcType=VARCHAR},
       </if>
       <if test="dateReg != null">
-        date_reg = #{dateReg,jdbcType=DATE},
+        date_reg = #{dateReg,jdbcType=TIMESTAMP},
       </if>
       <if test="dateSign != null">
-        date_sign = #{dateSign,jdbcType=DATE},
+        date_sign = #{dateSign,jdbcType=TIMESTAMP},
       </if>
       <if test="day != null">
         day = #{day,jdbcType=INTEGER},
@@ -336,8 +336,8 @@
   <update id="updateByPrimaryKey" parameterType="com.tecode.model.User">
     update user
     set avator = #{avator,jdbcType=VARCHAR},
-      date_reg = #{dateReg,jdbcType=DATE},
-      date_sign = #{dateSign,jdbcType=DATE},
+      date_reg = #{dateReg,jdbcType=TIMESTAMP},
+      date_sign = #{dateSign,jdbcType=TIMESTAMP},
       day = #{day,jdbcType=INTEGER},
       money = #{money,jdbcType=DOUBLE},
       name = #{name,jdbcType=VARCHAR},

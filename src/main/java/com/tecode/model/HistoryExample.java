@@ -2,7 +2,6 @@ package com.tecode.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class HistoryExample {
@@ -104,32 +103,6 @@ public class HistoryExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -523,52 +496,52 @@ public class HistoryExample {
         }
 
         public Criteria andReadingTimeEqualTo(Date value) {
-            addCriterionForJDBCDate("Reading_time =", value, "readingTime");
+            addCriterion("Reading_time =", value, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeNotEqualTo(Date value) {
-            addCriterionForJDBCDate("Reading_time <>", value, "readingTime");
+            addCriterion("Reading_time <>", value, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeGreaterThan(Date value) {
-            addCriterionForJDBCDate("Reading_time >", value, "readingTime");
+            addCriterion("Reading_time >", value, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("Reading_time >=", value, "readingTime");
+            addCriterion("Reading_time >=", value, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeLessThan(Date value) {
-            addCriterionForJDBCDate("Reading_time <", value, "readingTime");
+            addCriterion("Reading_time <", value, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("Reading_time <=", value, "readingTime");
+            addCriterion("Reading_time <=", value, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeIn(List<Date> values) {
-            addCriterionForJDBCDate("Reading_time in", values, "readingTime");
+            addCriterion("Reading_time in", values, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeNotIn(List<Date> values) {
-            addCriterionForJDBCDate("Reading_time not in", values, "readingTime");
+            addCriterion("Reading_time not in", values, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("Reading_time between", value1, value2, "readingTime");
+            addCriterion("Reading_time between", value1, value2, "readingTime");
             return (Criteria) this;
         }
 
         public Criteria andReadingTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("Reading_time not between", value1, value2, "readingTime");
+            addCriterion("Reading_time not between", value1, value2, "readingTime");
             return (Criteria) this;
         }
     }

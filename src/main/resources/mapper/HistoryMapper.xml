@@ -8,7 +8,7 @@
     <result column="section" jdbcType="VARCHAR" property="section" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
     <result column="addbookshelf" jdbcType="BIT" property="addbookshelf" />
-    <result column="Reading_time" jdbcType="DATE" property="readingTime" />
+    <result column="Reading_time" jdbcType="TIMESTAMP" property="readingTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -107,7 +107,7 @@
       Reading_time)
     values (#{id,jdbcType=INTEGER}, #{bookid,jdbcType=INTEGER}, #{buy,jdbcType=VARCHAR}, 
       #{section,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, #{addbookshelf,jdbcType=BIT}, 
-      #{readingTime,jdbcType=DATE})
+      #{readingTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.tecode.model.History">
     insert into history
@@ -154,7 +154,7 @@
         #{addbookshelf,jdbcType=BIT},
       </if>
       <if test="readingTime != null">
-        #{readingTime,jdbcType=DATE},
+        #{readingTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -186,7 +186,7 @@
         addbookshelf = #{record.addbookshelf,jdbcType=BIT},
       </if>
       <if test="record.readingTime != null">
-        Reading_time = #{record.readingTime,jdbcType=DATE},
+        Reading_time = #{record.readingTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -201,7 +201,7 @@
       section = #{record.section,jdbcType=VARCHAR},
       uid = #{record.uid,jdbcType=INTEGER},
       addbookshelf = #{record.addbookshelf,jdbcType=BIT},
-      Reading_time = #{record.readingTime,jdbcType=DATE}
+      Reading_time = #{record.readingTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -225,7 +225,7 @@
         addbookshelf = #{addbookshelf,jdbcType=BIT},
       </if>
       <if test="readingTime != null">
-        Reading_time = #{readingTime,jdbcType=DATE},
+        Reading_time = #{readingTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -237,7 +237,7 @@
       section = #{section,jdbcType=VARCHAR},
       uid = #{uid,jdbcType=INTEGER},
       addbookshelf = #{addbookshelf,jdbcType=BIT},
-      Reading_time = #{readingTime,jdbcType=DATE}
+      Reading_time = #{readingTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

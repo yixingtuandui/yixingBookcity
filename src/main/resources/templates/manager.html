@@ -22,10 +22,10 @@
             <div class="main-left-col">
                 <h1 th:style="'background:url('+${session.admin.avater}+');'" th:text="${session.admin.username}">
                 </h1>
-                <form id="upload" th:action="@{/updateavater}" enctype="multipart/form-data" th:method="post">
-                    <input th:id="files" type="file" name="file" id="uploadimage"/><br/>
-                    <input type="submit" value="修改头像" id="btn"/>
-                </form>
+                <!--<form id="upload" th:action="@{/updateavater}" enctype="multipart/form-data" th:method="post">-->
+                    <!--<input th:id="files" type="file" name="file" id="uploadimage"/><br/>-->
+                    <!--<input type="submit" value="修改头像" id="btn"/>-->
+                <!--</form>-->
                 <ul class="side-nav">
                     <li class="active">
                         <h4>操作选项</h4>
@@ -325,8 +325,7 @@
                                 <thead>
                                 <th>序号</th>
                                 <th>书名</th>
-                                <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'author asc'?'author desc':'author asc'))}">作者
-                                    <span th:class="${session.orderas} eq 'author asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
+                                <th>作者</th>
                                 <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'price asc'?'price desc':'price asc'))}">价格
                                     <span th:class="${session.orderas} eq 'price asc'?'icon-sort-down':'icon-sort-up'"></span></a></th>
                                 <th><a th:href="@{/deletebooks(pageNum=1,orders=(${session.orderas} eq 'number asc'?'number desc':'number asc'))}">点击量

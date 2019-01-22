@@ -2,7 +2,6 @@ package com.tecode.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class UserExample {
@@ -104,32 +103,6 @@ public class UserExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -273,52 +246,52 @@ public class UserExample {
         }
 
         public Criteria andDateRegEqualTo(Date value) {
-            addCriterionForJDBCDate("date_reg =", value, "dateReg");
+            addCriterion("date_reg =", value, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegNotEqualTo(Date value) {
-            addCriterionForJDBCDate("date_reg <>", value, "dateReg");
+            addCriterion("date_reg <>", value, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegGreaterThan(Date value) {
-            addCriterionForJDBCDate("date_reg >", value, "dateReg");
+            addCriterion("date_reg >", value, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("date_reg >=", value, "dateReg");
+            addCriterion("date_reg >=", value, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegLessThan(Date value) {
-            addCriterionForJDBCDate("date_reg <", value, "dateReg");
+            addCriterion("date_reg <", value, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("date_reg <=", value, "dateReg");
+            addCriterion("date_reg <=", value, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegIn(List<Date> values) {
-            addCriterionForJDBCDate("date_reg in", values, "dateReg");
+            addCriterion("date_reg in", values, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegNotIn(List<Date> values) {
-            addCriterionForJDBCDate("date_reg not in", values, "dateReg");
+            addCriterion("date_reg not in", values, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("date_reg between", value1, value2, "dateReg");
+            addCriterion("date_reg between", value1, value2, "dateReg");
             return (Criteria) this;
         }
 
         public Criteria andDateRegNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("date_reg not between", value1, value2, "dateReg");
+            addCriterion("date_reg not between", value1, value2, "dateReg");
             return (Criteria) this;
         }
 
@@ -333,52 +306,52 @@ public class UserExample {
         }
 
         public Criteria andDateSignEqualTo(Date value) {
-            addCriterionForJDBCDate("date_sign =", value, "dateSign");
+            addCriterion("date_sign =", value, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignNotEqualTo(Date value) {
-            addCriterionForJDBCDate("date_sign <>", value, "dateSign");
+            addCriterion("date_sign <>", value, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignGreaterThan(Date value) {
-            addCriterionForJDBCDate("date_sign >", value, "dateSign");
+            addCriterion("date_sign >", value, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("date_sign >=", value, "dateSign");
+            addCriterion("date_sign >=", value, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignLessThan(Date value) {
-            addCriterionForJDBCDate("date_sign <", value, "dateSign");
+            addCriterion("date_sign <", value, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("date_sign <=", value, "dateSign");
+            addCriterion("date_sign <=", value, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignIn(List<Date> values) {
-            addCriterionForJDBCDate("date_sign in", values, "dateSign");
+            addCriterion("date_sign in", values, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignNotIn(List<Date> values) {
-            addCriterionForJDBCDate("date_sign not in", values, "dateSign");
+            addCriterion("date_sign not in", values, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("date_sign between", value1, value2, "dateSign");
+            addCriterion("date_sign between", value1, value2, "dateSign");
             return (Criteria) this;
         }
 
         public Criteria andDateSignNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("date_sign not between", value1, value2, "dateSign");
+            addCriterion("date_sign not between", value1, value2, "dateSign");
             return (Criteria) this;
         }
 

@@ -1,11 +1,13 @@
 package com.tecode.model;
 
+import java.util.Date;
+
 public class News {
     private Integer id;
 
     private String booknews;
 
-    private String membernews;
+    private Date masgtime;
 
     private Integer uid;
 
@@ -25,12 +27,12 @@ public class News {
         this.booknews = booknews == null ? null : booknews.trim();
     }
 
-    public String getMembernews() {
-        return membernews;
+    public Date getMasgtime() {
+        return masgtime;
     }
 
-    public void setMembernews(String membernews) {
-        this.membernews = membernews == null ? null : membernews.trim();
+    public void setMasgtime(Date masgtime) {
+        this.masgtime = masgtime;
     }
 
     public Integer getUid() {

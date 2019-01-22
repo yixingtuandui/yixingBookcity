@@ -1,7 +1,10 @@
 package com.tecode.service.serviceImpl;
 
 import com.github.pagehelper.PageHelper;
+import com.tecode.dao.SignMapper;
 import com.tecode.dao.UserMapper;
+import com.tecode.model.Sign;
+import com.tecode.model.SignExample;
 import com.tecode.model.User;
 import com.tecode.model.UserExample;
 import com.tecode.service.UserService;
@@ -15,6 +18,8 @@ public class UserImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private SignMapper signMapper;
 
     //新增数据
     @Override
@@ -145,6 +150,30 @@ public class UserImpl implements UserService {
         PageHelper.startPage(1, 50);
         userExample.setOrderByClause("day DESC");
         return userMapper.selectByExample(userExample);
+    }
+
+    @Override
+    public List<User> seleceByPenname(String penname) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andPenNameEqualTo(penname);
+        return userMapper.selectByExample(userExample);
+    }
+
+    @Override
+    public List<Sign> findByUid(Integer uid) {
+        SignExample signExample=new SignExample();
+        signExample.createCriteria().andUidEqualTo(uid);
+        return signMapper.selectByExample(signExample);
+    }
+
+    @Override
+    public void updateByUid(Sign sign) {
+        signMapper.updateByPrimaryKey(sign);
+    }
+
+    @Override
+    public void insert(Sign sign) {
+        signMapper.insert(sign);
     }
 
 }

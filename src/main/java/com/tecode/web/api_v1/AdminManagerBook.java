@@ -2,8 +2,12 @@ package com.tecode.web.api_v1;
 
 import com.tecode.model.Books;
 import com.tecode.model.Message;
+import com.tecode.model.News;
 import com.tecode.service.BookTypeService;
+import com.tecode.service.NewsService;
+import com.tecode.service.UserService;
 import com.tecode.service.serviceImpl.BookServiceImpl;
+import com.tecode.util.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +22,12 @@ public class AdminManagerBook {
     private BookServiceImpl bookService;
     @Autowired
     private BookTypeService bookTypeService;
+    @Autowired
+    private NewsService newsService;
+    @Autowired
+    private DataUtil dataUtil;
+    @Autowired
+    private UserService userService;
     private Long pageTotal;
     //书籍查询
     @RequestMapping(value = "/booksall", method = RequestMethod.GET)
@@ -76,6 +86,11 @@ public class AdminManagerBook {
         Books books=bookService.selectByBookId(bid);
         books.setAuditing("审核通过");
         bookService.deletebooks(books);
+        News news=new News();
+        news.setBooknews("您的新书《"+books.getBookName()+"》审核通过");
+        news.setUid(userService.seleceByPenname(books.getAuthor()).get(0).getId());
+        news.setMasgtime(dataUtil.timeDay());
+        newsService.addNew(news);
         Integer pageNum=1;
         Long count=bookService.countBooks("审核中");
         List<Books> list=bookService.bookAll(pageNum,"审核中",orders);
@@ -98,6 +113,11 @@ public class AdminManagerBook {
         Books books=bookService.selectByBookId(bid);
         books.setAuditing("审核未通过");
         bookService.deletebooks(books);
+        News news=new News();
+        news.setBooknews("您的新书《"+books.getBookName()+"》未通过审核");
+        news.setUid(userService.seleceByPenname(books.getAuthor()).get(0).getId());
+        news.setMasgtime(dataUtil.timeDay());
+        newsService.addNew(news);
         Integer pageNum=1;
         Long count=bookService.countBooks("审核中");
         List<Books> list=bookService.bookAll(pageNum,"审核中",orders);
@@ -166,6 +186,11 @@ public class AdminManagerBook {
         Books books=bookService.selectByBookId(bid);
         books.setAuditing("已下架");
         bookService.deletebooks(books);
+        News news=new News();
+        news.setBooknews("您的书籍《"+books.getBookName()+"》未通过审核");
+        news.setUid(userService.seleceByPenname(books.getAuthor()).get(0).getId());
+        news.setMasgtime(dataUtil.timeDay());
+        newsService.addNew(news);
         Integer pageNum=1;
         Long count=bookService.countBooks("审核通过");
         List<Books> list=bookService.bookAll(pageNum,"审核通过",orders);
@@ -215,6 +240,11 @@ public class AdminManagerBook {
         Books books=bookService.selectByBookId(bid);
         books.setAuditing("审核通过");
         bookService.deletebooks(books);
+        News news=new News();
+        news.setBooknews("您的书籍《"+books.getBookName()+"》已重新上架");
+        news.setUid(userService.seleceByPenname(books.getAuthor()).get(0).getId());
+        news.setMasgtime(dataUtil.timeDay());
+        newsService.addNew(news);
         Integer pageNum=1;
         Long count=bookService.countBooks("已下架");
         List<Books> list=bookService.bookAll(pageNum,"已下架",orders);

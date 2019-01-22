@@ -1,6 +1,7 @@
 package com.tecode.web.api_v2;
 
 import com.alibaba.fastjson.JSON;
+import com.tecode.model.Sign;
 import com.tecode.model.User;
 import com.tecode.service.serviceImpl.UserImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,12 @@ public class SignController {
         List<User> users = (List) signimpl.findByUsername(uname);
         Map list = new HashMap() ;
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date1 = dateFormat.parse(dateFormat.format(date));//当前时间
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
         for(User user:users){
             String week = sdf.format(user.getDateSign());
+            List<Sign> signs=signimpl.findByUid(user.getId());
             switch (week){
                 case "星期一":
                     list.put("week",1);
@@ -60,16 +62,19 @@ public class SignController {
                     break;
             }
             if (user.getDateSign().equals(date1) && user.getDateSign()!= null) {
-
                 list.put("iday",user.getIday());
                 list.put("boolean",true);
                 list.put("money",user.getMoney());
+
             } else {
                 list.put("iday",user.getIday());
                 list.put("boolean",false);
                 list.put("money",user.getMoney());
+
             }
+            list.put("sign",signs.get(0));
         }
+
         return JSON.toJSON(list);
     }
 
@@ -78,7 +83,7 @@ public class SignController {
     @RequestMapping(value = "/signTo",method = RequestMethod.POST)
     public void Sign(String uname) throws ParseException {
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date1 = dateFormat.parse(dateFormat.format(date));//当前时间
         List<User> list = (List) signimpl.findByUsername(uname);
         //前一天时间
@@ -97,6 +102,62 @@ public class SignController {
                 user.setDateSign(date1);
                 user.setIday(1);
                 signimpl.updateById(user);
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+            String week = sdf.format(date1);
+            Sign sign=signimpl.findByUid(user.getId()).get(0);
+            if(sign!=null){
+                switch (week){
+                    case "星期一":
+                        sign.setMonday(1);
+                        break;
+                    case "星期二":
+                        sign.setTuesday(1);
+                        break;
+                    case "星期三":
+                        sign.setWednesday(1);
+                        break;
+                    case "星期四":
+                        sign.setThursday(1);
+                        break;
+                    case "星期五":
+                        sign.setFriday(1);
+                        break;
+                    case "星期六":
+                        sign.setSaturday(1);
+                        break;
+                    default:
+                        sign.setSunday(1);
+                        break;
+                }
+                signimpl.updateByUid(sign);
+            }else {
+                Sign sign1=new Sign();
+                sign1.setUid(user.getId());
+                switch (week){
+                    case "星期一":
+                        sign1.setMonday(1);
+                        break;
+                    case "星期二":
+                        sign1.setTuesday(1);
+                        break;
+                    case "星期三":
+                        sign1.setWednesday(1);
+                        break;
+                    case "星期四":
+                        sign1.setThursday(1);
+                        break;
+                    case "星期五":
+                        sign1.setFriday(1);
+                        break;
+                    case "星期六":
+                        sign1.setSaturday(1);
+                        break;
+                    default:
+                        sign1.setSunday(1);
+                        break;
+                }
+                signimpl.insert(sign1);
             }
         }
     }

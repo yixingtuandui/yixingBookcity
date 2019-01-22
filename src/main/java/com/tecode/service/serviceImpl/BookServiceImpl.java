@@ -332,6 +332,11 @@ public class BookServiceImpl implements BooksService {
                 BooksExample booksExamplels;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
+                    BooksExample booksExamplel =new BooksExample();
+                    booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
+                    Books books= booksMapper.selectByExample(booksExamplel).get(0);
+                    books.setBancout(lt.getWeekcount());
+                    booksMapper.updateByPrimaryKey(books);
                         booksExamplels =new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
                         booksLists.add(booksMapper.selectByExample(booksExamplels).get(0)) ;
@@ -350,6 +355,11 @@ public class BookServiceImpl implements BooksService {
                 List<Books> booksLists = new ArrayList<Books>();
                 BooksExample booksExamplels;
                 for (ListTime lt:timeList){
+                    BooksExample booksExamplel =new BooksExample();
+                    booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
+                    Books books= booksMapper.selectByExample(booksExamplel).get(0);
+                    books.setBancout(lt.getWeekcount());
+                    booksMapper.updateByPrimaryKey(books);
                         booksExamplels =new BooksExample();
                         booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
                         booksLists.add(booksMapper.selectByExample(booksExamplels).get(0));
@@ -378,7 +388,6 @@ public class BookServiceImpl implements BooksService {
                 BooksExample booksExamplel;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
-                    System.out.println(lt.getWeekstarttime());
                         booksExamplel =new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
                         Books books= booksMapper.selectByExample(booksExamplel).get(0);
@@ -400,11 +409,10 @@ public class BookServiceImpl implements BooksService {
                 timeExample.createCriteria().andStatsEqualTo("number").andWeekstarttimeEqualTo(dataUtil.getCurrentWeekDayStartTime()).andWeekendtimeEqualTo(dataUtil.getCurrentWeekDayEndTime());
                 timeExample.setOrderByClause("weekcount desc");
                 List<Books> booksList = new ArrayList<>();
-                BooksExample booksExamplel;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
-                    System.out.println(lt.getWeekstarttime());
-                        booksExamplel = new BooksExample();
+                    System.out.println(lt.getBid());
+                    BooksExample booksExamplel = new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
                         Books books = booksMapper.selectByExample(booksExamplel).get(0);
                         books.setBancout(lt.getWeekcount());
@@ -438,10 +446,15 @@ public class BookServiceImpl implements BooksService {
                 BooksExample booksExamplel;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
+                    BooksExample booksExamplels =new BooksExample();
+                    booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
+                    Books books= booksMapper.selectByExample(booksExamplels).get(0);
+                    books.setBancout(lt.getWeekcount());
+                    booksMapper.updateByPrimaryKey(books);
                         booksExamplel =new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
-                        Books books= booksMapper.selectByExample(booksExamplel).get(0);
-                        booksList.add(books) ;
+                        Books book= booksMapper.selectByExample(booksExamplel).get(0);
+                        booksList.add(book) ;
                 }
                 return booksList;
             }
@@ -457,10 +470,15 @@ public class BookServiceImpl implements BooksService {
                 BooksExample booksExamplel;
                 List<ListTime> timeList=timeMapper.selectByExample(timeExample);
                 for (ListTime lt:timeList){
+                    BooksExample booksExamplels =new BooksExample();
+                    booksExamplels.createCriteria().andIdEqualTo(lt.getBid());
+                    Books books= booksMapper.selectByExample(booksExamplels).get(0);
+                    books.setBancout(lt.getWeekcount());
+                    booksMapper.updateByPrimaryKey(books);
                         booksExamplel =new BooksExample();
                         booksExamplel.createCriteria().andIdEqualTo(lt.getBid());
-                        Books books= booksMapper.selectByExample(booksExamplel).get(0);
-                        booksList.add(books) ;
+                        Books book= booksMapper.selectByExample(booksExamplel).get(0);
+                        booksList.add(book) ;
                 }
                 return booksList;
             }
@@ -592,7 +610,7 @@ public class BookServiceImpl implements BooksService {
                 files.getParentFile().mkdirs();
             }
             //根据文件路径创建输出流（自动创建文件）
-            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(proPath + chapterAddr), "UTF-8");
+            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(proPath + chapterAddr), "GB2312");
             //写入章节
             outputStreamWriter.write(content);
             //调方法
@@ -825,7 +843,7 @@ public class BookServiceImpl implements BooksService {
             if (!files.getParentFile().exists()) {
                 files.getParentFile().mkdirs();
             }
-            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(proPath + chapteraddr), "UTF-8");
+            outputStreamWriter = new OutputStreamWriter(new FileOutputStream(proPath + chapteraddr), "GB2312");
             outputStreamWriter.write(content);
             return true;
         } catch (IOException e) {

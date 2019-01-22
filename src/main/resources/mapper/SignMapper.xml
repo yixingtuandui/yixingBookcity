@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tecode.dao.CommentMapper">
-  <resultMap id="BaseResultMap" type="com.tecode.model.Comment">
+<mapper namespace="com.tecode.dao.SignMapper">
+  <resultMap id="BaseResultMap" type="com.tecode.model.Sign">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="belong" jdbcType="INTEGER" property="belong" />
-    <result column="bookid" jdbcType="INTEGER" property="bookid" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="parentid" jdbcType="INTEGER" property="parentid" />
-    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="monday" jdbcType="INTEGER" property="monday" />
+    <result column="tuesday" jdbcType="INTEGER" property="tuesday" />
+    <result column="wednesday" jdbcType="INTEGER" property="wednesday" />
+    <result column="thursday" jdbcType="INTEGER" property="thursday" />
+    <result column="friday" jdbcType="INTEGER" property="friday" />
+    <result column="saturday" jdbcType="INTEGER" property="saturday" />
+    <result column="sunday" jdbcType="INTEGER" property="sunday" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
-    <result column="likeu" jdbcType="INTEGER" property="likeu" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,15 +71,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, belong, bookid, content, parentid, time, uid, likeu
+    id, monday, tuesday, wednesday, thursday, friday, saturday, sunday, uid
   </sql>
-  <select id="selectByExample" parameterType="com.tecode.model.CommentExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.tecode.model.SignExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from comment
+    from sign
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,114 +90,125 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from comment
+    from sign
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from comment
+    delete from sign
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.tecode.model.CommentExample">
-    delete from comment
+  <delete id="deleteByExample" parameterType="com.tecode.model.SignExample">
+    delete from sign
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.tecode.model.Comment">
-    insert into comment (id, belong, bookid, 
-      content, parentid, time, 
-      uid, likeu)
-    values (#{id,jdbcType=INTEGER}, #{belong,jdbcType=INTEGER}, #{bookid,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
-      #{uid,jdbcType=INTEGER}, #{likeu,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.tecode.model.Sign">
+    insert into sign (id, monday, tuesday, 
+      wednesday, thursday, friday, 
+      saturday, sunday, uid
+      )
+    values (#{id,jdbcType=INTEGER}, #{monday,jdbcType=INTEGER}, #{tuesday,jdbcType=INTEGER}, 
+      #{wednesday,jdbcType=INTEGER}, #{thursday,jdbcType=INTEGER}, #{friday,jdbcType=INTEGER}, 
+      #{saturday,jdbcType=INTEGER}, #{sunday,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.tecode.model.Comment">
-    insert into comment
+  <insert id="insertSelective" parameterType="com.tecode.model.Sign">
+    insert into sign
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="belong != null">
-        belong,
+      <if test="monday != null">
+        monday,
       </if>
-      <if test="bookid != null">
-        bookid,
+      <if test="tuesday != null">
+        tuesday,
       </if>
-      <if test="content != null">
-        content,
+      <if test="wednesday != null">
+        wednesday,
       </if>
-      <if test="parentid != null">
-        parentid,
+      <if test="thursday != null">
+        thursday,
       </if>
-      <if test="time != null">
-        time,
+      <if test="friday != null">
+        friday,
+      </if>
+      <if test="saturday != null">
+        saturday,
+      </if>
+      <if test="sunday != null">
+        sunday,
       </if>
       <if test="uid != null">
         uid,
-      </if>
-      <if test="likeu != null">
-        likeu,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="belong != null">
-        #{belong,jdbcType=INTEGER},
+      <if test="monday != null">
+        #{monday,jdbcType=INTEGER},
       </if>
-      <if test="bookid != null">
-        #{bookid,jdbcType=INTEGER},
+      <if test="tuesday != null">
+        #{tuesday,jdbcType=INTEGER},
       </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
+      <if test="wednesday != null">
+        #{wednesday,jdbcType=INTEGER},
       </if>
-      <if test="parentid != null">
-        #{parentid,jdbcType=INTEGER},
+      <if test="thursday != null">
+        #{thursday,jdbcType=INTEGER},
       </if>
-      <if test="time != null">
-        #{time,jdbcType=TIMESTAMP},
+      <if test="friday != null">
+        #{friday,jdbcType=INTEGER},
+      </if>
+      <if test="saturday != null">
+        #{saturday,jdbcType=INTEGER},
+      </if>
+      <if test="sunday != null">
+        #{sunday,jdbcType=INTEGER},
       </if>
       <if test="uid != null">
         #{uid,jdbcType=INTEGER},
       </if>
-      <if test="likeu != null">
-        #{likeu,jdbcType=INTEGER},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.tecode.model.CommentExample" resultType="java.lang.Long">
-    select count(*) from comment
+  <select id="countByExample" parameterType="com.tecode.model.SignExample" resultType="java.lang.Long">
+    select count(*) from sign
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update comment
+    update sign
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.belong != null">
-        belong = #{record.belong,jdbcType=INTEGER},
+      <if test="record.monday != null">
+        monday = #{record.monday,jdbcType=INTEGER},
       </if>
-      <if test="record.bookid != null">
-        bookid = #{record.bookid,jdbcType=INTEGER},
+      <if test="record.tuesday != null">
+        tuesday = #{record.tuesday,jdbcType=INTEGER},
       </if>
-      <if test="record.content != null">
-        content = #{record.content,jdbcType=VARCHAR},
+      <if test="record.wednesday != null">
+        wednesday = #{record.wednesday,jdbcType=INTEGER},
       </if>
-      <if test="record.parentid != null">
-        parentid = #{record.parentid,jdbcType=INTEGER},
+      <if test="record.thursday != null">
+        thursday = #{record.thursday,jdbcType=INTEGER},
       </if>
-      <if test="record.time != null">
-        time = #{record.time,jdbcType=TIMESTAMP},
+      <if test="record.friday != null">
+        friday = #{record.friday,jdbcType=INTEGER},
+      </if>
+      <if test="record.saturday != null">
+        saturday = #{record.saturday,jdbcType=INTEGER},
+      </if>
+      <if test="record.sunday != null">
+        sunday = #{record.sunday,jdbcType=INTEGER},
       </if>
       <if test="record.uid != null">
         uid = #{record.uid,jdbcType=INTEGER},
-      </if>
-      <if test="record.likeu != null">
-        likeu = #{record.likeu,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,55 +216,60 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update comment
+    update sign
     set id = #{record.id,jdbcType=INTEGER},
-      belong = #{record.belong,jdbcType=INTEGER},
-      bookid = #{record.bookid,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=VARCHAR},
-      parentid = #{record.parentid,jdbcType=INTEGER},
-      time = #{record.time,jdbcType=TIMESTAMP},
-      uid = #{record.uid,jdbcType=INTEGER},
-      likeu = #{record.likeu,jdbcType=INTEGER}
+      monday = #{record.monday,jdbcType=INTEGER},
+      tuesday = #{record.tuesday,jdbcType=INTEGER},
+      wednesday = #{record.wednesday,jdbcType=INTEGER},
+      thursday = #{record.thursday,jdbcType=INTEGER},
+      friday = #{record.friday,jdbcType=INTEGER},
+      saturday = #{record.saturday,jdbcType=INTEGER},
+      sunday = #{record.sunday,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.tecode.model.Comment">
-    update comment
+  <update id="updateByPrimaryKeySelective" parameterType="com.tecode.model.Sign">
+    update sign
     <set>
-      <if test="belong != null">
-        belong = #{belong,jdbcType=INTEGER},
+      <if test="monday != null">
+        monday = #{monday,jdbcType=INTEGER},
       </if>
-      <if test="bookid != null">
-        bookid = #{bookid,jdbcType=INTEGER},
+      <if test="tuesday != null">
+        tuesday = #{tuesday,jdbcType=INTEGER},
       </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
+      <if test="wednesday != null">
+        wednesday = #{wednesday,jdbcType=INTEGER},
       </if>
-      <if test="parentid != null">
-        parentid = #{parentid,jdbcType=INTEGER},
+      <if test="thursday != null">
+        thursday = #{thursday,jdbcType=INTEGER},
       </if>
-      <if test="time != null">
-        time = #{time,jdbcType=TIMESTAMP},
+      <if test="friday != null">
+        friday = #{friday,jdbcType=INTEGER},
+      </if>
+      <if test="saturday != null">
+        saturday = #{saturday,jdbcType=INTEGER},
+      </if>
+      <if test="sunday != null">
+        sunday = #{sunday,jdbcType=INTEGER},
       </if>
       <if test="uid != null">
         uid = #{uid,jdbcType=INTEGER},
       </if>
-      <if test="likeu != null">
-        likeu = #{likeu,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.tecode.model.Comment">
-    update comment
-    set belong = #{belong,jdbcType=INTEGER},
-      bookid = #{bookid,jdbcType=INTEGER},
-      content = #{content,jdbcType=VARCHAR},
-      parentid = #{parentid,jdbcType=INTEGER},
-      time = #{time,jdbcType=TIMESTAMP},
-      uid = #{uid,jdbcType=INTEGER},
-      likeu = #{likeu,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="com.tecode.model.Sign">
+    update sign
+    set monday = #{monday,jdbcType=INTEGER},
+      tuesday = #{tuesday,jdbcType=INTEGER},
+      wednesday = #{wednesday,jdbcType=INTEGER},
+      thursday = #{thursday,jdbcType=INTEGER},
+      friday = #{friday,jdbcType=INTEGER},
+      saturday = #{saturday,jdbcType=INTEGER},
+      sunday = #{sunday,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

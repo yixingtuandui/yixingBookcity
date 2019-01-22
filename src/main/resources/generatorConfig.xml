@@ -59,5 +59,6 @@
         <table tableName="setion_table"></table>
         <table tableName="manager"></table>
         <table tableName="list_time"></table>
+        <table tableName="sign"></table>
     </context>
 </generatorConfiguration>

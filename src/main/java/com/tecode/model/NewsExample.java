@@ -1,6 +1,7 @@
 package com.tecode.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class NewsExample {
@@ -234,73 +235,63 @@ public class NewsExample {
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsIsNull() {
-            addCriterion("membernews is null");
+        public Criteria andMasgtimeIsNull() {
+            addCriterion("masgtime is null");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsIsNotNull() {
-            addCriterion("membernews is not null");
+        public Criteria andMasgtimeIsNotNull() {
+            addCriterion("masgtime is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsEqualTo(String value) {
-            addCriterion("membernews =", value, "membernews");
+        public Criteria andMasgtimeEqualTo(Date value) {
+            addCriterion("masgtime =", value, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsNotEqualTo(String value) {
-            addCriterion("membernews <>", value, "membernews");
+        public Criteria andMasgtimeNotEqualTo(Date value) {
+            addCriterion("masgtime <>", value, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsGreaterThan(String value) {
-            addCriterion("membernews >", value, "membernews");
+        public Criteria andMasgtimeGreaterThan(Date value) {
+            addCriterion("masgtime >", value, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsGreaterThanOrEqualTo(String value) {
-            addCriterion("membernews >=", value, "membernews");
+        public Criteria andMasgtimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("masgtime >=", value, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsLessThan(String value) {
-            addCriterion("membernews <", value, "membernews");
+        public Criteria andMasgtimeLessThan(Date value) {
+            addCriterion("masgtime <", value, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsLessThanOrEqualTo(String value) {
-            addCriterion("membernews <=", value, "membernews");
+        public Criteria andMasgtimeLessThanOrEqualTo(Date value) {
+            addCriterion("masgtime <=", value, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsLike(String value) {
-            addCriterion("membernews like", value, "membernews");
+        public Criteria andMasgtimeIn(List<Date> values) {
+            addCriterion("masgtime in", values, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsNotLike(String value) {
-            addCriterion("membernews not like", value, "membernews");
+        public Criteria andMasgtimeNotIn(List<Date> values) {
+            addCriterion("masgtime not in", values, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsIn(List<String> values) {
-            addCriterion("membernews in", values, "membernews");
+        public Criteria andMasgtimeBetween(Date value1, Date value2) {
+            addCriterion("masgtime between", value1, value2, "masgtime");
             return (Criteria) this;
         }
 
-        public Criteria andMembernewsNotIn(List<String> values) {
-            addCriterion("membernews not in", values, "membernews");
-            return (Criteria) this;
-        }
-
-        public Criteria andMembernewsBetween(String value1, String value2) {
-            addCriterion("membernews between", value1, value2, "membernews");
-            return (Criteria) this;
-        }
-
-        public Criteria andMembernewsNotBetween(String value1, String value2) {
-            addCriterion("membernews not between", value1, value2, "membernews");
+        public Criteria andMasgtimeNotBetween(Date value1, Date value2) {
+            addCriterion("masgtime not between", value1, value2, "masgtime");
             return (Criteria) this;
         }
 

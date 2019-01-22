@@ -1,5 +1,6 @@
 package com.tecode.service;
 
+import com.tecode.model.Sign;
 import com.tecode.model.User;
 
 import java.util.List;
@@ -37,4 +38,12 @@ public interface UserService {
     boolean inspectPhone(String phone);
     //按签到排序
     List<User> leaderboard();
+    //根据笔名查询作者
+    List<User> seleceByPenname(String penname);
+    //签到查询
+    List<Sign> findByUid(Integer uid);
+    //签到
+    void updateByUid(Sign sign);
+    //新增sign
+    void insert(Sign sign);
 }

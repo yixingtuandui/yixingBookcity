@@ -1,8 +1,11 @@
 package com.tecode.web.api_v1;
 
 import com.tecode.model.Message;
+import com.tecode.model.News;
 import com.tecode.model.User;
+import com.tecode.service.NewsService;
 import com.tecode.service.serviceImpl.UserImpl;
+import com.tecode.util.DataUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,10 @@ import java.util.List;
 public class AdminmanagerUser {
     @Autowired
     private UserImpl userimpl;
+    @Autowired
+    private NewsService newsService;
+    @Autowired
+    private DataUtil dataUtil;
     private Integer pageSize=10;
     private Long pageTotal;
     @RequestMapping("/userall")//查看所有普通用户
@@ -84,6 +91,11 @@ public class AdminmanagerUser {
         User users=userimpl.findById(bid);
         users.setRole("普通用户");
         userimpl.updateById(users);
+        News news=new News();
+        news.setBooknews("您的作者权限已被撤销");
+        news.setUid(users.getId());
+        news.setMasgtime(dataUtil.timeDay());
+        newsService.addNew(news);
         Integer pageNum=1;
         Long count=userimpl.countPage("作者");
         List<User> user= userimpl.findByRole(pageNum,pageSize,"作者",orders);
@@ -132,6 +144,11 @@ public class AdminmanagerUser {
         users.setRole("作者");
         users.setStatus("审核通过");
         userimpl.updateById(users);
+        News news=new News();
+        news.setBooknews("您已获得作者权限");
+        news.setUid(users.getId());
+        news.setMasgtime(dataUtil.timeDay());
+        newsService.addNew(news);
         Integer pageNum=1;
         Long count=userimpl.countStatus("审核中");
         List<User> user= userimpl.findByStatus(pageNum,pageSize,orders);
@@ -157,6 +174,11 @@ public class AdminmanagerUser {
         User users=userimpl.findById(bid);
         users.setRole("普通用户");
         userimpl.updateById(users);
+        News news=new News();
+        news.setBooknews("您的作者权限获取失败");
+        news.setUid(users.getId());
+        news.setMasgtime(dataUtil.timeDay());
+        newsService.addNew(news);
         Integer pageNum=1;
         Long count=userimpl.countStatus("审核中");
         List<User> user= userimpl.findByStatus(pageNum,pageSize,orders);

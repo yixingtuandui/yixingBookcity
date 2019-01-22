@@ -52,11 +52,14 @@ public class BookShelfController {
     @ResponseBody//返回数据
     private Object addBookShelf(String name,Integer bookid){
         User user1=  user.findByUsername(name).get(0);
-        History history= bookShelf.ByHistory(bookid,user1.getId()).get(0);
-        if(!history.getAddbookshelf()){
-            history.setAddbookshelf(true);
-            bookShelf.updateById(history);
-            return true;
+        List<History> history= bookShelf.ByHistory(bookid,user1.getId());
+        if(history.size()!=0){
+            History history1=history.get(0);
+            if(!history1.getAddbookshelf()){
+                history1.setAddbookshelf(true);
+                bookShelf.updateById(history1);
+                return true;
+            }
         }
         return false;
     }
@@ -79,7 +82,7 @@ public class BookShelfController {
         List list = new ArrayList();
         //获取当前时间
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date1 = dateFormat.parse(dateFormat.format(date));//当前时间
         //得到之前第七天时间
         Calendar calendar = Calendar.getInstance();
@@ -100,7 +103,6 @@ public class BookShelfController {
             }else {
                 //清除七天以前的History
                 bookShelf.deleteHistory(history1.getBookid());
-                //System.out.println(history1);
             }
         }
         return JSON.toJSON(list);
@@ -110,7 +112,7 @@ public class BookShelfController {
     @ResponseBody
     private void addRecently(String uname,Integer bookid) throws ParseException {
         Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date1 = dateFormat.parse(dateFormat.format(date));//当前时间
         User user1=  user.findByUsername(uname).get(0);
         //判断是否存在
@@ -135,7 +137,6 @@ public class BookShelfController {
     @RequestMapping(value = "deleteHistory",method = RequestMethod.POST)
     @ResponseBody
     private void deleteHistory(Integer bid){
-       // System.out.println(bid);
         bookShelf.deleteHistory(bid);
     }
     //轮播图
@@ -143,9 +144,7 @@ public class BookShelfController {
     @RequestMapping(value = "img",method = RequestMethod.POST)
     public void img(){
         List books=bookService.selectByWeekAmount(1);
-        //System.out.println(books);
         for(int i=0;i<5;i++){
-         //   System.out.println(books);
         }
     }
     //展示购买的购买书籍
@@ -174,7 +173,7 @@ public class BookShelfController {
             if(users.getMoney()>=books.getPrice()){
                 users.setMoney(users.getMoney()-books.getPrice());
                 user.updateById(users);
-                History history=histories.get(0);
+                History history=bookShelf.ByHistory(bid,uids).get(0);
                 history.setBuy("已购买");
                 bookShelf.updateById(history);
                 return JSON.toJSONString("购买成功");

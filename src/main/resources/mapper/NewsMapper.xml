@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.tecode.model.News">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="booknews" jdbcType="VARCHAR" property="booknews" />
-    <result column="membernews" jdbcType="VARCHAR" property="membernews" />
+    <result column="masgtime" jdbcType="TIMESTAMP" property="masgtime" />
     <result column="uid" jdbcType="INTEGER" property="uid" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, booknews, membernews, uid
+    id, booknews, masgtime, uid
   </sql>
   <select id="selectByExample" parameterType="com.tecode.model.NewsExample" resultMap="BaseResultMap">
     select
@@ -99,9 +99,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.tecode.model.News">
-    insert into news (id, booknews, membernews, 
+    insert into news (id, booknews, masgtime, 
       uid)
-    values (#{id,jdbcType=INTEGER}, #{booknews,jdbcType=VARCHAR}, #{membernews,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{booknews,jdbcType=VARCHAR}, #{masgtime,jdbcType=TIMESTAMP}, 
       #{uid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.tecode.model.News">
@@ -113,8 +113,8 @@
       <if test="booknews != null">
         booknews,
       </if>
-      <if test="membernews != null">
-        membernews,
+      <if test="masgtime != null">
+        masgtime,
       </if>
       <if test="uid != null">
         uid,
@@ -127,8 +127,8 @@
       <if test="booknews != null">
         #{booknews,jdbcType=VARCHAR},
       </if>
-      <if test="membernews != null">
-        #{membernews,jdbcType=VARCHAR},
+      <if test="masgtime != null">
+        #{masgtime,jdbcType=TIMESTAMP},
       </if>
       <if test="uid != null">
         #{uid,jdbcType=INTEGER},
@@ -150,8 +150,8 @@
       <if test="record.booknews != null">
         booknews = #{record.booknews,jdbcType=VARCHAR},
       </if>
-      <if test="record.membernews != null">
-        membernews = #{record.membernews,jdbcType=VARCHAR},
+      <if test="record.masgtime != null">
+        masgtime = #{record.masgtime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.uid != null">
         uid = #{record.uid,jdbcType=INTEGER},
@@ -165,7 +165,7 @@
     update news
     set id = #{record.id,jdbcType=INTEGER},
       booknews = #{record.booknews,jdbcType=VARCHAR},
-      membernews = #{record.membernews,jdbcType=VARCHAR},
+      masgtime = #{record.masgtime,jdbcType=TIMESTAMP},
       uid = #{record.uid,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,8 +177,8 @@
       <if test="booknews != null">
         booknews = #{booknews,jdbcType=VARCHAR},
       </if>
-      <if test="membernews != null">
-        membernews = #{membernews,jdbcType=VARCHAR},
+      <if test="masgtime != null">
+        masgtime = #{masgtime,jdbcType=TIMESTAMP},
       </if>
       <if test="uid != null">
         uid = #{uid,jdbcType=INTEGER},
@@ -189,7 +189,7 @@
   <update id="updateByPrimaryKey" parameterType="com.tecode.model.News">
     update news
     set booknews = #{booknews,jdbcType=VARCHAR},
-      membernews = #{membernews,jdbcType=VARCHAR},
+      masgtime = #{masgtime,jdbcType=TIMESTAMP},
       uid = #{uid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
